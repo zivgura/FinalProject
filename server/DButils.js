@@ -1,9 +1,9 @@
 const sql = require("mssql");
 
 const config = {
-    user: "elderlyserveradmin",
-    password: "erancH99",
-    server: "elderlyserver.database.windows.net",
+    user: "elderly-server-admin",
+    password: "ZivNadav2",
+    server: "elderly-server.database.windows.net",
     database: "Elderly",
     connectionTimeout: 1500000,
     options: {

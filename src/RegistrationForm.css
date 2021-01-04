@@ -1,14 +1,14 @@
 .register-form {
-    width: 450px;
+    width: 100%;
     height: 590px;
-    border: 1px solid rgb(202, 202, 202);
-    margin: 50px auto;
+    /*border: 1px solid rgb(202, 202, 202);*/
+    margin: 0px auto;
 }
 .form {
     height: 100%
 }
 .form div {
-    margin: 23px 22px;
+    margin: 13px 0px;
 }
 .title {
     display: flex;
@@ -19,17 +19,34 @@
     color: #ffffff;
     padding-left: 22px;
 }
+/*.sb-btn{*/
+/*    background-color: #337ab7;*/
+/*    color: #ffffff;*/
+/*    width: 90px;*/
+/*    height: 30px;*/
+/*    outline: none;*/
+/*    margin-left: 22px;*/
+/*    font-size: 00.8em;*/
+/*    font-weight: bold;*/
+/*    cursor: pointer;*/
+/*}*/
+
 .sb-btn{
-    background-color: #337ab7;
-    color: #ffffff;
-    width: 90px;
-    height: 30px;
-    outline: none;
-    margin-left: 22px;
-    font-size: 00.8em;
-    font-weight: bold;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 1em;
+    text-align: center;
+    color: rgba(255,255,255, 1);
+    padding: 8px 0px;
+    width: 100%;
+    height: 35px;
+    border: none;
+    border-radius: 20px;
+    margin-top: 23px;
     cursor: pointer;
+    background-color: rgba(16,89,255, 1);
 }
+
 input {
     border: 1px solid rgb(202, 202, 202);
     border-radius: 4px;
@@ -37,6 +54,7 @@ input {
     width: 100%;
     font-size: .9em
 }
+
 .form input.error {
     border-color: red;
 }
@@ -94,7 +112,7 @@ label {
 }
 .modal button {
     background-color: #337ab7;
-    color: #ffffff;
+    /*color: #ffffff;*/
     width: 90px;
     height: 30px;
     outline: none;
@@ -110,7 +128,7 @@ label {
     align-items: center;
     height: 33px;
     background-color: #337ab7;
-    color: #ffffff;
+    /*color: #ffffff;*/
     padding-left: 22px;
     margin-bottom: 40px;
 }
@@ -123,7 +141,7 @@ label {
     padding-bottom: 3px;
     margin-right: 10px;
     text-overflow: ellipsis;
-    overflow: hidden;
+    overflow: scroll;
     max-width: 80%;
 }
 .modal-input-value {

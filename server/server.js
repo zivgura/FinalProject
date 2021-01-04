@@ -1,4 +1,3 @@
-const DButils = require("./DButils");
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
@@ -14,27 +13,11 @@ const corsOptions = {
 }
 app.use(cors(corsOptions))
 
-const user = require("../server/routers/user.js");
+const user = require("./routers/user");
 app.use("/user",user);
 
-
-
-// cookie middleware
-// app.use(function (req, res, next) {
-//     if (req.session && req.session.user_id) {
-//         DButils.queryDatabase("SELECT user_id FROM dbo.users")
-//             .then((users) => {
-//                 if (users.find((x) => x.user_id === req.session.user_id)) {
-//                     req.user_id = req.session.user_id;
-//                 }
-//                 next();
-//             })
-//             .catch((error) => next(error));
-//     } else {
-//         next();
-//     }
-// });
-
+const responsible = require("./routers/responsible.js");
+app.use("/responsible",responsible);
 
 // error middleware
 app.use(function (err, req, res, next) {

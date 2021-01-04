@@ -7,7 +7,7 @@ import areasOfInterestList from './resources/areasOfInterest';
 import citiesList from './resources/cities';
 import genderList from './resources/genders';
 
-class RegistrationFormElderly extends Component {
+class RegistrationFormResponsible extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -16,7 +16,8 @@ class RegistrationFormElderly extends Component {
             lastName: '',
             email: '',
             username: '',
-            password: '',gender: '',
+            password: '',
+            gender: '',
             valid: {
                 firstName: true,
                 lastName: true,
@@ -269,4 +270,4 @@ class RegistrationFormElderly extends Component {
     }
 }
 
-export default RegistrationFormElderly;
+export default RegistrationFormResponsible;

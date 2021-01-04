@@ -13,10 +13,10 @@ router.post("/login", async (req, res, next) => {
         console.log("password " + password)
 
         // check that username exists
-        let users = []
-        users = await DButils.execQuery("SELECT username FROM dbo.users");
-        if (!users.find((x) => x.username === username))
-            throw { status: 401, message: "Username or Password incorrect" };
+        let users = await DButils.execQuery("SELECT userName FROM dbo.users");
+        console.log(users);
+        if (!users.find((x) => x.userName === username))
+            throw { status: 401, message: "Username incorrect" };
 
         // check that the password is correct
         const user = (
@@ -30,12 +30,11 @@ router.post("/login", async (req, res, next) => {
         }
 
         console.log("user " + user.userRole)
-
         // Set cookie
         // req.session.user_id = user.user_id;
         //req.session.save();
 
-        res.status(200).send({role : user.userRole, message: "login succeeded", success: true });
+        res.status(200).send({role: user.userRole, message: "registration succeeded", success: true});
     } catch (error) {
         next(error);
     }

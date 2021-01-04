@@ -2,7 +2,6 @@ import React from "react";
 
 
 class LoginForm extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {username: '', password : ''};
@@ -11,14 +10,17 @@ class LoginForm extends React.Component {
         this.checkOnSubmit = this.checkOnSubmit.bind(this);
     }
 
-    checkOnSubmit(){
-        fetch(`http://localhost:3001/user/login`, {
+    async checkOnSubmit(){
+        const userRole = await fetch(`http://localhost:3001/user/login`, {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({username : this.usernameRef.current.value , password : this.passwordRef.current.value})
         })
-            .then(response => console.log(response.json()))
-            .then(data => console.log(data))
+            .then(response => response.json())
+            .then(data => data)
+
+        console.log(userRole.role);
+        this.props.history.push("/"+userRole.role+"/register-responsible");
     }
 
     render(){

@@ -60,11 +60,9 @@ router.post('/registerResponsible', async (req, res,next) => {
 
 router.get('/responsibleUsers', async (req, res,next) => {
     try {
-
         let users = await DButils.execQuery(`SELECT userName FROM users where userRole = 'Responsible' `);
         console.log(users)
         res.send(users);
-
     }catch (error){
         next(error);
     }

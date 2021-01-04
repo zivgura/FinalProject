@@ -26,13 +26,13 @@ router.post('/registerVolunteer', async (req, res,next) => {
         let hash_password = bcrypt.hashSync(password,parseInt(bcrypt_saltRounds));
 
         // insert into DB Volunteer
-        await DButils.execQuery("Insert into volunteerUsers (userName, firstName, lastName, city, email, password, gender,areasOfIntrest, languages) "
-            + `VALUES ('${username}', '${firstName}', '${lastName}', '${city}', '${email}', '${hash_password}','${gender}',
+        await DButils.execQuery("Insert into volunteerUsers (userName, firstName, lastName, city, email, gender,areasOfIntrest, languages) "
+            + `VALUES ('${username}', '${firstName}', '${lastName}', '${city}', '${email}', '${gender}',
              '${areasOfIntrest}', '${languages}');`)
 
         //insert into DB users
-        await DButils.execQuery("Insert into users (username, organizationName, userRole) "
-            + `VALUES ('${username}', '${organizationName}', 'volunteer');`)
+        await DButils.execQuery("Insert into users (username, password, organizationName, userRole) "
+            + `VALUES ('${username}', '${hash_password}', '${organizationName}', 'Volunteer');`)
 
 
         //send result
@@ -60,12 +60,12 @@ router.post('/registerElderly', async (req, res,next) => {
         let hash_password = bcrypt.hashSync(password,parseInt(bcrypt_saltRounds));
 
         // insert into DB Volunteer
-        await DButils.execQuery("Insert into elderlyUsers (username, firstname, lastname, city, email, password, gender,areaOfIntrest, languages) "
-            + `VALUES ('${username}', '${firstName}', '${lastName}', '${city}', '${email}', '${hash_password}','${gender}, '${areasOfIntrest}', '${languages}'');`)
+        await DButils.execQuery("Insert into elderlyUsers (username, firstname, lastname, city, email, gender,areaOfIntrest, languages) "
+            + `VALUES ('${username}', '${firstName}', '${lastName}', '${city}', '${email}','${gender}, '${areasOfIntrest}', '${languages}'');`)
 
         //insert into DB users
-        await DButils.execQuery("Insert into users (username, organizationName, userRole) "
-            + `VALUES ('${username}', '${organizationName}', 'elderly'');`)
+        await DButils.execQuery("Insert into users (username,password, organizationName, userRole) "
+            + `VALUES ('${username}','${hash_password}','${organizationName}', 'Elderly'');`)
 
 
         //send result

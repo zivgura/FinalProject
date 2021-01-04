@@ -7,7 +7,7 @@ import areasOfInterestList from './resources/areasOfInterest';
 import citiesList from './resources/cities';
 import genderList from './resources/genders';
 
-class RegistrationForm extends Component {
+class RegistrationFormVolunteer extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -319,4 +319,4 @@ class RegistrationForm extends Component {
     }
 }
 
-export default RegistrationForm;
+export default RegistrationFormVolunteer;

@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(bodyParser.json());
+// app.use(bodyParser.json();
 app.use(express.json()); // parse application/json
 
 
@@ -13,11 +13,14 @@ const corsOptions = {
 }
 app.use(cors(corsOptions))
 
-const user = require("./routers/user");
+const user = require("./routers/user.js");
 app.use("/user",user);
 
 const responsible = require("./routers/responsible.js");
 app.use("/responsible",responsible);
+
+const admin = require("./routers/admin.js");
+app.use("/admin",admin);
 
 // error middleware
 app.use(function (err, req, res, next) {

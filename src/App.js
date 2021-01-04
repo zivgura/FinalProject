@@ -1,34 +1,60 @@
 import React, { useState } from "react";
 import "./App.css";
 import { useSpring, animated } from "react-spring";
-import RegistrationForm from "./RegistrationForm.js"
-
+import RegistrationFormElderly from "./RegistrationFormElderly.js"
+import RegistrationFormOrganization from "./RegistrationFormOrganization";
+import RegistrationFormResponsible from "./RegistrationFormResponsible";
+import RegistrationFormVolunteer from "./RegistrationFormVolunteer";
+import LoginForm from "./LoginForm";
 
 function App() {
-    const [registrationFormStatus, setRegistartionFormStatus] = useState(false);
+    const [registrationFormStatus, setRegistartionFormStatus] = useState({isClicked :false, users: []});
+
     const loginProps = useSpring({
-        left: registrationFormStatus ? -500 : 0, // Login form sliding positions
+        left: registrationFormStatus.isClicked ? -500 : 0, // Login form sliding positions
     });
     const registerProps = useSpring({
-        left: registrationFormStatus ? 0 : 500, // Register form sliding positions
+        left: registrationFormStatus.isClicked ? 0 : 500, // Register form sliding positions
     });
 
     const loginBtnProps = useSpring({
-        borderBottom: registrationFormStatus
+        borderBottom: registrationFormStatus.isClicked
             ? "solid 0px transparent"
             : "solid 2px #1059FF",  //Animate bottom border of login button
     });
     const registerBtnProps = useSpring({
-        borderBottom: registrationFormStatus
+        borderBottom: registrationFormStatus.isClicked
             ? "solid 2px #1059FF"
             : "solid 0px transparent", //Animate bottom border of register button
     });
 
-    function registerClicked() {
-        setRegistartionFormStatus(true);
+    async function getResponsibleUsers() {
+        return await fetch(`http://localhost:3001/admin/responsibleUsers`, {
+            method: 'get',
+        })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                let user = (data);
+                return user;
+            })
     }
+
+
+    async function registerClicked() {
+        let users = await getResponsibleUsers();
+
+        users = users.map((dic) => {
+            return {value: dic.userName, label:dic.userName}
+        })
+
+        setRegistartionFormStatus({isClicked: true, users: users});
+
+    }
+
     function loginClicked() {
-        setRegistartionFormStatus(false);
+        setRegistartionFormStatus({isClicked: false});
     }
 
     return (
@@ -54,7 +80,11 @@ function App() {
                     <LoginForm />
                 </animated.form>
                 <animated.form action="" id="registerform" style={registerProps}>
-                    <RegistrationForm />
+                    <RegistrationFormOrganization users = {registrationFormStatus.users} />
+                    {/*<RegistrationFormElderly  />*/}
+                    {/*<RegistrationFormResponsible  />*/}
+                    {/*<RegistrationFormVolunteer  />*/}
+
                 </animated.form>
             </div>
             <animated.div className="forgot-panel" style={loginProps}>
@@ -64,16 +94,5 @@ function App() {
     );
 }
 
-function LoginForm() {
-    return (
-        <React.Fragment>
-            <label for="username">USERNAME</label>
-            <input type="text" id="username" />
-            <label for="password">PASSWORD</label>
-            <input type="text" id="password" />
-            <input type="submit" value="submit" className="submit" />
-        </React.Fragment>
-    );
-}
 
 export default App;

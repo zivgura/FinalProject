@@ -2,12 +2,15 @@ import React, {Component} from 'react';
 import Select from "react-select";
 import Modal from './Modal.js';
 import './RegistrationForm.css';
-import languagesList from './resources/languages';
-import areasOfInterestList from './resources/areasOfInterest';
-import citiesList from './resources/cities';
-import genderList from './resources/genders';
+import languagesList from '../resources/languages';
+import areasOfInterestList from '../resources/areasOfInterest';
+import citiesList from '../resources/cities';
+import genderList from '../resources/genders';
+import preferredDaysAndHoursList from "../resources/preferredDaysAndHoursList";
+import digitalDevicesList from "../resources/digitalDevicesList";
+import servicesList from "../resources/servicesList";
 
-class RegistrationFormResponsible extends Component {
+class RegistrationFormVolunteer extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -17,7 +20,14 @@ class RegistrationFormResponsible extends Component {
             email: '',
             username: '',
             password: '',
+            city: '',
             gender: '',
+            selectedAreasOfInterest: [],
+            selectedLanguages: [],
+            preferredDaysAndHours: [],
+            digitalDevices: [],
+            services: [],
+            additionalInformation:'',
             valid: {
                 firstName: true,
                 lastName: true,
@@ -38,6 +48,7 @@ class RegistrationFormResponsible extends Component {
         };
 
         this.rexExpMap = {
+            additionalInformation: /[\u0590-\u05FF\uFB2A-\uFB4E]/,
             organizationName: /^[a-zA-Z\u00c4\u00e4\u00d6\u00f6\u00dc\u00fc\u00df]+$/,
             firstName: /^[a-zA-Z\u00c4\u00e4\u00d6\u00f6\u00dc\u00fc\u00df]+$/,
             lastName: /^[a-zA-Z\u00c4\u00e4\u00d6\u00f6\u00dc\u00fc\u00df]+$/,
@@ -120,7 +131,7 @@ class RegistrationFormResponsible extends Component {
     }
 
     handleSubmit() {
-        fetch(`http://localhost:3001/admin/registerResponsible`, {
+        fetch(`http://localhost:3001/responsible/registerVolunteer`, {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({...this.state})
@@ -153,12 +164,13 @@ class RegistrationFormResponsible extends Component {
                         <div>
                             <label>
                                 שם ארגון
-                                <input
-                                    type="text"
-                                    value={this.state.organizationName}
+                                <Select
                                     name="organizationName"
                                     className={shouldMarkError("organizationName") ? "error" : ""}
-                                    onChange={(e) => this.handleChange(e, "organizationName")}/>
+                                    value ={this.state.organizationName}
+                                    options={this.props.history.location.state}
+                                    onChange={(value)=>this.setState({organizationName: value})}
+                                />
                             </label>
                             <span className="required-field"
                                   style={this.requiredStyle('organizationName')}>{this.errorMessages('organizationName')}</span>
@@ -237,6 +249,21 @@ class RegistrationFormResponsible extends Component {
 
                         <div>
                             <label>
+                                עיר מגורים
+                                <Select
+                                    name="city"
+                                    className={shouldMarkError("city") ? "error" : ""}
+                                    value ={this.state.city}
+                                    options={citiesList}
+                                    onChange={(value)=>this.setState({city: value})}
+                                />
+                            </label>
+                            <span className="required-field"
+                                  style={this.requiredStyle('city')}>{this.errorMessages('city')}</span>
+                        </div>
+
+                        <div>
+                            <label>
                                 מגדר
                                 <Select
                                     name="gender"
@@ -250,7 +277,98 @@ class RegistrationFormResponsible extends Component {
                                   style={this.requiredStyle('gender')}>{this.errorMessages('gender')}</span>
                         </div>
 
+                        <div>
+                            <label>
+                                תחומי עניין
+                                <Select
+                                    isMulti
+                                    name="selectedAreasOfInterest"
+                                    className={shouldMarkError("selectedAreasOfInterest") ? "error" : ""}
+                                    value ={this.state.selectedAreasOfInterest}
+                                    options={areasOfInterestList}
+                                    onChange={(values)=>this.setState({selectedAreasOfInterest: values})}
+                                />
+                            </label>
+                            <span className="required-field"
+                                  style={this.requiredStyle('selectedAreasOfInterest')}>{this.errorMessages('selectedAreasOfInterest')}</span>
+                        </div>
 
+                        <div>
+                            <label>
+                                שפות
+                                <Select
+                                    isMulti
+                                    name="languages"
+                                    className={shouldMarkError("selectedLanguages") ? "error" : ""}
+                                    value ={this.state.selectedLanguages}
+                                    options={languagesList}
+                                    onChange={(values)=>this.setState({selectedLanguages: values})}
+                                />
+                            </label>
+                            <span className="required-field"
+                                  style={this.requiredStyle('selectedLanguages')}>{this.errorMessages('selectedLanguages')}</span>
+                        </div>
+
+                        <div>
+                            <label>
+                                ימים ושעות מועדפים
+                                <Select
+                                    isMulti
+                                    name="preferredDaysAndHours"
+                                    className={shouldMarkError("preferredDaysAndHours") ? "error" : ""}
+                                    value ={this.state.preferredDaysAndHours}
+                                    options={preferredDaysAndHoursList}
+                                    onChange={(values)=>this.setState({preferredDaysAndHours: values})}
+                                />
+                            </label>
+                            <span className="required-field"
+                                  style={this.requiredStyle('preferredDaysAndHours')}>{this.errorMessages('preferredDaysAndHours')}</span>
+                        </div>
+
+                        <div>
+                            <label>
+                                מכשירים טכנולוגיים שברשותי ורמת הידע בהם
+                                <Select
+                                    isMulti
+                                    name="digitalDevices"
+                                    className={shouldMarkError("digitalDevices") ? "error" : ""}
+                                    value ={this.state.digitalDevices}
+                                    options={digitalDevicesList}
+                                    onChange={(values)=>this.setState({digitalDevices: values})}
+                                />
+                            </label>
+                            <span className="required-field"
+                                  style={this.requiredStyle('digitalDevices')}>{this.errorMessages('digitalDevices')}</span>
+                        </div>
+
+                        <div>
+                            <label>
+                                סוגי התנדבות מתאימים
+                                <Select
+                                    isMulti
+                                    name="services"
+                                    className={shouldMarkError("digitalDevices") ? "error" : ""}
+                                    value ={this.state.services}
+                                    options={servicesList}
+                                    onChange={(values)=>this.setState({services: values})}
+                                />
+                            </label>
+                            <span className="required-field"
+                                  style={this.requiredStyle('services')}>{this.errorMessages('services')}</span>
+                        </div>
+
+                        <div>
+                            <label>
+                                עוד משהו שכדאי לדעת עלי
+                                <input
+                                    name="additionalInformation"
+                                    className={shouldMarkError("additionalInformation") ? "error" : ""}
+                                    value ={this.state.additionalInformation}
+                                    onChange={(e) => this.handleChange(e, "additionalInformation")}/>
+                            </label>
+                            <span className="required-field"
+                                  style={this.requiredStyle('additionalInformation')}>{this.errorMessages('additionalInformation')}</span>
+                        </div>
                         <div className="sb-text">By clicking Submit, I agree that I have read and accepted the&nbsp;
                             <a href='TermsandConditions'>Terms and Conditions.</a>
                         </div>
@@ -270,4 +388,4 @@ class RegistrationFormResponsible extends Component {
     }
 }
 
-export default RegistrationFormResponsible;
+export default RegistrationFormVolunteer;

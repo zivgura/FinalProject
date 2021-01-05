@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import "./App.css";
 import { useSpring, animated } from "react-spring";
-import RegistrationFormElderly from "./RegistrationFormElderly.js"
-import RegistrationFormOrganization from "./RegistrationFormOrganization";
-import RegistrationFormResponsible from "./RegistrationFormResponsible";
-import RegistrationFormVolunteer from "./RegistrationFormVolunteer";
-import LoginForm from "./LoginForm";
+import RegistrationFormElderly from "./components/RegistrationFormElderly.js"
+import RegistrationFormOrganization from "./components/RegistrationFormOrganization";
+import RegistrationFormResponsible from "./components/RegistrationFormResponsible";
+import RegistrationFormVolunteer from "./components/RegistrationFormVolunteer";
+import LoginForm from "./components/LoginForm";
 
 function App() {
     const [registrationFormStatus, setRegistartionFormStatus] = useState({isClicked :false, users: []});

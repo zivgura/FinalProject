@@ -11,7 +11,7 @@ class LoginForm extends React.Component {
     }
 
     async checkOnSubmit(){
-        const userRole = await fetch(`http://localhost:3001/user/login`, {
+        const user = await fetch(`http://localhost:3001/user/login`, {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({username : this.usernameRef.current.value , password : this.passwordRef.current.value})
@@ -19,13 +19,13 @@ class LoginForm extends React.Component {
             .then(response => response.json())
             .then(data => data)
 
-        console.log(userRole.role);
-        this.props.history.push("/"+userRole.role+"/register-responsible");
+        console.log(user.user.userRole);
+        this.props.history.push("/"+user.user.userRole, user.user.organizationName);
     }
 
     render(){
         return (
-            <div>
+            <div className="form-group">
                 <label for="username">USERNAME</label>
                 <input ref={this.usernameRef} type="text" id="username" />
                 <label for="password">PASSWORD</label>

@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import Modal from './Modal.js';
 import './RegistrationForm.css';
-import genderList from "./resources/genders";
 import Select from "react-select";
+import organizationTypes from "../resources/organizationTypes";
+
 
 class RegistrationFormOrganization extends Component {
     constructor(props) {
@@ -10,16 +11,16 @@ class RegistrationFormOrganization extends Component {
         this.state = {
             organizationName:'',
             organizationType: '',
-            responsibleUserName: '',
+            phoneNumber: '',
             valid: {
                 organizationName: true,
                 organizationType: true,
-                responsibleUserName: true,
+                phoneNumber: true
             },
             touched: {
                 organizationName:false,
                 organizationType: false,
-                responsibleUserName: false,
+                phoneNumber: false
             },
             modalisOpen: false
         };
@@ -27,14 +28,13 @@ class RegistrationFormOrganization extends Component {
         this.rexExpMap = {
             organizationName: /^[a-zA-Z\u00c4\u00e4\u00d6\u00f6\u00dc\u00fc\u00df]+$/,
             organizationType: /^[a-zA-Z\u00c4\u00e4\u00d6\u00f6\u00dc\u00fc\u00df]+$/,
-            responsibleUserName: /^[a-zA-Z\u00c4\u00e4\u00d6\u00f6\u00dc\u00fc\u00df]+$/,
+            phoneNumber: /^\+?\d+(-\d+)*$/
         }
 
         this.handleChange = this.handleChange.bind(this);
         this.checkData = this.checkData.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
         this.checkOnSubmit = this.checkOnSubmit.bind(this);
-
     }
 
     handleChange = (e, name) => {
@@ -58,11 +58,11 @@ class RegistrationFormOrganization extends Component {
         }
     }
 
-    validate(organizationName, organizationType, responsibleUserName) {
+    validate(organizationName, organizationType, phoneNumber) {
         return {
             organizationName: organizationName.length === 0,
             organizationType: organizationType.length === 0,
-            // responsibleUserName: responsibleUserName.length ===0,
+            phoneNumber: phoneNumber.length === 0
         };
     }
 
@@ -78,8 +78,8 @@ class RegistrationFormOrganization extends Component {
     }
 
     checkOnSubmit() {
-        const {organizationName, organizationType, responsibleUserName} = this.state;
-        const formFilled = !(organizationName === '' || organizationType === '' || responsibleUserName === '');
+        const {organizationName, organizationType, phoneNumber} = this.state;
+        const formFilled = !(organizationName === '' || organizationType === '' || phoneNumber === '');
         const formInvalid = Object.keys(this.state.valid).some(x => !this.state.valid[x]);
         const formHasErrors = !formFilled || formInvalid;
 
@@ -90,7 +90,7 @@ class RegistrationFormOrganization extends Component {
             touched: {
                 organizationName:true,
                 organizationType: true,
-                responsibleUserName: true,
+                phoneNumber: true
             },
         });
 
@@ -113,7 +113,7 @@ class RegistrationFormOrganization extends Component {
     }
 
     render() {
-        const errors = this.validate(this.state.organizationName, this.state.organizationType, this.responsibleUserName);
+        const errors = this.validate(this.state.organizationName, this.state.organizationType, this.state.phoneNumber);
         const shouldMarkError = (field) => {
             const hasError = errors[field];
             const shouldShow = this.state.touched[field];
@@ -143,12 +143,13 @@ class RegistrationFormOrganization extends Component {
                         <div>
                             <label>
                                 סוג ארגון
-                                <input
-                                    type="text"
-                                    value={this.state.organizationType}
+                                <Select
                                     name="organizationType"
                                     className={shouldMarkError("organizationType") ? "error" : ""}
-                                    onChange={(e) => this.handleChange(e, "organizationType")}/>
+                                    value ={this.state.organizationType}
+                                    options={organizationTypes}
+                                    onChange={(value)=>this.setState({organizationType: value})}
+                                />
                             </label>
                             <span className="required-field"
                                   style={this.requiredStyle('organizationType')}>{this.errorMessages('organizationType')}</span>
@@ -156,23 +157,16 @@ class RegistrationFormOrganization extends Component {
 
                         <div>
                             <label>
-                                אחראי מתנדבים
-                                <Select
-                                    name="responsibleUserName"
-                                    className={shouldMarkError("responsibleUserName") ? "error" : ""}
-                                    value ={this.state.responsibleUserName}
-                                    options={this.props.users}
-                                    onChange={(value)=>this.setState({responsibleUserName: value})}
-                                />
+                                מספר טלפון
+                                <input
+                                    type="text"
+                                    value={this.state.phoneNumber}
+                                    name="phoneNumber" id="phoneNumber"
+                                    className={shouldMarkError("phoneNumber") ? "error" : ""}
+                                    onChange={(e) => this.handleChange(e, "phoneNumber")}/>
 
                             </label>
-                            <span className="required-field"
-                                  style={this.requiredStyle('responsibleUserName')}>{this.errorMessages('responsibleUserName')}</span>
-                        </div>
-
-                        <div className="sb-text">By clicking Submit, I agree that I have read and accepted the&nbsp;
-                            <a href='TermsandConditions'>Terms and Conditions.</a>
-                        </div>
+                            </div>
                         <button className="sb-btn" type="button" onClick={this.checkOnSubmit}>SUBMIT</button>
 
                     </div>

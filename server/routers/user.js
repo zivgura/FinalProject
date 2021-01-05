@@ -34,7 +34,7 @@ router.post("/login", async (req, res, next) => {
         // req.session.user_id = user.user_id;
         //req.session.save();
 
-        res.status(200).send({role: user.userRole, message: "registration succeeded", success: true});
+        res.status(200).send({user: user, message: "registration succeeded", success: true});
     } catch (error) {
         next(error);
     }

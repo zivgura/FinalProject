@@ -2,12 +2,15 @@ import React, {Component} from 'react';
 import Select from "react-select";
 import Modal from './Modal.js';
 import './RegistrationForm.css';
-import languagesList from './resources/languages';
-import areasOfInterestList from './resources/areasOfInterest';
-import citiesList from './resources/cities';
-import genderList from './resources/genders';
+import languagesList from '../resources/languages';
+import areasOfInterestList from '../resources/areasOfInterest';
+import citiesList from '../resources/cities';
+import genderList from '../resources/genders';
+import preferredDaysAndHoursList from "../resources/preferredDaysAndHoursList";
+import digitalDevicesList from "../resources/digitalDevicesList";
+    import servicesList from "../resources/servicesList";
 
-class RegistrationFormVolunteer extends Component {
+class RegistrationFormElderly extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -21,6 +24,11 @@ class RegistrationFormVolunteer extends Component {
             gender: '',
             selectedAreasOfInterest: [],
             selectedLanguages: [],
+            wantedServices:[],
+            preferredDaysAndHours:[],
+            digitalDevices: [],
+            genderToMeetWith:[],
+            additionalInformation:'',
             valid: {
                 firstName: true,
                 lastName: true,
@@ -123,7 +131,7 @@ class RegistrationFormVolunteer extends Component {
     }
 
     handleSubmit() {
-        fetch(`http://localhost:3001/responsible/registerVolunteer`, {
+        fetch(`http://localhost:3001/responsible/registerElderly`, {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({...this.state})
@@ -156,12 +164,13 @@ class RegistrationFormVolunteer extends Component {
                         <div>
                             <label>
                                 שם ארגון
-                                <input
-                                    type="text"
-                                    value={this.state.organizationName}
+                                <Select
                                     name="organizationName"
                                     className={shouldMarkError("organizationName") ? "error" : ""}
-                                    onChange={(e) => this.handleChange(e, "organizationName")}/>
+                                    value ={this.state.organizationName}
+                                    options={this.props.history.location.state}
+                                    onChange={(value)=>this.setState({organizationName: value})}
+                                />
                             </label>
                             <span className="required-field"
                                   style={this.requiredStyle('organizationName')}>{this.errorMessages('organizationName')}</span>
@@ -300,6 +309,67 @@ class RegistrationFormVolunteer extends Component {
                                   style={this.requiredStyle('selectedLanguages')}>{this.errorMessages('selectedLanguages')}</span>
                         </div>
 
+                        <div>
+                            <label>
+                                ימים ושעות מועדפים
+                                <Select
+                                    isMulti
+                                    name="preferredDaysAndHours"
+                                    className={shouldMarkError("preferredDaysAndHours") ? "error" : ""}
+                                    value ={this.state.preferredDaysAndHours}
+                                    options={preferredDaysAndHoursList}
+                                    onChange={(values)=>this.setState({preferredDaysAndHours: values})}
+                                />
+                            </label>
+                            <span className="required-field"
+                                  style={this.requiredStyle('preferredDaysAndHours')}>{this.errorMessages('preferredDaysAndHours')}</span>
+                        </div>
+
+                        <div>
+                            <label>
+                                מכשירים טכנולוגיים שברשותי ורמת הידע בהם
+                                <Select
+                                    isMulti
+                                    name="digitalDevices"
+                                    className={shouldMarkError("digitalDevices") ? "error" : ""}
+                                    value ={this.state.digitalDevices}
+                                    options={digitalDevicesList}
+                                    onChange={(values)=>this.setState({digitalDevices: values})}
+                                />
+                            </label>
+                            <span className="required-field"
+                                  style={this.requiredStyle('digitalDevices')}>{this.errorMessages('digitalDevices')}</span>
+                        </div>
+
+                        <div>
+                            <label>
+                                סוגי התנדבות רצויים
+                                <Select
+                                    isMulti
+                                    name="wantedServices"
+                                    className={shouldMarkError("wantedServices") ? "error" : ""}
+                                    value ={this.state.wantedServices}
+                                    options={servicesList}
+                                    onChange={(values)=>this.setState({wantedServices: values})}
+                                />
+                            </label>
+                            <span className="required-field"
+                                  style={this.requiredStyle('wantedServices')}>{this.errorMessages('wantedServices')}</span>
+                        </div>
+
+                        <div>
+                            <label>
+                                עוד משהו שכדאי לדעת עלי
+                                <input
+                                    name="additionalInformation"
+                                    className={shouldMarkError("additionalInformation") ? "error" : ""}
+                                    value ={this.state.additionalInformation}
+                                    onChange={(values)=>this.setState({additionalInformation: values})}
+                                />
+                            </label>
+                            <span className="required-field"
+                                  style={this.requiredStyle('additionalInformation')}>{this.errorMessages('additionalInformation')}</span>
+                        </div>
                         <div className="sb-text">By clicking Submit, I agree that I have read and accepted the&nbsp;
                             <a href='TermsandConditions'>Terms and Conditions.</a>
                         </div>
@@ -319,4 +389,4 @@ class RegistrationFormVolunteer extends Component {
     }
 }
 
-export default RegistrationFormVolunteer;
+export default RegistrationFormElderly;

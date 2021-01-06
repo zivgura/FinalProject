@@ -8,24 +8,8 @@ class Modal extends Component {
                     <div className="modal-title">{this.props.text}</div>
                     <div>
                         <div className="modal-label">
-                            <div>First Name: </div>
-                            <div className="modal-input-value">{this.props.firstName}</div>
-                        </div>
-                        <div className="modal-label">
-                            <div>Last Name: </div>
-                            <div className="modal-input-value">{this.props.lastName}</div>
-                        </div>
-                        <div className="modal-label">
-                            <div>Username: </div>
-                            <div className="modal-input-value">{this.props.username}</div>
-                        </div>
-                        <div className="modal-label">
-                            <div>Passwort: </div>
-                            <div className="modal-input-value">{this.props.password}</div>
-                        </div>
-                        <div className="modal-label">
-                            <div>Email: </div>
-                            <div className="modal-input-value">{this.props.email}</div>
+                            <div>Content: </div>
+                            <div className="modal-input-value">{this.props.message}</div>
                         </div>
                     </div>
                     <button className="modal-btn" onClick={this.props.closeModal}>Close</button>

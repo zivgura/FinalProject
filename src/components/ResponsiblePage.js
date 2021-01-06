@@ -24,7 +24,7 @@ function ResponsiblePage(props) {
 
     async function getVolunteers() {
         return await fetch(`http://localhost:3001/responsible/volunteersDetails/` + new URLSearchParams(
-            {organizationName : props.history.location.state}),
+             props.history.location.state),
         {
             method: 'get',
         })
@@ -68,6 +68,7 @@ function ResponsiblePage(props) {
                 additionalInformation: dic.additionalInformation
             }
         })
+        console.log("volunteers");
         console.log(volunteers);
         setResponsibleState({
             users: volunteers,
@@ -90,7 +91,7 @@ function ResponsiblePage(props) {
         else if(responsibleState.isManageVolunteersClicked){
             props.history.push("/responsible/manage-volunteers", {
                 organizationName: props.history.location.state,
-                users: responsibleState.volunteers
+                users: responsibleState.users
             });
             //HISTORY!
         }

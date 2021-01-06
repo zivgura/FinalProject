@@ -96,9 +96,9 @@ router.post('/registerElderly', async (req, res,next) => {
 
 router.get('/volunteersDetails/:organizationName', async (req, res,next) => {
     try {
-        const {organizationName} = req.params;
+        let {organizationName} = req.params;
+        organizationName = organizationName.substring(0,organizationName.length-1);
         let volunteers = await DButils.execQuery(`SELECT * FROM volunteerUsers where organizationName= '${organizationName}'`);
-        console.log(volunteers)
         res.send(volunteers);
     }catch (error){
         next(error);
@@ -107,39 +107,50 @@ router.get('/volunteersDetails/:organizationName', async (req, res,next) => {
 
 
 
-router.get('/assign', async (req, res,next) => {
+router.get('/assign/:volunteerUsername/:volunteerService', async (req, res,next) => {
     try {
-        const {volunteerUsername,volunteerService} = req.body;
-        let volunteersDetails = await DButils.execQuery(`SELECT * FROM volunteerUsers where userName= '${volunteerUsername}'`);
-        console.log(volunteersDetails)
+        const {volunteerUsername,volunteerService} = req.params;
+        console.log("volunteerService")
+        console.log(volunteerService)
+
+        let volunteerDetails = await DButils.execQuery(`SELECT * FROM volunteerUsers where userName= '${volunteerUsername}'`);
+        console.log("volunteerDetails")
+        console.log(volunteerDetails)
 
         let elderlyDetails = await DButils.execQuery(`SELECT * FROM elderlyUsers`);
+        console.log("elderlyDetails")
+        console.log(elderlyDetails)
 
         let elderlyWithSameServicesAsVolunteer = [];
 
         //take only the elderly with the same wanted service as the volunteer service
-        for (let elderly in elderlyDetails){
-            for (let service in elderly.wantedServices){
-                if(service === volunteerService)
+        for (let elderly of elderlyDetails){
+            // for (let service of elderly.wantedServices){
+                if(elderly.wantedServices === volunteerService) {
                     elderlyWithSameServicesAsVolunteer.push(elderly);
+                // }
             }
         }
 
         let rankForEachElderly = [];
         if(elderlyWithSameServicesAsVolunteer.length > 0) {
             let elderlyWithSamePreferredDays = [];
-            for (let elderly in elderlyWithSameServicesAsVolunteer) {
+            for (let elderly of elderlyWithSameServicesAsVolunteer) {
                 //handle preferred days
-                for (let preferredDayElderly in elderlyDetails.preferredDays) {
-                    for (let preferredDayVolunteer in volunteersDetails.preferredDays) {
-                        if (preferredDayElderly === preferredDayVolunteer)
+                // for (let preferredDayElderly of elderly.preferredDays) {
+                    // for (let preferredDayVolunteer of volunteerDetails.preferredDays) {
+                console.log(volunteerDetails[0].preferredDays)
+                console.log(elderly.preferredDays)
+                        if (elderly.preferredDays === volunteerDetails[0].preferredDays)
                             elderlyWithSamePreferredDays.push({
                                 elderly: elderly,
-                                preferredDayElderly: preferredDayElderly
+                                preferredDayElderly: elderly.preferredDays
                             })
-                    }
-                }
+                    // }
+                // }
             }
+            console.log("elderlyWithSamePreferredDays")
+            console.log(elderlyWithSamePreferredDays);
 
             if (elderlyWithSamePreferredDays.length > 0) {
                 let finalRank = 0;

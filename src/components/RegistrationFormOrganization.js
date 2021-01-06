@@ -98,12 +98,20 @@ class RegistrationFormOrganization extends Component {
     }
 
     handleSubmit() {
-        fetch(`http://localhost:3001/admin/registerOrganization`, {
-            method: 'post',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({...this.state})
-        })
-            .then(response => console.log(response.json()))
+        try {
+            fetch(`http://localhost:3001/admin/registerOrganization`, {
+                method: 'post',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({...this.state})
+            })
+                .then(response => console.log(response.json()))
+
+            this.props.history.push("/admin");
+        }
+        catch (error){
+            this.setState({message: error.response.data.message});
+            this.toggleModal();
+        }
     }
 
     toggleModal() {

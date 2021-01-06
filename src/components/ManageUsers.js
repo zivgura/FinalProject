@@ -3,6 +3,8 @@ import AssignableUsers from "./AssignableUsers";
 
 function ManageUsers(props){
     const state = props.history.location.state;
+    console.log("manage users state");
+    console.log(state);
     return(
         <div>
             <div>
@@ -10,7 +12,7 @@ function ManageUsers(props){
             {state.organizationName}
             </div>
             <div>
-                <AssignableUsers volunteers={state.users} />
+                <AssignableUsers users={state.users} />
             </div>
         </div>
     )

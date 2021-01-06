@@ -10,7 +10,7 @@ function ManageUsers(props){
             {state.organizationName}
             </div>
             <div>
-                <AssignableUsers volunteers={state.volunteers} />
+                <AssignableUsers volunteers={state.users} />
             </div>
         </div>
     )

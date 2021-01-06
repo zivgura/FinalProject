@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 function ResponsiblePage(props) {
     const [responsibleState, setResponsibleState] = useState({
         organizations: [],
-        volunteers:[],
+        users:[],
         isVolunteerClicked: false,
         isElderlyClicked: false,
         isManageVolunteersClicked: false
@@ -23,9 +23,10 @@ function ResponsiblePage(props) {
     }
 
     async function getVolunteers() {
-        return await fetch(`http://localhost:3001/responsible/volunteersDetails`, {
+        return await fetch(`http://localhost:3001/responsible/volunteersDetails/` + new URLSearchParams(
+            {organizationName : props.history.location.state}),
+        {
             method: 'get',
-            body: JSON.stringify({organizationName : props.history.location.state})
         })
             .then(function (response) {
                 return response.json();
@@ -69,7 +70,7 @@ function ResponsiblePage(props) {
         })
         console.log(volunteers);
         setResponsibleState({
-            volunteers: volunteers,
+            users: volunteers,
             [event.target.name]: true
         });
     }
@@ -89,7 +90,7 @@ function ResponsiblePage(props) {
         else if(responsibleState.isManageVolunteersClicked){
             props.history.push("/responsible/manage-volunteers", {
                 organizationName: props.history.location.state,
-                volunteers: responsibleState.volunteers
+                users: responsibleState.volunteers
             });
             //HISTORY!
         }

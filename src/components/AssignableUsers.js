@@ -1,15 +1,16 @@
 import React from "react";
+import "./manage.css";
 
 function AssignableUsers(props){
-    // const volunteers = props.volunteers;
-    const volunteers = [{userName: "ziv123", firstName:"Ziv"}];
+    const users = props.users;
+    // const users = [{userName: "ziv123", firstName:"Ziv"}];
     return(
         <div>
             <ul className="list-group">
-                {volunteers.map((volunteer) => (
-                    <li className="list-group-item" key={volunteer.userName}>
+                {users.map((user) => (
+                    <li className="list-group-item" key={user.userName}>
                         <div className="content">
-                            {volunteer.firstName}
+                            {user.firstName}
                         </div>
                         <div className="actions">
                             <button>Assign</button>

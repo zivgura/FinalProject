@@ -1,9 +1,14 @@
-/*.ul{*/
-/*    list-style: none;*/
-/*}*/
+.list-group{
+    list-style: none;
+}
 
-/*{*/
-/*    display: flex;*/
-/*    padding: 12px 0;*/
+.list-group-item{
+    padding: 12px 0;
+    color: white;
+    display: flex;
+}
 
-/*}*/
+.content{
+    
+
+}

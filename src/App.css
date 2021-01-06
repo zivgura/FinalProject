@@ -30,7 +30,7 @@ body {
   border-radius: 5px;
   box-shadow: 0px 2px 7px rgba(0,0,0,0.2);
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: paged-y-controls;
   /*overflow-scrolling: auto;*/
   /*color:#ffffff;*/
   background: #337ab7;

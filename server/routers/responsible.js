@@ -1,10 +1,9 @@
-import servicesList from "../../src/resources/servicesList";
 const express = require('express');
 const router = express.Router();
 const DButils = require("../DButils.js");
 const bcrypt = require("bcrypt");
 
-const bcrypt_saltRounds=13
+bcrypt_saltRounds=13
 
 // register volunteer
 router.post('/registerVolunteer', async (req, res,next) => {
@@ -95,9 +94,9 @@ router.post('/registerElderly', async (req, res,next) => {
 
 
 
-router.get('/volunteersDetails', async (req, res,next) => {
+router.get('/volunteersDetails/:organizationName', async (req, res,next) => {
     try {
-        const {organizationName} = req.body;
+        const {organizationName} = req.params;
         let volunteers = await DButils.execQuery(`SELECT * FROM volunteerUsers where organizationName= '${organizationName}'`);
         console.log(volunteers)
         res.send(volunteers);

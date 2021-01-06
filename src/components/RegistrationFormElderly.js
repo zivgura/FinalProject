@@ -27,7 +27,7 @@ class RegistrationFormElderly extends Component {
             wantedServices:[],
             preferredDaysAndHours:[],
             digitalDevices: [],
-            genderToMeetWith:[],
+            genderToMeetWith:'',
             additionalInformation:'',
             valid: {
                 firstName: true,
@@ -49,6 +49,7 @@ class RegistrationFormElderly extends Component {
         };
 
         this.rexExpMap = {
+            additionalInformation: /[\u0590-\u05FF\uFB2A-\uFB4E]/,
             organizationName: /^[a-zA-Z\u00c4\u00e4\u00d6\u00f6\u00dc\u00fc\u00df]+$/,
             firstName: /^[a-zA-Z\u00c4\u00e4\u00d6\u00f6\u00dc\u00fc\u00df]+$/,
             lastName: /^[a-zA-Z\u00c4\u00e4\u00d6\u00f6\u00dc\u00fc\u00df]+$/,
@@ -327,6 +328,21 @@ class RegistrationFormElderly extends Component {
 
                         <div>
                             <label>
+                                מעדיף לדבר עם
+                                <Select
+                                    name="genderToMeetWith"
+                                    className={shouldMarkError("genderToMeetWith") ? "error" : ""}
+                                    value ={this.state.genderToMeetWith}
+                                    options={genderList}
+                                    onChange={(value)=>this.setState({genderToMeetWith: value})}
+                                />
+                            </label>
+                            <span className="required-field"
+                                  style={this.requiredStyle('genderToMeetWith')}>{this.errorMessages('genderToMeetWith')}</span>
+                        </div>
+
+                        <div>
+                            <label>
                                 מכשירים טכנולוגיים שברשותי ורמת הידע בהם
                                 <Select
                                     isMulti
@@ -364,8 +380,7 @@ class RegistrationFormElderly extends Component {
                                     name="additionalInformation"
                                     className={shouldMarkError("additionalInformation") ? "error" : ""}
                                     value ={this.state.additionalInformation}
-                                    onChange={(values)=>this.setState({additionalInformation: values})}
-                                />
+                                    onChange={(e) => this.handleChange(e, "additionalInformation")}/>
                             </label>
                             <span className="required-field"
                                   style={this.requiredStyle('additionalInformation')}>{this.errorMessages('additionalInformation')}</span>

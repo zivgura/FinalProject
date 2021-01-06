@@ -31,8 +31,6 @@ function Routes() {
                 <Route exact path="/responsible/register-elderly" component={RegistrationFormElderly}/>
                 <Route exact path="/responsible/register-volunteer" component={RegistrationFormVolunteer}/>
                 <Route exact path="/responsible/manage-volunteers" component={ManageUsers}/>
-
-
             </Switch>
         </div>
     )

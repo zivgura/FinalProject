@@ -1,9 +1,17 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
+import AssignableUsers from "./AssignableUsers";
 
 function ManageUsers(props){
+    const state = props.history.location.state;
     return(
         <div>
-            {props.history.location.state}
+            <div>
+            שם ארגון נוכחי
+            {state.organizationName}
+            </div>
+            <div>
+                <AssignableUsers volunteers={state.volunteers} />
+            </div>
         </div>
     )
 }

@@ -3,6 +3,7 @@ import React, {useEffect, useState} from "react";
 function ResponsiblePage(props) {
     const [responsibleState, setResponsibleState] = useState({
         organizations: [],
+        volunteers:[],
         isVolunteerClicked: false,
         isElderlyClicked: false,
         isManageVolunteersClicked: false
@@ -21,10 +22,22 @@ function ResponsiblePage(props) {
             })
     }
 
+    async function getVolunteers() {
+        return await fetch(`http://localhost:3001/responsible/volunteersDetails`, {
+            method: 'get',
+            body: JSON.stringify({organizationName : props.history.location.state})
+        })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                let volunteers = (data);
+                return volunteers;
+            })
+    }
 
     async function onClick(event) {
         let organizations = await getOrganizationsNames();
-
         organizations = organizations.map((dic) => {
             return {value: dic.organizationName, label: dic.organizationName}
         })
@@ -34,6 +47,33 @@ function ResponsiblePage(props) {
             [event.target.name]: true
         });
     }
+
+    async function onClickManageVolunteers(event) {
+        let volunteers = await getVolunteers();
+        volunteers = volunteers.map((dic) => {
+            return {
+                userName: dic.userName,
+                firstName: dic.firstName,
+                lastName: dic.lastName,
+                city: dic.city,
+                email: dic.email,
+                gender: dic.gender,
+                areasOfInterest: dic.areasOfInterest,
+                languages: dic.languages,
+                organizationName: dic.organizationName,
+                services: dic.services,
+                preferredDays: dic.preferredDays,
+                digitalDevices: dic.digitalDevices,
+                additionalInformation: dic.additionalInformation
+            }
+        })
+        console.log(volunteers);
+        setResponsibleState({
+            volunteers: volunteers,
+            [event.target.name]: true
+        });
+    }
+
 
     useEffect(() => {
         if (responsibleState.isVolunteerClicked) {
@@ -47,7 +87,10 @@ function ResponsiblePage(props) {
             //HISTORY!
         }
         else if(responsibleState.isManageVolunteersClicked){
-            props.history.push("/responsible/manage-volunteers", props.history.location.state);
+            props.history.push("/responsible/manage-volunteers", {
+                organizationName: props.history.location.state,
+                volunteers: responsibleState.volunteers
+            });
             //HISTORY!
         }
     });
@@ -74,7 +117,7 @@ function ResponsiblePage(props) {
                 className="sb-btn"
                 name="isManageVolunteersClicked"
                 type="button"
-                onClick={(e)=>onClick(e)}
+                onClick={(e)=>onClickManageVolunteers(e)}
             >
                 נהל מתנדבים
             </button>

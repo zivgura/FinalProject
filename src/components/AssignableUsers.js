@@ -1,7 +1,5 @@
 import React from "react";
 import "./manage.css";
-import Select from "react-select";
-import organizationTypes from "../resources/organizationTypes";
 import AssignableUser from "./AssignableUser";
 
 function AssignableUsers(props) {

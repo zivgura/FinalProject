@@ -1,18 +1,28 @@
 import React, {useState} from "react";
 import Select from "react-select";
-import AssignableUsers from "./AssignableUsers";
+import servicesList from "../resources/servicesList";
+import Modal from "./Modal";
 
 
 function AssignableUser(props) {
     const user = props.user;
-    const services = {value:user.services, label:user.services};
-    // const services = user.services.map((dict)=> {return {value:dict.value, label:dict.value}});
-    const [userState,setUserState] = useState({service:''});
+    console.log("services")
+    console.log(user.services)
+    const services = user.services.map((dict) => {
+        return {value: dict, label: dict}
+    });
+    console.log("services")
+    console.log(services)
+    const [userState, setUserState] = useState({
+        service: '',
+        modalisOpen:false,
+        matches: []
+    });
 
 
     async function getElderlyMatch() {
         return await fetch(`http://localhost:3001/responsible/assign/` +
-            user.userName +"/"+ user.services,
+            user.userName + "/" + userState.service.value,
             {
                 method: 'get',
             })
@@ -34,26 +44,35 @@ function AssignableUser(props) {
         //     }
         // })
         console.log(elderlyMatch);
+        setUserState({matches: elderlyMatch})
         // setResponsibleState({
         //     organizations: organizations,
         //     [event.target.name]: true
         // });
     }
 
+    function toggleModal() {
+        setUserState({
+            modalisOpen: !userState.modalisOpen
+        });
+    }
+
     return (
         <li className="list-group-item" key={user.userName}>
             <div className="content">
                 <div>
-                    {user.firstName}
+                    <label className="left">
+                        {user.firstName}
+                    </label>
                 </div>
                 <div>
-                    <label>
-                        סוג שירות
+                    <label className="right">
+                        {/*סוג שירות*/}
                         <Select
                             name="organizationType"
-                            value={[]}
+                            value={userState.service}
                             options={services}
-                            onChange={(value) => setUserState({service: value.value})}
+                            onChange={(value) => setUserState({service: value})}
                         />
                     </label>
                 </div>
@@ -61,6 +80,14 @@ function AssignableUser(props) {
             <div className="actions">
                 <button onClick={() => onClick()}>Assign</button>
             </div>
+            {userState.modalisOpen ?
+                <Modal
+                    text='Matches'
+                    {...userState.matches.map((match)=>match.firstName)}
+                    closeModal={toggleModal}
+                />
+                : null
+            }
         </li>
     )
 }

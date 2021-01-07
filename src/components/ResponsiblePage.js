@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import * as ClientUtils from "../ClientUtils";
 
 function ResponsiblePage(props) {
     const [responsibleState, setResponsibleState] = useState({
@@ -51,23 +52,7 @@ function ResponsiblePage(props) {
 
     async function onClickManageVolunteers(event) {
         let volunteers = await getVolunteers();
-        volunteers = volunteers.map((dic) => {
-            return {
-                userName: dic.userName,
-                firstName: dic.firstName,
-                lastName: dic.lastName,
-                city: dic.city,
-                email: dic.email,
-                gender: dic.gender,
-                areasOfInterest: dic.areasOfInterest,
-                languages: dic.languages,
-                organizationName: dic.organizationName,
-                services: dic.services,
-                preferredDays: dic.preferredDays,
-                digitalDevices: dic.digitalDevices,
-                additionalInformation: dic.additionalInformation
-            }
-        })
+        volunteers = ClientUtils.convertVolunteerDetailsFromDB(volunteers);
         console.log("volunteers");
         console.log(volunteers);
         setResponsibleState({

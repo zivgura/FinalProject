@@ -37,8 +37,10 @@ router.post('/registerVolunteer', async (req, res,next) => {
         await DButils.execQuery("Insert into volunteerUsers (userName, firstName, lastName, city, email, gender, " +
             "areasOfInterest, languages, organizationName, services, preferredDays, digitalDevices, additionalInformation) "
             + `VALUES ('${username}', '${firstName}', '${lastName}', '${city}', '${email}', '${gender}',
-             '${areasOfInterest}', '${languages}', '${organizationName}', '${services}', '${preferredDaysAndHours}',
-             '${digitalDevices}', '${additionalInformation}');`)
+             '${JSON.stringify(areasOfInterest)}', '${JSON.stringify(languages)}', '${organizationName}', '${JSON.stringify(services)}', '${JSON.stringify(preferredDaysAndHours)}',
+             '${JSON.stringify(digitalDevices)}', '${additionalInformation}');`)
+
+        //changed to JSON!!
 
         //send result
         res.setHeader('Content-Type', 'application/json');
@@ -81,8 +83,9 @@ router.post('/registerElderly', async (req, res,next) => {
         await DButils.execQuery("Insert into elderlyUsers (userName, firstName, lastName, city, email, gender, " +
             "areasOfInterest, languages, organizationName, wantedServices, genderToMeetWith, preferredDays, digitalDevices, additionalInformation) "
             + `VALUES ('${username}', '${firstName}', '${lastName}', '${city}', '${email}', '${gender}',
-             '${areasOfInterest}', '${languages}', '${organizationName}', '${wantedServices}', '${genderToMeetWith}', '${preferredDaysAndHours}',
-             '${digitalDevices}', '${additionalInformation}');`)
+             '${JSON.stringify(areasOfInterest)}', '${JSON.stringify(languages)}', '${organizationName}',
+              '${JSON.stringify(wantedServices)}','${genderToMeetWith}', '${JSON.stringify(preferredDaysAndHours)}',
+              '${JSON.stringify(digitalDevices)}', '${additionalInformation}');`)
 
         //send result
         res.setHeader('Content-Type', 'application/json');
@@ -110,44 +113,46 @@ router.get('/volunteersDetails/:organizationName', async (req, res,next) => {
 router.get('/assign/:volunteerUsername/:volunteerService', async (req, res,next) => {
     try {
         const {volunteerUsername,volunteerService} = req.params;
-        console.log("volunteerService")
-        console.log(volunteerService)
-
         let volunteerDetails = await DButils.execQuery(`SELECT * FROM volunteerUsers where userName= '${volunteerUsername}'`);
+
+        volunteerDetails = DButils.convertVolunteerDetailsFromDB(volunteerDetails)[0];
         console.log("volunteerDetails")
         console.log(volunteerDetails)
 
         let elderlyDetails = await DButils.execQuery(`SELECT * FROM elderlyUsers`);
         console.log("elderlyDetails")
         console.log(elderlyDetails)
+        elderlyDetails = DButils.convertElderlyDetailsFromDB(elderlyDetails);
 
         let elderlyWithSameServicesAsVolunteer = [];
 
         //take only the elderly with the same wanted service as the volunteer service
         for (let elderly of elderlyDetails){
-            // for (let service of elderly.wantedServices){
-                if(elderly.wantedServices === volunteerService) {
+            for (let service of elderly.wantedServices){
+                if(service === volunteerService) {
                     elderlyWithSameServicesAsVolunteer.push(elderly);
-                // }
+                }
             }
         }
+
+        console.log("elderlyWithSameServicesAsVolunteer")
+        console.log(elderlyWithSameServicesAsVolunteer)
 
         let rankForEachElderly = [];
         if(elderlyWithSameServicesAsVolunteer.length > 0) {
             let elderlyWithSamePreferredDays = [];
             for (let elderly of elderlyWithSameServicesAsVolunteer) {
                 //handle preferred days
-                // for (let preferredDayElderly of elderly.preferredDays) {
-                    // for (let preferredDayVolunteer of volunteerDetails.preferredDays) {
-                console.log(volunteerDetails[0].preferredDays)
-                console.log(elderly.preferredDays)
-                        if (elderly.preferredDays === volunteerDetails[0].preferredDays)
+                for (let preferredDayElderly of elderly.preferredDays) {
+                    for (let preferredDayVolunteer of volunteerDetails.preferredDays) {
+                        if (preferredDayElderly === preferredDayVolunteer) {
                             elderlyWithSamePreferredDays.push({
                                 elderly: elderly,
-                                preferredDayElderly: elderly.preferredDays
+                                preferredDayElderly: preferredDayElderly
                             })
-                    // }
-                // }
+                        }
+                    }
+                }
             }
             console.log("elderlyWithSamePreferredDays")
             console.log(elderlyWithSamePreferredDays);
@@ -157,24 +162,24 @@ router.get('/assign/:volunteerUsername/:volunteerService', async (req, res,next)
                 let rankForLanguage = 0;
                 let rankForGender = 0;
                 let rankForInterest = 0;
-                for (let elderly in elderlyWithSamePreferredDays.map(value => value.key)){
+                for (let elderly of elderlyWithSamePreferredDays.map(value => value.elderly)){
                     //handle languages
-                    const foundSameLanguage = elderly.languages.some(r => volunteersDetails.languages.includes(r))
+                    const foundSameLanguage = elderly.languages.some(r => volunteerDetails.languages.includes(r))
                     if (foundSameLanguage) {
                         rankForLanguage=1
                     }
                     //handle gender
-                    const foundSameGender = elderly.genderToMeetWith.some(r => volunteersDetails.gender.includes(r))
-                    if (foundSameGender) {
-                        rankForGender=1
-                    }
+                    // const foundSameGender = elderly.genderToMeetWith.some(r => volunteerDetails.gender.includes(r))
+                    // if (foundSameGender) {
+                    //     rankForGender=1
+                    // }
                     //handle areaOfInterest
-                    const foundSameInterest = elderly.areasOfInterest.some(r => volunteersDetails.areasOfInterest.includes(r))
+                    const foundSameInterest = elderly.areasOfInterest.some(r => volunteerDetails.areasOfInterest.includes(r))
                     if (foundSameInterest) {
                         rankForInterest=1
                     }
 
-                    finalRank = 0.7*rankForLanguage + 0.2*rankForGender + 0.1*rankForInterest;
+                    finalRank = 0.7*rankForLanguage + 0.3*rankForInterest;
                     rankForEachElderly.push({elderly: elderly,finalRank: finalRank})
 
                 }

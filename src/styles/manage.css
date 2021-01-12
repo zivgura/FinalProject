@@ -1,24 +1,69 @@
-.list-group{
-    list-style: none;
-}
 
-.list-group-item{
+.list-group-item {
     padding: 12px 0;
-    color: white;
     display: flex;
+    justify-content: center;
 }
 
-.content{
-    width: 70%;
+.content {
+    width: 30%;
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin: 5px;
 }
 
-.item{
+.volunteer-name{
+    color: rgb(109, 177, 8);
+}
+
+.action {
+    /*width: 50%;*/
     display: flex;
 }
 
-.action{
+.manage-wrapper {
+    text-align: center;
+    height: 100%;
+    width: 550px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 80px;
+    padding: 2em 2em;
+    overflow-x: hidden;
+    overflow-y: paged-y-controls;
+    color: black;
 }
+
+.users-table {
+    width: 100%;
+}
+
+.table-header {
+    width: 100%;
+    background-color: rgb(170, 198, 164);
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.table-row {
+    /*background-color: #ffffff;*/
+    box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    padding: 25px 30px;
+    margin-bottom: 13px;
+}
+
+.col-1 {
+    flex-basis: 30%;
+}
+
+.col-2 {
+    flex-basis: 50%;
+}
+
+.col-3 {
+    flex-basis: 20%;
+}
+

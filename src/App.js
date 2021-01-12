@@ -1,48 +1,98 @@
-import React from 'react';
-import './App.css';
+import React, { useState } from "react";
+import "./styles/App.css";
+import { useSpring, animated } from "react-spring";
+import RegistrationFormElderly from "./components/RegistrationFormElderly.js"
+import RegistrationFormOrganization from "./components/RegistrationFormOrganization";
+import RegistrationFormResponsible from "./components/RegistrationFormResponsible";
+import RegistrationFormVolunteer from "./components/RegistrationFormVolunteer";
+import LoginForm from "./components/LoginForm";
 
-class App extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            name: '',
-            greeting: ''
-        };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+function App() {
+    const [registrationFormStatus, setRegistartionFormStatus] = useState({isClicked :false, users: []});
+
+    const loginProps = useSpring({
+        left: registrationFormStatus.isClicked ? -500 : 0, // Login form sliding positions
+    });
+    const registerProps = useSpring({
+        left: registrationFormStatus.isClicked ? 0 : 500, // Register form sliding positions
+    });
+
+    const loginBtnProps = useSpring({
+        borderBottom: registrationFormStatus.isClicked
+            ? "solid 0px transparent"
+            : "solid 2px #1059FF",  //Animate bottom border of login button
+    });
+    const registerBtnProps = useSpring({
+        borderBottom: registrationFormStatus.isClicked
+            ? "solid 2px #1059FF"
+            : "solid 0px transparent", //Animate bottom border of register button
+    });
+
+    async function getResponsibleUsers() {
+        return await fetch(`http://localhost:3001/admin/responsibleUsers`, {
+            method: 'get',
+        })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                let user = (data);
+                return user;
+            })
     }
 
-    handleChange(event) {
-        this.setState({name: event.target.value});
+
+    async function registerClicked() {
+        let users = await getResponsibleUsers();
+
+        users = users.map((dic) => {
+            return {value: dic.userName, label:dic.userName}
+        })
+
+        setRegistartionFormStatus({isClicked: true, users: users});
+
     }
 
-    handleSubmit(event) {
-        event.preventDefault();
-        fetch(`http://localhost:3001/api/greeting?name=${encodeURIComponent(this.state.name)}`)
-            .then(response => response.json())
-            .then(state => this.setState(state));
+    function loginClicked() {
+        setRegistartionFormStatus({isClicked: false});
     }
 
-
-    render() {
-        return (
-            <div className="App">
-                <header className="App-header">
-                    <form onSubmit={this.handleSubmit}>
-                        <label htmlFor="name">Enter your name: </label>
-                        <input
-                            id="name"
-                            type="text"
-                            value={this.state.name}
-                            onChange={this.handleChange}
-                        />
-                        <button type="submit">Submit</button>
-                    </form>
-                    <p>{this.state.greeting}</p>
-                </header>
+    return (
+        <div className="register-wrapper">
+            <div className="nav-buttons">
+                <animated.button
+                    onClick={loginClicked}
+                    id="loginBtn"
+                    style={loginBtnProps}
+                >
+                    Login
+                </animated.button>
+                <animated.button
+                    onClick={registerClicked}
+                    id="registerBtn"
+                    style={registerBtnProps}
+                >
+                    Register
+                </animated.button>
             </div>
-        )
-    }
+            <div className="form-group">
+                <animated.form action="" id="loginform" style={loginProps}>
+                    <LoginForm />
+                </animated.form>
+                <animated.form action="" id="registerform" style={registerProps}>
+                    <RegistrationFormOrganization users = {registrationFormStatus.users} />
+                    {/*<RegistrationFormElderly  />*/}
+                    {/*<RegistrationFormResponsible  />*/}
+                    {/*<RegistrationFormVolunteer  />*/}
+
+                </animated.form>
+            </div>
+            <animated.div className="forgot-panel" style={loginProps}>
+                {/*<a herf="#">Forgot your password</a>*/}
+            </animated.div>
+        </div>
+    );
 }
+
 
 export default App;

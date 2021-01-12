@@ -1,30 +1,30 @@
-import React, {useState} from "react";
+import React, {useState, useRef} from "react";
 import Select from "react-select";
 import servicesList from "../resources/servicesList";
 import Modal from "./Modal";
+import UserView from "./UserView";
+import UsersTable from "./UsersTable";
 
 
 function AssignableUser(props) {
     const user = props.user;
-    console.log("services")
-    console.log(user.services)
-    const services = user.services.map((dict) => {
-        return {value: dict, label: dict}
-    });
-    console.log("services")
-    console.log(services)
     const [userState, setUserState] = useState({
-        service: '',
-        modalisOpen:false,
-        matches: []
+        matches: [],
+        isHidden: true,
+        buttonText: "מצא קשישים מתאימים"
     });
+
 
 
     async function getElderlyMatch() {
-        return await fetch(`http://localhost:3001/responsible/assign/` +
-            user.userName + "/" + userState.service.value,
+        return await fetch(`http://localhost:3001/responsible/assign`,
             {
-                method: 'get',
+                method: 'post',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    volunteerUsername: user.userName,
+                    volunteerServices: user.services,
+                })
             })
             .then(function (response) {
                 return response.json();
@@ -36,6 +36,7 @@ function AssignableUser(props) {
     }
 
     async function onClick() {
+        console.log(user.services);
         let elderlyMatch = await getElderlyMatch(user);
         // elderlyMatch = elderlyMatch.map((dic) => {
         //     return {
@@ -44,51 +45,50 @@ function AssignableUser(props) {
         //     }
         // })
         console.log(elderlyMatch);
-        setUserState({matches: elderlyMatch})
+        if(userState.isHidden){
+            setUserState({
+                matches: elderlyMatch,
+                isHidden: false,
+                buttonText: "הסתר טבלת התאמה"
+            })
+        }
+        else {
+            setUserState({matches: elderlyMatch, isHidden: true, buttonText: "מצא קשישים מתאימים"});
+        }
+
         // setResponsibleState({
         //     organizations: organizations,
         //     [event.target.name]: true
         // });
     }
 
-    function toggleModal() {
-        setUserState({
-            modalisOpen: !userState.modalisOpen
-        });
-    }
+
 
     return (
-        <li className="list-group-item" key={user.userName}>
-            <div className="content">
-                <div>
-                    <label className="left">
-                        {user.firstName}
-                    </label>
+        <div>
+            <li className="list-group-item" key={user.userName}>
+                <div className="content">
+                    <div>
+                        <label className="volunteer-name">
+                            {user.firstName}
+                        </label>
+                    </div>
                 </div>
-                <div>
-                    <label className="right">
-                        {/*סוג שירות*/}
-                        <Select
-                            name="organizationType"
-                            value={userState.service}
-                            options={services}
-                            onChange={(value) => setUserState({service: value})}
-                        />
-                    </label>
+                <div className="actions">
+                    <button
+                        className="sb-btn"
+                        name={user.userName}
+                        onClick={() => onClick()}>
+                        {userState.buttonText}
+                    </button>
                 </div>
+            </li>
+            <div>
+                <UsersTable
+                    users={userState.matches}
+                    isHidden={userState.isHidden}/>
             </div>
-            <div className="actions">
-                <button onClick={() => onClick()}>Assign</button>
-            </div>
-            {userState.modalisOpen ?
-                <Modal
-                    text='Matches'
-                    {...userState.matches.map((match)=>match.firstName)}
-                    closeModal={toggleModal}
-                />
-                : null
-            }
-        </li>
+        </div>
     )
 }
 

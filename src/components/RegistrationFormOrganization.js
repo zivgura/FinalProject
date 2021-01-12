@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Modal from './Modal.js';
-import './RegistrationForm.css';
+import '../styles/RegistrationForm.css';
 import Select from "react-select";
 import organizationTypes from "../resources/organizationTypes";
 
@@ -9,7 +9,7 @@ class RegistrationFormOrganization extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            organizationName:'',
+            organizationName: '',
             organizationType: '',
             phoneNumber: '',
             valid: {
@@ -18,7 +18,7 @@ class RegistrationFormOrganization extends Component {
                 phoneNumber: true
             },
             touched: {
-                organizationName:false,
+                organizationName: false,
                 organizationType: false,
                 phoneNumber: false
             },
@@ -88,7 +88,7 @@ class RegistrationFormOrganization extends Component {
         }
         this.setState({
             touched: {
-                organizationName:true,
+                organizationName: true,
                 organizationType: true,
                 phoneNumber: true
             },
@@ -107,8 +107,7 @@ class RegistrationFormOrganization extends Component {
                 .then(response => console.log(response.json()))
 
             this.props.history.push("/admin");
-        }
-        catch (error){
+        } catch (error) {
             this.setState({message: error.response.data.message});
             this.toggleModal();
         }
@@ -132,62 +131,66 @@ class RegistrationFormOrganization extends Component {
         };
 
         return (
-            <div className="container">
-                <div className="register-form">
-                    <div className="form">
-                        <div>
-                            <label>
-                                שם ארגון
-                                <input
-                                    type="text"
-                                    value={this.state.organizationName}
-                                    name="organizationName"
-                                    className={shouldMarkError("organizationName") ? "error" : ""}
-                                    onChange={(e) => this.handleChange(e, "organizationName")}/>
-                            </label>
-                            <span className="required-field"
-                                  style={this.requiredStyle('organizationName')}>{this.errorMessages('organizationName')}</span>
-                        </div>
-                        <div>
-                            <label>
-                                סוג ארגון
-                                <Select
-                                    name="organizationType"
-                                    className={shouldMarkError("organizationType") ? "error" : ""}
-                                    value ={this.state.organizationType}
-                                    options={organizationTypes}
-                                    onChange={(value)=>this.setState({organizationType: value})}
-                                />
-                            </label>
-                            <span className="required-field"
-                                  style={this.requiredStyle('organizationType')}>{this.errorMessages('organizationType')}</span>
-                        </div>
+            <div>
+                <h2 className="header">
+                    טופס רישום ארגון
+                </h2>
+                <div className="register-wrapper">
+                    <div className="container">
+                        <div className="register-form">
+                            <div className="form">
+                                <div className="field">
+                                    <label>
+                                        שם ארגון
+                                        <input
+                                            type="text"
+                                            value={this.state.organizationName}
+                                            name="organizationName"
+                                            className={shouldMarkError("organizationName") ? "error" : ""}
+                                            onChange={(e) => this.handleChange(e, "organizationName")}/>
+                                    </label>
+                                    <span className="required-field"
+                                          style={this.requiredStyle('organizationName')}>{this.errorMessages('organizationName')}</span>
+                                </div>
+                                <div className="field">
+                                    <label>
+                                        סוג ארגון
+                                        <Select
+                                            name="organizationType"
+                                            className={shouldMarkError("organizationType") ? "error" : ""}
+                                            value={this.state.organizationType}
+                                            options={organizationTypes}
+                                            onChange={(value) => this.setState({organizationType: value})}
+                                        />
+                                    </label>
+                                    <span className="required-field"
+                                          style={this.requiredStyle('organizationType')}>{this.errorMessages('organizationType')}</span>
+                                </div>
 
-                        <div>
-                            <label>
-                                מספר טלפון
-                                <input
-                                    type="text"
-                                    value={this.state.phoneNumber}
-                                    name="phoneNumber" id="phoneNumber"
-                                    className={shouldMarkError("phoneNumber") ? "error" : ""}
-                                    onChange={(e) => this.handleChange(e, "phoneNumber")}/>
-
-                            </label>
+                                <div className="field">
+                                    <label>
+                                        מספר טלפון
+                                        <input
+                                            type="text"
+                                            value={this.state.phoneNumber}
+                                            name="phoneNumber" id="phoneNumber"
+                                            className={shouldMarkError("phoneNumber") ? "error" : ""}
+                                            onChange={(e) => this.handleChange(e, "phoneNumber")}/>
+                                    </label>
+                                </div>
+                                <button className="sb-btn" type="button" onClick={this.checkOnSubmit}>SUBMIT</button>
                             </div>
-                        <button className="sb-btn" type="button" onClick={this.checkOnSubmit}>SUBMIT</button>
-
+                        </div>
+                        {this.state.modalisOpen ?
+                            <Modal
+                                text='Your Data'
+                                {...this.state}
+                                closeModal={this.toggleModal}
+                            />
+                            : null
+                        }
                     </div>
-
                 </div>
-                {this.state.modalisOpen ?
-                    <Modal
-                        text='Your Data'
-                        {...this.state}
-                        closeModal={this.toggleModal}
-                    />
-                    : null
-                }
             </div>
         );
     }

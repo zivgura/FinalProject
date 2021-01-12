@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from "react";
 import * as ClientUtils from "../ClientUtils";
+import Navbar from "./Navbar";
 
 function ResponsiblePage(props) {
     const [responsibleState, setResponsibleState] = useState({
         organizations: [],
-        users:[],
+        users: [],
         isVolunteerClicked: false,
         isElderlyClicked: false,
         isManageVolunteersClicked: false
@@ -25,10 +26,10 @@ function ResponsiblePage(props) {
 
     async function getVolunteers() {
         return await fetch(`http://localhost:3001/responsible/volunteersDetails/` + new URLSearchParams(
-             props.history.location.state),
-        {
-            method: 'get',
-        })
+            props.history.location.state),
+            {
+                method: 'get',
+            })
             .then(function (response) {
                 return response.json();
             })
@@ -67,13 +68,11 @@ function ResponsiblePage(props) {
             console.log(responsibleState.organizations);
             props.history.push("/responsible/register-volunteer", responsibleState.organizations);
             //HISTORY!
-        }
-        else if(responsibleState.isElderlyClicked){
+        } else if (responsibleState.isElderlyClicked) {
             console.log(responsibleState.organizations);
             props.history.push("/responsible/register-elderly", responsibleState.organizations);
             //HISTORY!
-        }
-        else if(responsibleState.isManageVolunteersClicked){
+        } else if (responsibleState.isManageVolunteersClicked) {
             props.history.push("/responsible/manage-volunteers", {
                 organizationName: props.history.location.state,
                 users: responsibleState.users
@@ -83,31 +82,34 @@ function ResponsiblePage(props) {
     });
 
     return (
-        <div>
-            <button
-                className="sb-btn"
-                name="isVolunteerClicked"
-                type="button"
-                onClick={(e)=>onClick(e)}
-            >
-                צור מתנדב חדש
-            </button>
-            <button
-                className="sb-btn"
-                name="isElderlyClicked"
-                type="button"
-                onClick={(e)=>onClick(e)}
-            >
-                צור קשיש חדש
-            </button>
-            <button
-                className="sb-btn"
-                name="isManageVolunteersClicked"
-                type="button"
-                onClick={(e)=>onClickManageVolunteers(e)}
-            >
-                נהל מתנדבים
-            </button>
+        <div className="page">
+            <Navbar organizationName={props.history.location.state}/>
+            <div className="buttons-section">
+                <button
+                    className="sb-btn"
+                    name="isVolunteerClicked"
+                    type="button"
+                    onClick={(e) => onClick(e)}
+                >
+                    צור מתנדב חדש
+                </button>
+                <button
+                    className="sb-btn"
+                    name="isElderlyClicked"
+                    type="button"
+                    onClick={(e) => onClick(e)}
+                >
+                    צור קשיש חדש
+                </button>
+                <button
+                    className="sb-btn"
+                    name="isManageVolunteersClicked"
+                    type="button"
+                    onClick={(e) => onClickManageVolunteers(e)}
+                >
+                    נהל מתנדבים
+                </button>
+            </div>
         </div>
     )
 }

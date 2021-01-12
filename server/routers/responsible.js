@@ -3,20 +3,20 @@ const router = express.Router();
 const DButils = require("../DButils.js");
 const bcrypt = require("bcrypt");
 
-bcrypt_saltRounds=13
+bcrypt_saltRounds = 13
 
 // register volunteer
-router.post('/registerVolunteer', async (req, res,next) => {
+router.post('/registerVolunteer', async (req, res, next) => {
     try {
         const {firstName, lastName, username, password, email, additionalInformation} = req.body;
         const organizationName = req.body.organizationName.value;
         const city = req.body.city.value;
-        const gender =  req.body.gender.value;
-        const areasOfInterest = req.body.selectedAreasOfInterest.map((dict)=>dict.value);
-        const languages = req.body.selectedLanguages.map((dict)=>dict.value);
-        const services = req.body.services.map((dict)=>dict.value);
-        const preferredDaysAndHours = req.body.preferredDaysAndHours.map((dict)=>dict.value);
-        const digitalDevices = req.body.digitalDevices.map((dict)=>dict.value);
+        const gender = req.body.gender.value;
+        const areasOfInterest = req.body.selectedAreasOfInterest.map((dict) => dict.value);
+        const languages = req.body.selectedLanguages.map((dict) => dict.value);
+        const services = req.body.services.map((dict) => dict.value);
+        const preferredDaysAndHours = req.body.preferredDaysAndHours.map((dict) => dict.value);
+        const digitalDevices = req.body.digitalDevices.map((dict) => dict.value);
 
         console.log(city)
         console.log(areasOfInterest)
@@ -24,10 +24,10 @@ router.post('/registerVolunteer', async (req, res,next) => {
         let users = []
         users = await DButils.execQuery("SELECT username FROM dbo.users");
         if (users.find((x) => x.username === username))
-            throw { status: 409, message: "Username taken" };
+            throw {status: 409, message: "Username taken"};
 
         // make hash to password
-        let hash_password = bcrypt.hashSync(password,parseInt(bcrypt_saltRounds));
+        let hash_password = bcrypt.hashSync(password, parseInt(bcrypt_saltRounds));
 
         //insert into DB users
         await DButils.execQuery("Insert into users (username, password, userRole, organizationName) "
@@ -45,35 +45,35 @@ router.post('/registerVolunteer', async (req, res,next) => {
         //send result
         res.setHeader('Content-Type', 'application/json');
         res.status(200).send({message: "registration succeeded", success: true});
-    }catch (error){
+    } catch (error) {
         next(error);
     }
 });
 
 
 // register elderly
-router.post('/registerElderly', async (req, res,next) => {
+router.post('/registerElderly', async (req, res, next) => {
     try {
         const {firstName, lastName, username, password, email, additionalInformation} = req.body;
         const organizationName = req.body.organizationName.value;
         const city = req.body.city.value;
-        const gender =  req.body.gender.value;
-        const areasOfInterest = req.body.selectedAreasOfInterest.map((dict)=>dict.value);
-        const languages = req.body.selectedLanguages.map((dict)=>dict.value);
-        const wantedServices = req.body.wantedServices.map((dict)=>dict.value);
-        const preferredDaysAndHours = req.body.preferredDaysAndHours.map((dict)=>dict.value);
-        const digitalDevices = req.body.digitalDevices.map((dict)=>dict.value);
-        const genderToMeetWith= req.body.genderToMeetWith.value;
+        const gender = req.body.gender.value;
+        const areasOfInterest = req.body.selectedAreasOfInterest.map((dict) => dict.value);
+        const languages = req.body.selectedLanguages.map((dict) => dict.value);
+        const wantedServices = req.body.wantedServices.map((dict) => dict.value);
+        const preferredDaysAndHours = req.body.preferredDaysAndHours.map((dict) => dict.value);
+        const digitalDevices = req.body.digitalDevices.map((dict) => dict.value);
+        const genderToMeetWith = req.body.genderToMeetWith.value;
 
         // username exists
         let users = []
         users = await DButils.execQuery("SELECT username FROM dbo.users");
         console.log(users)
         if (users.find((x) => x.username === username))
-            throw { status: 409, message: "Username taken" };
+            throw {status: 409, message: "Username taken"};
 
         // make hash to password
-        let hash_password = bcrypt.hashSync(password,parseInt(bcrypt_saltRounds));
+        let hash_password = bcrypt.hashSync(password, parseInt(bcrypt_saltRounds));
 
         //insert into DB users
         await DButils.execQuery("Insert into users (username, password, userRole, organizationName) "
@@ -90,48 +90,39 @@ router.post('/registerElderly', async (req, res,next) => {
         //send result
         res.setHeader('Content-Type', 'application/json');
         res.status(200).send({message: "registration succeeded", success: true});
-    }catch (error){
+    } catch (error) {
         next(error);
     }
 });
 
 
-
-router.get('/volunteersDetails/:organizationName', async (req, res,next) => {
+router.get('/volunteersDetails/:organizationName', async (req, res, next) => {
     try {
         let {organizationName} = req.params;
-        organizationName = organizationName.substring(0,organizationName.length-1);
+        organizationName = organizationName.substring(0, organizationName.length - 1);
         let volunteers = await DButils.execQuery(`SELECT * FROM volunteerUsers where organizationName= '${organizationName}'`);
         res.send(volunteers);
-    }catch (error){
+    } catch (error) {
         next(error);
     }
 });
 
 
-
-router.get('/assign/:volunteerUsername/:volunteerService', async (req, res,next) => {
+router.post('/assign', async (req, res, next) => {
     try {
-        const {volunteerUsername,volunteerService} = req.params;
+        const {volunteerUsername, volunteerServices} = req.body;
         let volunteerDetails = await DButils.execQuery(`SELECT * FROM volunteerUsers where userName= '${volunteerUsername}'`);
-
         volunteerDetails = DButils.convertVolunteerDetailsFromDB(volunteerDetails)[0];
-        console.log("volunteerDetails")
-        console.log(volunteerDetails)
 
         let elderlyDetails = await DButils.execQuery(`SELECT * FROM elderlyUsers`);
-        console.log("elderlyDetails")
-        console.log(elderlyDetails)
         elderlyDetails = DButils.convertElderlyDetailsFromDB(elderlyDetails);
-
         let elderlyWithSameServicesAsVolunteer = [];
 
         //take only the elderly with the same wanted service as the volunteer service
-        for (let elderly of elderlyDetails){
-            for (let service of elderly.wantedServices){
-                if(service === volunteerService) {
-                    elderlyWithSameServicesAsVolunteer.push(elderly);
-                }
+        for (let elderly of elderlyDetails) {
+            const foundSameServices = elderly.wantedServices.some(r => volunteerServices.includes(r))
+            if (foundSameServices) {
+                elderlyWithSameServicesAsVolunteer.push(elderly);
             }
         }
 
@@ -139,7 +130,7 @@ router.get('/assign/:volunteerUsername/:volunteerService', async (req, res,next)
         console.log(elderlyWithSameServicesAsVolunteer)
 
         let rankForEachElderly = [];
-        if(elderlyWithSameServicesAsVolunteer.length > 0) {
+        if (elderlyWithSameServicesAsVolunteer.length > 0) {
             let elderlyWithSamePreferredDays = [];
             for (let elderly of elderlyWithSameServicesAsVolunteer) {
                 //handle preferred days
@@ -162,11 +153,11 @@ router.get('/assign/:volunteerUsername/:volunteerService', async (req, res,next)
                 let rankForLanguage = 0;
                 let rankForGender = 0;
                 let rankForInterest = 0;
-                for (let elderly of elderlyWithSamePreferredDays.map(value => value.elderly)){
+                for (let elderlyWithDay of elderlyWithSamePreferredDays) {
                     //handle languages
-                    const foundSameLanguage = elderly.languages.some(r => volunteerDetails.languages.includes(r))
+                    const foundSameLanguage = elderlyWithDay.elderly.languages.some(r => volunteerDetails.languages.includes(r))
                     if (foundSameLanguage) {
-                        rankForLanguage=1
+                        rankForLanguage = 1
                     }
                     //handle gender
                     // const foundSameGender = elderly.genderToMeetWith.some(r => volunteerDetails.gender.includes(r))
@@ -174,33 +165,29 @@ router.get('/assign/:volunteerUsername/:volunteerService', async (req, res,next)
                     //     rankForGender=1
                     // }
                     //handle areaOfInterest
-                    const foundSameInterest = elderly.areasOfInterest.some(r => volunteerDetails.areasOfInterest.includes(r))
+                    const foundSameInterest = elderlyWithDay.elderly.areasOfInterest.some(r => volunteerDetails.areasOfInterest.includes(r))
                     if (foundSameInterest) {
-                        rankForInterest=1
+                        rankForInterest = 1
                     }
 
-                    finalRank = 0.7*rankForLanguage + 0.3*rankForInterest;
-                    rankForEachElderly.push({elderly: elderly,finalRank: finalRank})
-
+                    finalRank = 0.7 * rankForLanguage + 0.3 * rankForInterest;
+                    rankForEachElderly.push({
+                        elderly: elderlyWithDay.elderly,
+                        preferredDay: elderlyWithDay.preferredDayElderly,
+                        finalRank: finalRank
+                    })
                 }
 
-                rankForEachElderly.sort(function(a, b) {
-                    return a.finalRank - b.finalRank;
+                rankForEachElderly.sort(function (a, b) {
+                    return b.finalRank - a.finalRank;
                 });
-                console.log("elderly to assign: ")
-                console.log(rankForEachElderly[rankForEachElderly.length -1].elderly)
 
-                const elderlyAndPreferredDays = elderlyWithSamePreferredDays.find((x) => x.elderly = rankForEachElderly[rankForEachElderly.length -1].elderly)
-                res.send(elderlyAndPreferredDays);
-
+                res.send(rankForEachElderly);
             }
-
-
         }
 
         res.send()
-
-    }catch (error){
+    } catch (error) {
         next(error);
     }
 });

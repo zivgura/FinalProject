@@ -1,4 +1,6 @@
-import React, {useState, useEffect} from "react";
+import React, {useEffect, useState} from "react";
+import "../styles/page.css"
+import Navbar from "./Navbar";
 
 function AdminPage(props) {
     const [adminState, setAdminState] = useState({organizations: []});
@@ -38,26 +40,24 @@ function AdminPage(props) {
     });
 
     return (
-        <div>
-            <div>
+        <div className="page">
+            <Navbar organizationName={"Admin"}/>
+            <div className="buttons-section">
                 <button
                     className="sb-btn"
                     type="button"
-                    onClick={() => props.history.push("/admin/register-organization")}
-                >
+                    onClick={() => props.history.push("/admin/register-organization")}>
                     צור ארגון חדש
                 </button>
                 <button
                     className="sb-btn"
                     type="button"
-                    onClick={onClick}
-                >
+                    onClick={onClick}>
                     צור אחראי חדש
                 </button>
             </div>
         </div>
-
-    )
+    );
 }
 
 export default AdminPage;

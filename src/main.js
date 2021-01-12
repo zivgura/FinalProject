@@ -1,12 +1,12 @@
 import React from "react";
 import {BrowserRouter} from 'react-router-dom';
 import Routes from './Routes';
-import "./App.css";
+import "./styles/App.css";
 
 
 function Main() {
     return (
-        <BrowserRouter basename="/Cool-Name/">
+        <BrowserRouter basename="/Tele-vol/">
             <Routes/>
         </BrowserRouter>
     );

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./App.css";
+import "./styles/App.css";
 import { useSpring, animated } from "react-spring";
 import RegistrationFormElderly from "./components/RegistrationFormElderly.js"
 import RegistrationFormOrganization from "./components/RegistrationFormOrganization";
@@ -58,7 +58,7 @@ function App() {
     }
 
     return (
-        <div className="login-register-wrapper">
+        <div className="register-wrapper">
             <div className="nav-buttons">
                 <animated.button
                     onClick={loginClicked}

@@ -1,5 +1,5 @@
 import React from "react";
-import "./manage.css";
+import "../styles/manage.css";
 import AssignableUser from "./AssignableUser";
 
 function AssignableUsers(props) {
@@ -46,7 +46,7 @@ function AssignableUsers(props) {
         <div>
             <ul className="list-group">
                 {users.map((user) => (
-                    <AssignableUser user={user}/>
+                    <AssignableUser key={user.userName} user={user}/>
                 ))}
             </ul>
         </div>

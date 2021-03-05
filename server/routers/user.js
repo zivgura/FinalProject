@@ -13,7 +13,7 @@ router.post("/login", async (req, res, next) => {
         console.log("password " + password)
 
         // check that username exists
-        let users = await DButils.execQuery("SELECT userName FROM dbo.users");
+        let users = await DButils.execQuery("SELECT userName FROM users");
         console.log(users);
         if (!users.find((x) => x.userName === username))
             throw { status: 401, message: "Username incorrect" };

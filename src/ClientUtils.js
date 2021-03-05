@@ -1,3 +1,5 @@
+exports.serverURL = 'http://localhost:3001';
+
 exports.convertElderlyDetailsFromDB = function (records){
     records = records.map((dic) => {
         return {

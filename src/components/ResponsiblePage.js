@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from "react";
 import * as ClientUtils from "../ClientUtils";
 import Navbar from "./Navbar";
+import {serverURL} from "../ClientUtils";
+import { fetchOrganizationsNames, fetchVolunteers } from '../services/server';
 
 function ResponsiblePage(props) {
     const [responsibleState, setResponsibleState] = useState({
@@ -12,31 +14,13 @@ function ResponsiblePage(props) {
     });
 
     async function getOrganizationsNames() {
-        return await fetch(`http://localhost:3001/admin/organizationNames`, {
-            method: 'get',
-        })
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (data) {
-                let user = (data);
-                return user;
-            })
+        const response = fetchOrganizationsNames();
+        return await response.json();
     }
 
     async function getVolunteers() {
-        return await fetch(`http://localhost:3001/responsible/volunteersDetails/` + new URLSearchParams(
-            props.history.location.state),
-            {
-                method: 'get',
-            })
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (data) {
-                let volunteers = (data);
-                return volunteers;
-            })
+        const response = fetchVolunteers(props.history.location.state);
+        return await response.json();
     }
 
     async function onClick(event) {
@@ -67,17 +51,14 @@ function ResponsiblePage(props) {
         if (responsibleState.isVolunteerClicked) {
             console.log(responsibleState.organizations);
             props.history.push("/responsible/register-volunteer", responsibleState.organizations);
-            //HISTORY!
         } else if (responsibleState.isElderlyClicked) {
             console.log(responsibleState.organizations);
             props.history.push("/responsible/register-elderly", responsibleState.organizations);
-            //HISTORY!
         } else if (responsibleState.isManageVolunteersClicked) {
             props.history.push("/responsible/manage-volunteers", {
                 organizationName: props.history.location.state,
                 users: responsibleState.users
             });
-            //HISTORY!
         }
     });
 

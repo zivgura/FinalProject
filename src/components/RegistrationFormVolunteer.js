@@ -1,15 +1,15 @@
-import React, {Component} from 'react';
-import Select from "react-select";
+import React, { Component } from 'react';
+import Select from 'react-select';
 import Modal from './Modal.js';
-import '../styles/RegistrationForm.css';
 import languagesList from '../resources/languages';
 import areasOfInterestList from '../resources/areasOfInterest';
 import citiesList from '../resources/cities';
 import genderList from '../resources/genders';
-import preferredDaysAndHoursList from "../resources/preferredDaysAndHoursList";
-import digitalDevicesList from "../resources/digitalDevicesList";
-import servicesList from "../resources/servicesList";
-import Navbar from "./Navbar";
+import preferredDaysAndHoursList from '../resources/preferredDaysAndHoursList';
+import digitalDevicesList from '../resources/digitalDevicesList';
+import servicesList from '../resources/servicesList';
+import { registerVolunteer } from '../services/server';
+import '../styles/RegistrationForm.css';
 
 class RegistrationFormVolunteer extends Component {
     constructor(props) {
@@ -131,13 +131,17 @@ class RegistrationFormVolunteer extends Component {
         this.handleSubmit()
     }
 
-    handleSubmit() {
-        fetch(`http://localhost:3001/responsible/registerVolunteer`, {
-            method: 'post',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({...this.state})
-        })
-            .then(response => console.log(response.json()))
+    async handleSubmit() {
+        try {
+            const response = await registerVolunteer(this.state);
+            await response.json();
+            this.setState({message: 'הרישום הצליח'})
+            this.toggleModal();
+            // this.props.history.push("/admin");
+        } catch (error) {
+            this.setState({message: 'הרישום נכשל'})
+            this.toggleModal();
+        }
     }
 
     toggleModal() {

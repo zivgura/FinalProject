@@ -1,6 +1,6 @@
 import React from "react";
 import Modal from "./Modal";
-
+import {loginCheck} from "../services/server";
 
 class LoginForm extends React.Component {
     constructor(props) {
@@ -16,38 +16,19 @@ class LoginForm extends React.Component {
         this.passwordRef = React.createRef();
         this.checkOnSubmit = this.checkOnSubmit.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
-
     }
 
     async checkOnSubmit() {
-        const user = await fetch(`http://localhost:3001/user/login`, {
-            method: 'post',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                username: this.usernameRef.current.value,
-                password: this.passwordRef.current.value
-            })
-        })
-            .then(result => {
-                //Here body is not ready yet, throw promise
-                if (!result.ok) throw result;
-                return result.json();
-            })
-            .then(data => data)
-            .catch((error) => {
-                console.log("errorrrrrr");
-                console.log(error.message);
-                this.setState({message: error.message});
-                this.toggleModal();
-            })
-
         try {
-            console.log("user");
-            console.log(user);
-
+            const result = await loginCheck(this.usernameRef.current.value, this.passwordRef.current.value);
+            const user = await result.json();
             this.props.history.push("/" + user.user.userRole, user.user.organizationName);
-        } catch (error) {
-
+        }
+        catch (error) {
+            console.log("error");
+            console.log(error.message);
+            this.setState({message: 'שם משתמש או סיסמה שגויים'});
+            this.toggleModal();
         }
     }
 

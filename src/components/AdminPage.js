@@ -1,23 +1,16 @@
 import React, {useEffect, useState} from "react";
 import "../styles/page.css"
 import Navbar from "./Navbar";
+import {fetchOrganizationsNames} from "../services/server";
+
 
 function AdminPage(props) {
     const [adminState, setAdminState] = useState({organizations: []});
 
     async function getOrganizationsNames() {
-        return await fetch(`http://localhost:3001/admin/organizationNames`, {
-            method: 'get',
-        })
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (data) {
-                let user = (data);
-                return user;
-            })
+        const response = await fetchOrganizationsNames();
+        return await response.json();
     }
-
 
     async function onClick() {
         let organizations = await getOrganizationsNames();
@@ -35,7 +28,6 @@ function AdminPage(props) {
         if (adminState.organizations.length !== 0) {
             console.log(adminState.organizations);
             props.history.push("/admin/register-responsible", adminState.organizations);
-            //HISTORY!
         }
     });
 

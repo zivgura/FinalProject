@@ -1,10 +1,7 @@
 import UserView from "./UserView";
 import React from "react";
 
-function UsersTable(props) {
-    const users = props.users;
-    const isHidden = props.isHidden;
-
+function UsersTable({users, isHidden}) {
     if(!isHidden) {
         return (
             <table className="users-table">

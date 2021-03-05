@@ -6,6 +6,7 @@ import RegistrationFormOrganization from "./components/RegistrationFormOrganizat
 import RegistrationFormResponsible from "./components/RegistrationFormResponsible";
 import RegistrationFormVolunteer from "./components/RegistrationFormVolunteer";
 import LoginForm from "./components/LoginForm";
+import {serverURL} from "./ClientUtils";
 
 function App() {
     const [registrationFormStatus, setRegistartionFormStatus] = useState({isClicked :false, users: []});
@@ -29,7 +30,7 @@ function App() {
     });
 
     async function getResponsibleUsers() {
-        return await fetch(`http://localhost:3001/admin/responsibleUsers`, {
+        return await fetch(serverURL+`/admin/responsibleUsers`, {
             method: 'get',
         })
             .then(function (response) {

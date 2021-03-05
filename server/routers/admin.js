@@ -15,7 +15,7 @@ router.post('/registerOrganization', async (req, res,next) => {
         console.log(req.body);
         // organizations exist
         let organizations = []
-        organizations = await DButils.execQuery("SELECT organizationName FROM dbo.organizations");
+        organizations = await DButils.execQuery("SELECT organizationName FROM organizations");
         if (organizations.find((x) => x.organizationName === organizationName))
             throw { status: 409, message: "organizationName taken" };
 
@@ -38,7 +38,7 @@ router.post('/registerResponsible', async (req, res,next) => {
 
         // username exists
         let users = []
-        users = await DButils.execQuery("SELECT username FROM dbo.users");
+        users = await DButils.execQuery("SELECT username FROM users");
         if (users.find((x) => x.username === username))
             throw { status: 409, message: "Username taken" };
 

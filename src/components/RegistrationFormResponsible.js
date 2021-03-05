@@ -4,6 +4,8 @@ import Modal from './Modal.js';
 import '../styles/RegistrationForm.css';
 import responsibleTypes from '../resources/responsibleTypes';
 import genderList from '../resources/genders';
+import {serverURL} from "../ClientUtils";
+import { registerOrganization, registerResponsible } from '../services/server';
 
 class RegistrationFormResponsible extends Component {
     constructor(props) {
@@ -112,17 +114,20 @@ class RegistrationFormResponsible extends Component {
                 email: true,
             },
         });
-
         this.handleSubmit()
     }
 
-    handleSubmit() {
-        fetch(`http://localhost:3001/admin/registerResponsible`, {
-            method: 'post',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({...this.state})
-        })
-            .then(response => console.log(response.json()))
+    async handleSubmit() {
+        try {
+            const response = await registerResponsible(this.state);
+            await response.json();
+            this.setState({message: 'הרישום הצליח'})
+            this.toggleModal();
+            // this.props.history.push("/admin");
+        } catch (error) {
+            this.setState({message: 'הרישום נכשל'})
+            this.toggleModal();
+        }
     }
 
     toggleModal() {

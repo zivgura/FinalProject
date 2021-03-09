@@ -9,6 +9,8 @@ import AdminPage from './components/AdminPage';
 import ResponsiblePage from './components/ResponsiblePage';
 import ManageUsers from './components/ManageUsers';
 import './styles/RegistrationForm.css';
+import VolunteerPage from "./components/VolunteerPage";
+import MeetingTable from "./components/MeetingTable";
 
 function Routes() {
 	return (
@@ -25,6 +27,10 @@ function Routes() {
 				<Route exact path="/responsible/register-elderly" component={RegistrationFormElderly}/>
 				<Route exact path="/responsible/register-volunteer" component={RegistrationFormVolunteer}/>
 				<Route exact path="/responsible/manage-volunteers" component={ManageUsers}/>
+				<Route exact path="/volunteer" component={VolunteerPage}/>
+				<Route exact path="/volunteer/meetings" component={MeetingTable}/>
+				{/*<Route exact path="/volunteer/meetings" component={ElderlyPage}/>*/}
+
 			</Switch>
 		</div>
 	);

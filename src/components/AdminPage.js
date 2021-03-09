@@ -24,7 +24,6 @@ function AdminPage(props) {
     }
 
     useEffect(() => {
-
         if (adminState.organizations.length !== 0) {
             console.log(adminState.organizations);
             props.history.push("/admin/register-responsible", adminState.organizations);

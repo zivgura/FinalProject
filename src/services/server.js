@@ -34,21 +34,21 @@ const registerElderly = async (state) =>
 	});
 
 const registerOrganization = async (state) =>
-	fetch(serverURL+`/admin/registerOrganization`, {
+	await fetch(serverURL+`/admin/registerOrganization`, {
 		method: 'post',
 		headers: {'Content-Type': 'application/json'},
 		body: JSON.stringify({...state})
 	});
 
 const registerResponsible = async (state) =>
-	fetch(serverURL+`/admin/registerResponsible`, {
+	await fetch(serverURL+`/admin/registerResponsible`, {
 		method: 'post',
 		headers: {'Content-Type': 'application/json'},
 		body: JSON.stringify({...state})
 	});
 
 const registerVolunteer = async (state) =>
-	fetch(serverURL+`/responsible/registerVolunteer`, {
+	await fetch(serverURL+`/responsible/registerVolunteer`, {
 		method: 'post',
 		headers: {'Content-Type': 'application/json'},
 		body: JSON.stringify({...state})
@@ -56,6 +56,19 @@ const registerVolunteer = async (state) =>
 
 const fetchVolunteers = async (state) =>
 	await fetch(serverURL+`/responsible/volunteersDetails/` + new URLSearchParams(state),
+		{
+			method: 'get',
+		});
+
+const addMeetingDB = async (state) =>
+	await fetch(serverURL+'/responsible/addMeeting', {
+		method: 'post',
+		headers: {'Content-Type': 'application/json'},
+		body: JSON.stringify({...state})
+	});
+
+const getMeetings = async (state) =>
+	await fetch(serverURL+`/volunteer/meetings/` + new URLSearchParams(state),
 		{
 			method: 'get',
 		});
@@ -68,5 +81,7 @@ export {
 	registerOrganization,
 	registerResponsible,
 	registerVolunteer,
-	fetchVolunteers
+	fetchVolunteers,
+	addMeetingDB,
+	getMeetings,
 };

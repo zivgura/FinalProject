@@ -22,7 +22,11 @@ class LoginForm extends React.Component {
         try {
             const result = await loginCheck(this.usernameRef.current.value, this.passwordRef.current.value);
             const user = await result.json();
-            this.props.history.push("/" + user.user.userRole, user.user.organizationName);
+            if(user.user.userRole === "volunteer"){
+                this.props.history.push("/" + user.user.userRole, user.user.userName);
+            }else{
+                this.props.history.push("/" + user.user.userRole, user.user.organizationName);
+            }
         }
         catch (error) {
             console.log("error");

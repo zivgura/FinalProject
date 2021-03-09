@@ -1,4 +1,4 @@
-exports.serverURL = 'http://localhost:3001';
+exports.serverURL = 'http://132.72.23.153:8114';
 
 exports.convertElderlyDetailsFromDB = function (records){
     records = records.map((dic) => {
@@ -16,7 +16,8 @@ exports.convertElderlyDetailsFromDB = function (records){
             wantedServices: JSON.parse(dic.wantedServices),
             preferredDays: JSON.parse(dic.preferredDays),
             digitalDevices: JSON.parse(dic.digitalDevices),
-            additionalInformation: dic.additionalInformation
+            additionalInformation: dic.additionalInformation,
+
         }
     })
     return records;
@@ -37,7 +38,7 @@ exports.convertVolunteerDetailsFromDB = function (records){
             services: JSON.parse(dic.services),
             preferredDays: JSON.parse(dic.preferredDays),
             digitalDevices: JSON.parse(dic.digitalDevices),
-            additionalInformation: dic.additionalInformation
+            additionalInformation: dic.additionalInformation,
         }
     })
     return records;

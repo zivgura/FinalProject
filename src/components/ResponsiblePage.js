@@ -3,7 +3,6 @@ import * as ClientUtils from "../ClientUtils";
 import Navbar from "./Navbar";
 import {serverURL} from "../ClientUtils";
 import { fetchOrganizationsNames, fetchVolunteers } from '../services/server';
-
 function ResponsiblePage(props) {
     const [responsibleState, setResponsibleState] = useState({
         organizations: [],
@@ -15,12 +14,12 @@ function ResponsiblePage(props) {
 
     async function getOrganizationsNames() {
         const response = fetchOrganizationsNames();
-        return await response.json();
+        return (await response).json()
     }
 
     async function getVolunteers() {
         const response = fetchVolunteers(props.history.location.state);
-        return await response.json();
+        return (await response).json();
     }
 
     async function onClick(event) {

@@ -9,6 +9,7 @@ function UsersTable({users, isHidden}) {
                 <th className="col-1">שם פרטי</th>
                 <th className="col-2">יום ושעה מועדפים</th>
                 <th className="col-3">אחוזי התאמה</th>
+                <th className="col-4">צור פגישה</th>
                 </thead>
                 <tbody>
                 {users.map((user) => (

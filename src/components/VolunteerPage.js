@@ -1,9 +1,33 @@
 import React, {useEffect, useState} from "react";
 import "../styles/page.css"
 import Navbar from "./Navbar";
+import {getMeetings} from "../services/server";
 
 
 function VolunteerPage(props) {
+
+    const [volunteerState, setVolunteerState] = useState({meetings: []});
+
+    async function getMeetingsNames() {
+        const response = await getMeetings(props.history.location.state);
+        return await response.json();
+    }
+
+    async function onClick() {
+        let meetings = await getMeetingsNames();
+        meetings = meetings.map((dic) => {
+            return {value: dic.meeting, label: dic.elderlyuserName}
+        })
+        console.log(meetings);
+        setVolunteerState({meetings: meetings});
+    }
+
+    useEffect(() => {
+        if (volunteerState.meetings.length !== 0) {
+            console.log(volunteerState.meetings);
+            props.history.push("/volunteer/meetings", volunteerState.meetings);
+        }
+    });
 
     return (
         <div className="page">
@@ -12,7 +36,7 @@ function VolunteerPage(props) {
                 <button
                     className="sb-btn"
                     type="button"
-                    onClick={() => props.history.push("/volunteer/meetings")}>
+                    onClick={onClick}>
                     פגישות
                 </button>
             </div>

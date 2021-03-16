@@ -1,4 +1,3 @@
-
 .list-group-item {
     padding: 12px 0;
     display: flex;
@@ -13,7 +12,7 @@
     margin: 5px;
 }
 
-.volunteer-name{
+.volunteer-name {
     color: rgb(109, 177, 8);
 }
 
@@ -67,3 +66,22 @@
     flex-basis: 20%;
 }
 
+.table-button {
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 1em;
+    text-align: center;
+    color: rgba(255, 255, 255, 1);
+    padding: 0px 0px;
+    width: 200px;
+    height: 35px;
+    border: none;
+    border-radius: 20px;
+    margin-top: 23px;
+    cursor: pointer;
+    background-color: rgb(109, 177, 8);
+}
+
+.table-button:hover {
+    background-color: #3e8e41
+}

@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
-import Modal from './Modal.js';
-import languagesList from '../resources/languages';
-import areasOfInterestList from '../resources/areasOfInterest';
-import citiesList from '../resources/cities';
-import genderList from '../resources/genders';
-import preferredDaysAndHoursList from '../resources/preferredDaysAndHoursList';
-import digitalDevicesList from '../resources/digitalDevicesList';
-import servicesList from '../resources/servicesList';
-import { registerVolunteer } from '../services/server';
-import '../styles/RegistrationForm.css';
+import Modal from '../Modal.js';
+import languagesList from '../../resources/languages';
+import areasOfInterestList from '../../resources/areasOfInterest';
+import citiesList from '../../resources/cities';
+import genderList from '../../resources/genders';
+import preferredDaysAndHoursList from '../../resources/preferredDaysAndHoursList';
+import digitalDevicesList from '../../resources/digitalDevicesList';
+import servicesList from '../../resources/servicesList';
+import { registerVolunteer } from '../../services/server';
+import './RegistrationForm.css';
 
 class RegistrationFormVolunteer extends Component {
     constructor(props) {

@@ -1,6 +1,7 @@
 import React from 'react';
-import '../styles/manage.css';
-import {addMeetingDB} from "../services/server";
+import { addMeetingDB } from '../../services/server';
+import '../manage/manage.css';
+
 function UserView({user}) {
 
 	async function addMeeting() {
@@ -12,7 +13,13 @@ function UserView({user}) {
 			<td className="col-1">{user.elderly.firstName}</td>
 			<td className="col-2">{user.preferredDay}</td>
 			<td className="col-3">{user.finalRank * 100 + '%'}</td>
-			<td className="col-4"><form><input type="button" onClick={()=>addMeeting()} value="לחץ"/></form></td>
+			<td className="col-4">
+				<button
+					className="table-button"
+					type="button"
+					onClick={addMeeting}
+					value="לחץ"/>
+			</td>
 		</React.Fragment>
 	);
 }

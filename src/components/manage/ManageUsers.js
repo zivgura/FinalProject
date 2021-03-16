@@ -1,6 +1,6 @@
 import React from 'react';
-import AssignableUsers from './AssignableUsers';
-import Navbar from './Navbar';
+import AssignableUsers from '../users/AssignableUsers';
+import Navbar from '../Navbar';
 
 function ManageUsers({history}) {
 	const state = history.location.state;

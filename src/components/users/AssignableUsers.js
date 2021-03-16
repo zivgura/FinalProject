@@ -1,5 +1,5 @@
 import React from 'react';
-import '../styles/manage.css';
+import '../manage/manage.css';
 import AssignableUser from './AssignableUser';
 
 function AssignableUsers({users}) {

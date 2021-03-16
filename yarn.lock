@@ -2386,6 +2386,11 @@
     "clean-stack" "^2.0.0"
     "indent-string" "^4.0.0"
 
+"agora-rtc-sdk-ng@^4.3.0":
+  "integrity" "sha512-RAz+cM2bVK6Rr/H7F1XOUSL2VgMBBgqVWbKSBvSHJ6JzqsjFhU1Yt8a/HCtHrQEKpTj25JqUb9KGRtjoXxbifQ=="
+  "resolved" "https://registry.npmjs.org/agora-rtc-sdk-ng/-/agora-rtc-sdk-ng-4.3.0.tgz"
+  "version" "4.3.0"
+
 "ajv-errors@^1.0.0":
   "integrity" "sha512-DCRfO/4nQ+89p/RK43i8Ezd41EqdGIU4ld7nGF8OQ14oc/we5rEntLCUa7+jrn3nn83BosfwZA0wb4pon2o8iQ=="
   "resolved" "https://registry.npmjs.org/ajv-errors/-/ajv-errors-1.0.1.tgz"

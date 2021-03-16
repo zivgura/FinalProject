@@ -46,9 +46,9 @@ class LoginForm extends React.Component {
         return (
             <div className="login-wrapper">
                 <div className="form-group">
-                    <label for="username">שם משתמש</label>
+                    <label>שם משתמש</label>
                     <input ref={this.usernameRef} type="text" id="username"/>
-                    <label for="password">סיסמה</label>
+                    <label>סיסמה</label>
                     <input ref={this.passwordRef} type="password" id="password"/>
                     <button className="sb-btn" type="button" onClick={this.checkOnSubmit}>SUBMIT</button>
                     {this.state.modalisOpen ?

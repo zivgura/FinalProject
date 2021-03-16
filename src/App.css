@@ -10,7 +10,7 @@ html, body, body * {
 }
 
 body {
-    background-image: url('../resources/background.png');
+    background-image: url('resources/background.png');
     background-repeat: no-repeat;
     background-attachment: fixed;
     /*height: 100vh;*/
@@ -152,10 +152,7 @@ form, .forgot-panel {
     margin-top: 9%;
 }
 
-.nabvar-container{
-    display: block;
-}
-.nabvar {
+.navbar {
     position: fixed;
     top: 0;
     width: 100%;
@@ -169,9 +166,9 @@ form, .forgot-panel {
     left:0;
     position: absolute;
 }
+
 .logo {
     flex: 0 1 auto;
     left: 43%;
     position: absolute;
 }
-

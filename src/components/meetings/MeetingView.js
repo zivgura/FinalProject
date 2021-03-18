@@ -1,8 +1,25 @@
 import React from 'react';
-import { startCall } from '../../services/videoService';
+import { AGORA_APP_ID } from '../../agora.config';
+import * as Cookies from 'js-cookie';
+
 import '../manage/manage.css';
 
-function MeetingView({meeting}) {
+function MeetingView({meeting, history}) {
+	const userName = Cookies.get('userName');
+	const channel = userName+meeting.elderlyUserName+meeting.meetingDate;
+
+	const onClick = () => {
+		const videoOptions = {
+			'appId': AGORA_APP_ID,
+			'channel': channel,
+			'baseMode': 'avc',
+			'transcode': 'interop',
+			'attendeeMode': 'video',
+			'videoProfile': '480p_4'
+		};
+
+		history.push('/volunteer/meetings/videoCall', videoOptions);
+	};
 
 	return (
 		<React.Fragment>
@@ -12,7 +29,7 @@ function MeetingView({meeting}) {
 				<button
 					className="table-button"
 					type="button"
-					onClick={startCall}>
+					onClick={onClick}>
 					התחל שיחה
 				</button>
 			</td>

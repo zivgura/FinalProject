@@ -73,6 +73,12 @@ const getMeetings = async (state) =>
 			method: 'get',
 		});
 
+const fetchChannels = async (elderlyUserName) =>
+	await fetch(serverURL+`/elderly/channels/` + new URLSearchParams(elderlyUserName),
+		{
+			method: 'get',
+		});
+
 export {
 	loginCheck,
 	fetchOrganizationsNames,
@@ -84,4 +90,5 @@ export {
 	fetchVolunteers,
 	addMeetingDB,
 	getMeetings,
+	fetchChannels
 };

@@ -1,35 +1,47 @@
+// HTTPS=true;SSL_CRT_FILE=cert.pem;SSL_KEY_FILE=key.pem
+
 const express = require('express');
 const bodyParser = require('body-parser');
-const app = express();
-// app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(express.json()); // parse application/json
-
-
+// const fs = require('fs');
+// const https = require('https');
 const cors = require('cors')
+const app = express();
+
+const PORT = 3001;
+app.use(bodyParser.json());
+
+app.use(express.json());
 const corsOptions = {
-    origin: 'http://localhost:3000',
+    origin: 'http://localhost:3000', //Ziv
+    //origin: 'http://192.168.242.1:3000', //Nadav
     credentials: true
 }
 app.use(cors(corsOptions))
 
 const user = require("./routers/user.js");
-app.use("/user",user);
+app.use("/user", user);
 
 const responsible = require("./routers/responsible.js");
-app.use("/responsible",responsible);
+app.use("/responsible", responsible);
 
 const admin = require("./routers/admin.js");
-app.use("/admin",admin);
+app.use("/admin", admin);
 
-// error middleware
-// app.use(function (err, req, res, next) {
-//     console.error(err.status);
-//     //why send 500 on 409?!
-//     res.status(err.status || 500).send({ message: err.message, success: false });
+const volunteer = require("./routers/volunteer.js");
+app.use("/volunteer", volunteer);
+
+const elderly = require("./routers/elderly.js");
+app.use("/elderly", elderly);
+
+app.listen(PORT, () => {
+    console.log(`listening at http://localhost:${PORT}`)
+});
+
+// const options = {
+//     key: fs.readFileSync('privateKey.key'),
+//     cert: fs.readFileSync('certificate.crt')
+// };
+//
+// https.createServer(options, app).listen(PORT, () => {
+//     console.log(`listening at https://localhost:${PORT}`)
 // });
-
-app.listen(3001, () =>
-    console.log('Express server is running on localhost:3001')
-);
-

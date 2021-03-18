@@ -13,7 +13,7 @@ function MeetingTable({props}) {
 				<tbody>
 				{meetings.map((meeting) => (
 					<tr key={meeting} className="table-row">
-						<MeetingView meeting={meeting}/>
+						<MeetingView meeting={meeting} history={props.history}/>
 					</tr>
 				))}
 				</tbody>

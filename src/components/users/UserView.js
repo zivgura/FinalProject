@@ -17,8 +17,9 @@ function UserView({user}) {
 				<button
 					className="table-button"
 					type="button"
-					onClick={addMeeting}
-					value="לחץ"/>
+					onClick={addMeeting}>
+					בחר
+				</button>
 			</td>
 		</React.Fragment>
 	);

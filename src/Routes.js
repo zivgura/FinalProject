@@ -10,7 +10,9 @@ import ResponsiblePage from './components/registrationForms/ResponsiblePage';
 import ManageUsers from './components/manage/ManageUsers';
 import VolunteerPage from './components/pages/VolunteerPage';
 import MeetingsPage from './components/meetings/MeetingsPage';
+import VideoCallPage from './components/pages/VideoCallPage';
 import './components/registrationForms/RegistrationForm.css';
+import ElderlyPage from './components/pages/ElderlyPage';
 
 function Routes() {
 	return (
@@ -29,7 +31,9 @@ function Routes() {
 				<Route exact path="/responsible/manage-volunteers" component={ManageUsers}/>
 				<Route exact path="/volunteer" component={VolunteerPage}/>
 				<Route exact path="/volunteer/meetings" component={MeetingsPage}/>
-				{/*<Route exact path="/volunteer/meetings" component={ElderlyPage}/>*/}
+				<Route exact path="/volunteer/meetings/videoCall" component={VideoCallPage}/>
+				<Route exact path="/elderly" component={ElderlyPage}/>
+				<Route exact path="/elderly/meetings/videoCall" component={VideoCallPage}/>
 			</Switch>
 		</div>
 	);

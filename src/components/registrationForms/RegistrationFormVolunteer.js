@@ -10,6 +10,7 @@ import digitalDevicesList from '../../resources/digitalDevicesList';
 import servicesList from '../../resources/servicesList';
 import { registerVolunteer } from '../../services/server';
 import './RegistrationForm.css';
+import { regexes } from '../../ClientUtils';
 
 class RegistrationFormVolunteer extends Component {
     constructor(props) {
@@ -49,13 +50,13 @@ class RegistrationFormVolunteer extends Component {
         };
 
         this.rexExpMap = {
-            additionalInformation: /[\u0590-\u05FF\uFB2A-\uFB4E]/,
-            organizationName: /^[a-zA-Z\u00c4\u00e4\u00d6\u00f6\u00dc\u00fc\u00df]+$/,
-            firstName: /^[a-zA-Z\u00c4\u00e4\u00d6\u00f6\u00dc\u00fc\u00df]+$/,
-            lastName: /^[a-zA-Z\u00c4\u00e4\u00d6\u00f6\u00dc\u00fc\u00df]+$/,
-            username: /^[a-z\d._]+$/,
-            password: /^.{8,}$/,
-            email: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
+            additionalInformation: regexes.hebrewEnglishRegex,
+            organizationName: regexes.hebrewEnglishRegex,
+            firstName: regexes.hebrewEnglishRegex,
+            lastName: regexes.hebrewEnglishRegex,
+            username: regexes.usernameRegex,
+            password: regexes.passwordRegex,
+            email: regexes.emailRegex
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -139,7 +140,7 @@ class RegistrationFormVolunteer extends Component {
             this.toggleModal();
             // this.props.history.push("/admin");
         } catch (error) {
-            this.setState({message: 'הרישום נכשל'})
+            this.setState({message: `הרישום נכשל. \n ${error.message}`});
             this.toggleModal();
         }
     }

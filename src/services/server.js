@@ -1,4 +1,5 @@
 import { serverURL } from '../ClientUtils';
+import { handleError } from './errorHandler';
 
 const loginCheck = async (username, password) =>
 	await fetch(serverURL + `/user/login`, {
@@ -15,8 +16,8 @@ const fetchOrganizationsNames = async () =>
 		method: 'get'
 	});
 
-const fetchElderlyMatches = async (user) =>
-	await fetch(serverURL + `/responsible/assign`,
+const fetchElderlyMatches = async (user) => {
+	const response = await fetch(serverURL + `/responsible/assign`,
 		{
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
@@ -26,58 +27,94 @@ const fetchElderlyMatches = async (user) =>
 			})
 		});
 
-const registerElderly = async (state) =>
-	await fetch(serverURL + `/responsible/registerElderly`, {
+	handleError(response);
+	return response;
+}
+
+const registerElderly = async (state) => {
+	const response = await fetch(serverURL + `/responsible/registerElderly`, {
 		method: 'post',
 		headers: {'Content-Type': 'application/json'},
 		body: JSON.stringify({...state})
 	});
 
-const registerOrganization = async (state) =>
-	await fetch(serverURL+`/admin/registerOrganization`, {
+	handleError(response);
+	return response;
+};
+
+const registerOrganization = async (state) => {
+	const response = await fetch(serverURL + `/admin/registerOrganization`, {
 		method: 'post',
 		headers: {'Content-Type': 'application/json'},
 		body: JSON.stringify({...state})
 	});
 
-const registerResponsible = async (state) =>
-	await fetch(serverURL+`/admin/registerResponsible`, {
+	handleError(response);
+	return response;
+};
+
+const registerResponsible = async (state) => {
+	const response = await fetch(serverURL + `/admin/registerResponsible`, {
 		method: 'post',
 		headers: {'Content-Type': 'application/json'},
 		body: JSON.stringify({...state})
 	});
 
-const registerVolunteer = async (state) =>
-	await fetch(serverURL+`/responsible/registerVolunteer`, {
+	handleError(response);
+	return response;
+};
+
+const registerVolunteer = async (state) => {
+	const response = await fetch(serverURL + `/responsible/registerVolunteer`, {
 		method: 'post',
 		headers: {'Content-Type': 'application/json'},
 		body: JSON.stringify({...state})
 	});
 
-const fetchVolunteers = async (state) =>
-	await fetch(serverURL+`/responsible/volunteersDetails/` + new URLSearchParams(state),
+	handleError(response);
+	return response;
+};
+
+const fetchVolunteers = async (state) => {
+	const response = await fetch(serverURL + `/responsible/volunteersDetails/` + new URLSearchParams(state),
 		{
-			method: 'get',
+			method: 'get'
 		});
 
-const addMeetingDB = async (state) =>
-	await fetch(serverURL+'/responsible/addMeeting', {
+	handleError(response);
+	return response;
+};
+
+const addMeetingDB = async (state) => {
+	const response = await fetch(serverURL + '/responsible/addMeeting', {
 		method: 'post',
 		headers: {'Content-Type': 'application/json'},
 		body: JSON.stringify({...state})
 	});
 
-const getMeetings = async (state) =>
-	await fetch(serverURL+`/volunteer/meetings/` + new URLSearchParams(state),
+	handleError(response);
+	return response;
+}
+
+const getMeetings = async (state) => {
+	const response = await fetch(serverURL + `/volunteer/meetings/` + new URLSearchParams(state),
 		{
-			method: 'get',
+			method: 'get'
 		});
 
-const fetchChannels = async (elderlyUserName) =>
-	await fetch(serverURL+`/elderly/channels/` + new URLSearchParams(elderlyUserName),
+	handleError(response);
+	return response;
+}
+
+const fetchChannels = async (elderlyUserName) => {
+	const response = await fetch(serverURL + `/elderly/channels/` + new URLSearchParams(elderlyUserName),
 		{
-			method: 'get',
+			method: 'get'
 		});
+
+	handleError(response);
+	return response;
+}
 
 export {
 	loginCheck,

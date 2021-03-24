@@ -4,6 +4,7 @@ import './RegistrationForm.css';
 import Select from 'react-select';
 import organizationTypes from '../../resources/organizationTypes';
 import { registerOrganization } from '../../services/server';
+import { regexes } from '../../ClientUtils';
 
 class RegistrationFormOrganization extends Component {
 	constructor(props) {
@@ -26,9 +27,9 @@ class RegistrationFormOrganization extends Component {
 		};
 
 		this.rexExpMap = {
-			organizationName: /^[a-zA-Z\u00c4\u00e4\u00d6\u00f6\u00dc\u00fc\u00df]+$/,
-			organizationType: /^[a-zA-Z\u00c4\u00e4\u00d6\u00f6\u00dc\u00fc\u00df]+$/,
-			phoneNumber: /^\+?\d+(-\d+)*$/
+			organizationName: regexes.hebrewEnglishRegex,
+			organizationType: regexes.hebrewEnglishRegex,
+			phoneNumber: regexes.phoneNumberRegex
 		};
 
 		this.handleChange = this.handleChange.bind(this);
@@ -106,7 +107,7 @@ class RegistrationFormOrganization extends Component {
 			// this.props.history.push("/admin");
 		}
 		catch (error) {
-			this.setState({message: 'הרישום נכשל'});
+			this.setState({message: `הרישום נכשל. \n ${error.message}`});
 			this.toggleModal();
 		}
 	}

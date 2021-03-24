@@ -10,6 +10,9 @@ function ManageUsers({history}) {
 			<Navbar/>
 			<div className="manage-wrapper">
 				<div>
+					ניהול מתנדבים
+				</div>
+				<div>
 					<AssignableUsers users={state.users}/>
 				</div>
 			</div>

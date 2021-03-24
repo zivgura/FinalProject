@@ -48,16 +48,16 @@ const tile_canvas = {
 class VideoComponent extends React.Component {
 	constructor(props) {
 		super(props);
-		this.client = {};
-		this.localStream = {};
-		this.shareClient = {};
-		this.shareStream = {};
 		this.state = {
 			displayMode: 'pip',
 			streamList: [],
 			readyState: false,
 			stateSharing: false
 		};
+		this.client = {};
+		this.localStream = {};
+		this.shareClient = {};
+		this.shareStream = {};
 	}
 
 	componentWillMount() {
@@ -69,7 +69,7 @@ class VideoComponent extends React.Component {
 			console.log('AgoraRTC client initialized');
 			this.subscribeStreamEvents();
 			this.client.join($.appId, $.channel, $.uid, (uid) => {
-				this.state.uid = uid;
+				this.setState(uid);
 				console.log('User ' + uid + ' join channel successfully');
 				console.log('At ' + new Date().toLocaleTimeString());
 				// create local stream
@@ -125,7 +125,7 @@ class VideoComponent extends React.Component {
 				this.setState({displayMode: 'tile'});
 				return;
 			}
-			this.state.streamList.map((item, index) => {
+			this.setState(prevState => prevState.streamList.map((item, index) => {
 				let id = item.getId();
 				let dom = document.querySelector('#ag-item-' + id);
 				if (!dom) {
@@ -147,7 +147,7 @@ class VideoComponent extends React.Component {
 				}
 
 				item.player.resize && item.player.resize();
-			});
+			}));
 		}
 		// tile mode
 		else if (this.state.displayMode === 'tile') {
@@ -339,9 +339,7 @@ class VideoComponent extends React.Component {
 			if (item.style.display !== 'none') {
 				item.style.display = 'none';
 			}
-			else {
-				item.style.display = 'block';
-			}
+			item.style.display = 'block';
 		});
 	};
 
@@ -378,10 +376,10 @@ class VideoComponent extends React.Component {
 		if (this.state.stateSharing) {
 			this.shareClient && this.shareClient.unpublish(this.shareStream);
 			this.shareStream && this.shareStream.close();
-			this.state.stateSharing = false;
+			this.setState(prevState => prevState.stateSharing = false);
 		}
 		else {
-			this.state.stateSharing = true;
+			this.setState(prevState => prevState.stateSharing = true);
 			let $ = this.props.videoOptions;
 			// init AgoraRTC local client
 			this.shareClient = AgoraRTC.createClient({mode: $.transcode});
@@ -389,7 +387,7 @@ class VideoComponent extends React.Component {
 				console.log('AgoraRTC client initialized');
 				this.subscribeStreamEvents();
 				this.shareClient.join($.appId, $.channel, $.uid, (uid) => {
-					this.state.uid = uid;
+					this.setState(prevState => prevState.uid = uid);
 					console.log('User ' + uid + ' join channel successfully');
 					console.log('At ' + new Date().toLocaleTimeString());
 					// create local stream

@@ -2,6 +2,13 @@
 // exports.serverURL = 'http://132.72.23.153:8114';
 exports.serverURL = 'http://localhost:3001'
 
+exports.regexes = {
+    hebrewEnglishRegex: /^[a-z\u0590-\u05fe]+$/i,
+    emailRegex: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
+    passwordRegex: /^.{8,}$/,
+    usernameRegex: /^[a-z\d._]+$/,
+    phoneNumberRegex: /^\+?\d+(-\d+)*$/
+};
 
 exports.convertElderlyDetailsFromDB = function (records){
     records = records.map((dic) => {

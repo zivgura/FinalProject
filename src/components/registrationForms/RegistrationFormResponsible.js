@@ -5,6 +5,7 @@ import genderList from '../../resources/genders';
 import { registerResponsible } from '../../services/server';
 import responsibleTypes from '../../resources/responsibleTypes';
 import './RegistrationForm.css';
+import { regexes } from '../../ClientUtils';
 
 class RegistrationFormResponsible extends Component {
 	constructor(props) {
@@ -37,18 +38,17 @@ class RegistrationFormResponsible extends Component {
 		};
 
 		this.rexExpMap = {
-			firstName: /^[a-zA-Z\u00c4\u00e4\u00d6\u00f6\u00dc\u00fc\u00df]+$/,
-			lastName: /^[a-zA-Z\u00c4\u00e4\u00d6\u00f6\u00dc\u00fc\u00df]+$/,
-			username: /^[a-z\d._]+$/,
-			password: /^.{8,}$/,
-			email: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+			firstName: regexes.hebrewEnglishRegex,
+			lastName: regexes.hebrewEnglishRegex,
+			username: regexes.usernameRegex,
+			password: regexes.passwordRegex,
+			email: regexes.emailRegex
 		};
 
 		this.handleChange = this.handleChange.bind(this);
 		this.checkData = this.checkData.bind(this);
 		this.toggleModal = this.toggleModal.bind(this);
 		this.checkOnSubmit = this.checkOnSubmit.bind(this);
-
 	}
 
 	handleChange = (e, name) => {
@@ -95,7 +95,6 @@ class RegistrationFormResponsible extends Component {
 	}
 
 	checkOnSubmit() {
-		console.log('checkOnSubmit');
 		const {firstName, lastName, username, password, email} = this.state;
 		const formFilled = !(firstName === '' || lastName === '' || username === '' || password === '' || email === '');
 		const formInvalid = Object.keys(this.state.valid).some(x => !this.state.valid[x]);
@@ -125,7 +124,7 @@ class RegistrationFormResponsible extends Component {
 			// this.props.history.push("/admin");
 		}
 		catch (error) {
-			this.setState({message: 'הרישום נכשל'});
+			this.setState({message: `הרישום נכשל. \n ${error.message}`});
 			this.toggleModal();
 		}
 	}

@@ -30,7 +30,7 @@ function AdminPage(props) {
 
 	return (
 		<div className="page">
-			<Navbar organizationName={'Admin'}/>
+			<Navbar history={props.history} organizationName={'Admin'}/>
 			<div className="buttons-section">
 				<button
 					className="sb-btn"

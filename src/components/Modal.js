@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 class Modal extends Component {
     render() {
         return (
-            <div className='modal'>
-                <div className='modal-content'>
+            <div className="modal">
+                <div className="modal-content">
                     <div className="modal-title">{this.props.text}</div>
                     <div>
                         <div className="modal-label">

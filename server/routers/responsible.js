@@ -192,7 +192,7 @@ router.post('/assign', async (req, res, next) => {
 
 router.post('/addMeeting', async (req, res, next) => {
 	try {
-		const meetingDayAndHour = req.body.user.preferredDay;
+		const meetingDayAndHour = req.body.user.actualDate;
 		const volunteerUsername = req.body.user.volunteerUsername;
 		const elderlyUsername = req.body.user.elderly.userName;
 		const channelName = volunteerUsername+elderlyUsername+meetingDayAndHour;

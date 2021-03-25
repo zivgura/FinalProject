@@ -1,12 +1,11 @@
 import React from 'react';
-import { addMeetingDB } from '../../services/server';
 import '../manage/manage.css';
 
-function UserView({user}) {
-
-	async function addMeeting() {
-		await addMeetingDB({user});
-	}
+function UserView({toggleModal, user, setUser}) {
+	const setModal = () => {
+		setUser(user);
+		toggleModal();
+	};
 
 	return (
 		<React.Fragment>
@@ -17,7 +16,7 @@ function UserView({user}) {
 				<button
 					className="table-button"
 					type="button"
-					onClick={addMeeting}>
+					onClick={setModal}>
 					בחר
 				</button>
 			</td>

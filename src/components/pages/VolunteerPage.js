@@ -28,7 +28,7 @@ function VolunteerPage(props) {
 
 	return (
 		<div className="page">
-			<Navbar />
+			<Navbar history={props.history}/>
 			<div className="buttons-section">
 				<button
 					className="sb-btn"

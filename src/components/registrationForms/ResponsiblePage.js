@@ -67,7 +67,7 @@ function ResponsiblePage(props) {
 
 	return (
 		<div className="page">
-			<Navbar organizationName={props.history.location.state}/>
+			<Navbar history={props.history} organizationName={props.history.location.state}/>
 			<div className="buttons-section">
 				<button
 					className="sb-btn"

@@ -6,7 +6,7 @@ import './meetings-page.css';
 function MeetingsPage(props) {
 	return (
 		<div className="page">
-			<Navbar />
+			<Navbar history={props.history}/>
 			<MeetingTable props={props}/>
 		</div>
 	);

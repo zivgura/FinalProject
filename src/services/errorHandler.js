@@ -4,7 +4,7 @@ const handleError = (response) => {
 			case 409:
 				throw new Error('שם המשתמש תפוס');
 			default:
-				throw new Error('שגיאה בעת ניסיון רישום');
+				throw new Error('שגיאה כללית, נסה שנית');
 		}
 	}
 };

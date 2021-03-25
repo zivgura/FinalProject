@@ -3,7 +3,7 @@ import UsersTable from './UsersTable';
 import { fetchElderlyMatches } from '../../services/server';
 
 
-function AssignableUser({user}) {
+function AssignableUser({user, setUser, toggleModal}) {
 	const [userState, setUserState] = useState({
 		matches: [],
 		isHidden: true,
@@ -64,7 +64,10 @@ function AssignableUser({user}) {
 			<div>
 				<UsersTable
 					users={userState.matches}
-					isHidden={userState.isHidden}/>
+					isHidden={userState.isHidden}
+					toggleModal={toggleModal}
+					setUser={setUser}
+				/>
 			</div>
 		</div>
 	);

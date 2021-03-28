@@ -6,7 +6,7 @@ const DateTimePickerWrapper = ({user, closeModal}) => {
 	const [value, onChange] = useState(new Date());
 
 	const onClick = async () => {
-		user.actualDate = value.toLocaleDateString() +' '+ value.toLocaleTimeString();
+		user.actualDate = value.toLocaleDateString() + ' ' + value.toLocaleTimeString();
 		console.log();
 
 		try {
@@ -20,11 +20,18 @@ const DateTimePickerWrapper = ({user, closeModal}) => {
 	};
 	return (
 		<div className="modal-wrapper">
-			<DateTimePicker
-				value={value}
-				onChange={onChange}
-			/>
-			<button className="modal-btn" onClick={onClick}>אישור</button>
+			<div className="modal-body">
+				<DateTimePicker
+					calendarType={'Hebrew'}
+					disableClock={true}
+					value={value}
+					onChange={onChange}
+					required={true}
+				/>
+			</div>
+			<div className="modal-buttons">
+				<button className="modal-btn" onClick={onClick}>אישור</button>
+			</div>
 		</div>
 	);
 };

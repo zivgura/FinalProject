@@ -1,6 +1,6 @@
 const servicesList = [
-    {value: "loneliness",label: "הפגת בדידות"},
-    {value: "preventFalls",label: "מניעת נפילות"},
+    {value: "loneliness",label: "קשר חברתי"},
+    {value: "preventFalls",label: "הדרכה למניעת נפילות"},
 ];
 
 export default servicesList;

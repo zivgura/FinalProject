@@ -152,6 +152,8 @@ class RegistrationFormOrganization extends Component {
 									<label>
 										סוג ארגון
 										<Select
+											isRtl
+											placeholder="בחר/י..."
 											name="organizationType"
 											className={shouldMarkError('organizationType') ? 'error' : ''}
 											value={this.state.organizationType}

@@ -160,6 +160,8 @@ class RegistrationFormResponsible extends Component {
 									<label>
 										שם ארגון
 										<Select
+											isRtl
+											placeholder="בחר/י..."
 											name="organizationName"
 											className={shouldMarkError('organizationName') ? 'error' : ''}
 											value={this.state.organizationName}
@@ -200,7 +202,7 @@ class RegistrationFormResponsible extends Component {
 
 								<div className="field">
 									<label>
-										שם משתמש
+										מספר תעודת זהות
 										<input
 											type="text"
 											value={this.state.username}
@@ -245,6 +247,8 @@ class RegistrationFormResponsible extends Component {
 									<label>
 										מגדר
 										<Select
+											isRtl
+											placeholder="בחר/י..."
 											name="gender"
 											className={shouldMarkError('gender') ? 'error' : ''}
 											value={this.state.gender}
@@ -260,6 +264,8 @@ class RegistrationFormResponsible extends Component {
 									<label>
 										סוג אחראי
 										<Select
+											isRtl
+											placeholder="בחר/י..."
 											name="responsibleType"
 											className={shouldMarkError('responsibleType') ? 'error' : ''}
 											value={this.state.responsibleType}

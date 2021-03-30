@@ -176,6 +176,8 @@ class RegistrationFormElderly extends Component {
 									<label>
 										שם ארגון
 										<Select
+											isRtl
+											placeholder="בחר/י..."
 											name="organizationName"
 											className={shouldMarkError('organizationName') ? 'error' : ''}
 											value={this.state.organizationName}
@@ -216,7 +218,7 @@ class RegistrationFormElderly extends Component {
 
 								<div className="field">
 									<label>
-										שם משתמש
+										מספר תעודת זהות
 										<input
 											type="text"
 											value={this.state.username}
@@ -261,6 +263,8 @@ class RegistrationFormElderly extends Component {
 									<label>
 										עיר מגורים
 										<Select
+											isRtl
+											placeholder="בחר/י..."
 											name="city"
 											className={shouldMarkError('city') ? 'error' : ''}
 											value={this.state.city}
@@ -276,6 +280,8 @@ class RegistrationFormElderly extends Component {
 									<label>
 										מגדר
 										<Select
+											isRtl
+											placeholder="בחר/י..."
 											name="gender"
 											className={shouldMarkError('gender') ? 'error' : ''}
 											value={this.state.gender}
@@ -292,6 +298,8 @@ class RegistrationFormElderly extends Component {
 										תחומי עניין
 										<Select
 											isMulti
+											placeholder="בחירה מרובה..."
+											isRtl
 											name="selectedAreasOfInterest"
 											className={shouldMarkError('selectedAreasOfInterest') ? 'error' : ''}
 											value={this.state.selectedAreasOfInterest}
@@ -308,6 +316,8 @@ class RegistrationFormElderly extends Component {
 										שפות
 										<Select
 											isMulti
+											placeholder="בחירה מרובה..."
+											isRtl
 											name="languages"
 											className={shouldMarkError('selectedLanguages') ? 'error' : ''}
 											value={this.state.selectedLanguages}
@@ -324,6 +334,8 @@ class RegistrationFormElderly extends Component {
 										ימים ושעות מועדפים
 										<Select
 											isMulti
+											placeholder="בחירה מרובה..."
+											isRtl
 											name="preferredDaysAndHours"
 											className={shouldMarkError('preferredDaysAndHours') ? 'error' : ''}
 											value={this.state.preferredDaysAndHours}
@@ -339,6 +351,8 @@ class RegistrationFormElderly extends Component {
 									<label>
 										מעדיף לדבר עם
 										<Select
+											isRtl
+											placeholder="בחר/י..."
 											name="genderToMeetWith"
 											className={shouldMarkError('genderToMeetWith') ? 'error' : ''}
 											value={this.state.genderToMeetWith}
@@ -355,6 +369,8 @@ class RegistrationFormElderly extends Component {
 										מכשירים טכנולוגיים שברשותי ורמת הידע בהם
 										<Select
 											isMulti
+											placeholder="בחירה מרובה..."
+											isRtl
 											name="digitalDevices"
 											className={shouldMarkError('digitalDevices') ? 'error' : ''}
 											value={this.state.digitalDevices}
@@ -368,9 +384,11 @@ class RegistrationFormElderly extends Component {
 
 								<div className="field">
 									<label>
-										סוגי התנדבות רצויים
+										סוגי שירות רצויים
 										<Select
 											isMulti
+											placeholder="בחירה מרובה..."
+											isRtl
 											name="wantedServices"
 											className={shouldMarkError('wantedServices') ? 'error' : ''}
 											value={this.state.wantedServices}

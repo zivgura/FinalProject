@@ -7,7 +7,7 @@ function AssignableUser({user, setUser, toggleModal}) {
 	const [userState, setUserState] = useState({
 		matches: [],
 		isHidden: true,
-		buttonText: 'מצא קשישים מתאימים'
+		buttonText: 'מצא התאמות'
 	});
 
 	async function getElderlyMatch() {
@@ -16,15 +16,8 @@ function AssignableUser({user, setUser, toggleModal}) {
 	}
 
 	async function onClick() {
-		console.log(user.services);
 		let elderlyMatch = await getElderlyMatch();
-		// elderlyMatch = elderlyMatch.map((dic) => {
-		//     return {
-		//         elderly: dic.elderly,
-		//         preferredDayElderly: dic.preferredDayElderly
-		//     }
-		// })
-		console.log(elderlyMatch);
+
 		if (userState.isHidden) {
 			setUserState({
 				matches: elderlyMatch,
@@ -33,13 +26,8 @@ function AssignableUser({user, setUser, toggleModal}) {
 			});
 		}
 		else {
-			setUserState({matches: elderlyMatch, isHidden: true, buttonText: 'מצא קשישים מתאימים'});
+			setUserState({matches: elderlyMatch, isHidden: true, buttonText: 'מצא התאמות'});
 		}
-
-		// setResponsibleState({
-		//     organizations: organizations,
-		//     [event.target.name]: true
-		// });
 	}
 
 	return (

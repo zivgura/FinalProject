@@ -13,13 +13,15 @@ function ManageUsers({history}) {
 	};
 
 	return (
-		<div>
+		<div className="page">
 			<Navbar history={history}/>
+			<div>
+				<h2 className="header">
+					קביעת פגישות למתנדבים
+				</h2>
+			</div>
 			<div className="manage-wrapper">
-				<div>
-					ניהול מתנדבים
-				</div>
-				<div>
+				<div className="scrollable">
 					<AssignableUsers users={state.users} toggleModal={toggleModal} setUser={setUser}/>
 				</div>
 			</div>

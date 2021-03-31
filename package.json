@@ -10,6 +10,7 @@
     "bcrypt": "^5.0.0",
     "bootstrap": "^4.5.3",
     "cors": "^2.8.5",
+    "generate-password": "^1.6.0",
     "mysql": "^2.18.1",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.0",

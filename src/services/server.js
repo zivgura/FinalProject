@@ -11,6 +11,23 @@ const loginCheck = async (username, password) =>
 		})
 	});
 
+const tryLogin = async (username, password) => {
+	await fetch(serverURL + `user/activate/`+ new URLSearchParams({username,password}), {
+		method: 'post'
+	});
+}
+
+const updatePassword = async (username, newPassword) => {
+	await fetch(serverURL + `/user/updatePassword`, {
+		method: 'put',
+		headers: {'Content-Type': 'application/json'},
+		body: JSON.stringify({
+			username,
+			newPassword
+		})
+	});
+}
+
 const fetchOrganizationsNames = async () =>
 	await fetch(serverURL + `/admin/organizationNames`, {
 		method: 'get'
@@ -118,6 +135,8 @@ const fetchChannels = async (elderlyUserName) => {
 
 export {
 	loginCheck,
+	tryLogin,
+	updatePassword,
 	fetchOrganizationsNames,
 	fetchElderlyMatches,
 	registerElderly,

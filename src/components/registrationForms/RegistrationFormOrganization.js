@@ -181,7 +181,6 @@ class RegistrationFormOrganization extends Component {
 						</div>
 						{this.state.modalisOpen ?
 							<Modal
-								text='Your Data'
 								{...this.state}
 								closeModal={this.toggleModal}
 							/>

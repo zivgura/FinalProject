@@ -1,9 +1,9 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const DButils = require('../DButils.js');
+const {bcrypt_saltRounds} = require('../DButils');
+const {sendConfirmationEmail} = require('../emailSender');
 const router = express.Router();
-
-bcrypt_saltRounds = 13;
 
 // register organization
 router.post('/registerOrganization', async (req, res, next) => {
@@ -54,6 +54,7 @@ router.post('/registerResponsible', async (req, res, next) => {
 			+ `VALUES ('${username}', '${firstName}', '${lastName}', '${email}', '${gender}',
             '${organizationName}','${responsibleType}');`);
 
+		await sendConfirmationEmail({username, email, password, firstName, lastName});
 		//send result
 		res.setHeader('Content-Type', 'application/json');
 		res.status(200).send({message: 'registration succeeded', success: true});

@@ -1,9 +1,8 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const DButils = require('../DButils.js');
+const {bcrypt_saltRounds} = require('../DButils');
 const router = express.Router();
-
-bcrypt_saltRounds = 13;
 
 router.post('/login', async (req, res, next) => {
 	try {
@@ -31,6 +30,53 @@ router.post('/login', async (req, res, next) => {
 		// req.session.user_id = user.user_id;
 		//req.session.save();
 		res.status(200).send({user: user, message: 'login succeeded', success: true});
+	} catch (error) {
+		// next(error);
+		console.log(error);
+		res.status(401).send({message: error.message, success: false});
+	}
+});
+
+router.post('/activate/:username/:password', async (req, res, next) => {
+	try {
+		let {userName, password} = req.params;
+		userName = userName.substring(0, userName.length - 1);
+		password = password.substring(0, password.length - 1);
+
+		console.log('username ' + userName);
+		console.log('password ' + password);
+
+		// check that username exists
+		let users = await DButils.execQuery('SELECT userName FROM users');
+		console.log(users);
+		if (!users.find((x) => x.userName === userName))
+			throw {status: 401, message: 'UserName incorrect'};
+
+		// check that the password is correct
+		const user = (
+			await DButils.execQuery(
+				`SELECT * FROM users WHERE username = '${userName}'`
+			)
+		)[0];
+
+		if (!bcrypt.compareSync(password, user.password)) {
+			throw {status: 401, message: 'Username or Password incorrect'};
+		}
+
+		res.status(200).send({user: user, message: 'login succeeded', success: true});
+	} catch (error) {
+		// next(error);
+		console.log(error);
+		res.status(401).send({message: error.message, success: false});
+	}
+});
+
+router.put('/updatePassword', async (req, res, next) => {
+	try {
+		let {username, newPassword} = req.body;
+		let hashPassword = bcrypt.hashSync(newPassword, parseInt(bcrypt_saltRounds));
+		await DButils.execQuery(`UPDATE users SET password='${hashPassword}' where userName='${username}'`);
+		res.status(200).send({message: 'update password succeeded', success: true});
 	} catch (error) {
 		// next(error);
 		console.log(error);

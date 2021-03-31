@@ -1,4 +1,4 @@
-.header{
+.header {
     text-align: center;
     margin-top: 20px;
 }
@@ -9,12 +9,15 @@
     /*border: 1px solid rgb(202, 202, 202);*/
     margin: 0px auto;
 }
+
 .form {
     height: 50%
 }
+
 .form .field {
     margin: 13px 0px;
 }
+
 .title {
     display: flex;
     justify-content: left;
@@ -25,12 +28,12 @@
     padding-left: 22px;
 }
 
-.sb-btn{
+.sb-btn {
     font-weight: 700;
     text-transform: uppercase;
     font-size: 1em;
     text-align: center;
-    color: rgba(255,255,255, 1);
+    color: rgba(255, 255, 255, 1);
     padding: 8px 0px;
     width: 200px;
     height: 35px;
@@ -41,7 +44,9 @@
     background-color: rgb(109, 177, 8);
 }
 
-.sb-btn:hover {background-color: #3e8e41}
+.sb-btn:hover {
+    background-color: #3e8e41
+}
 
 input {
     border: 1px solid rgb(202, 202, 202);
@@ -49,41 +54,51 @@ input {
     height: 25px;
     width: 100%;
     font-size: .9em;
+    direction: RTL;
 }
 
 .form input.error {
     border-color: red;
 }
+
 input:focus {
     outline: none;
 }
+
 .note {
     display: block;
     color: rgba(111, 95, 95, 0.67);
     font-size: 0.7em;
 }
+
 .sb-text {
     font-size: 0.7em;
     margin-top: 20px;
 }
+
 .sb-text a {
     text-decoration: none;
     color: #337ab7;
 }
+
 label {
     display: block;
 }
+
 .required-field {
     display: none;
     color: red;
     font-size: 0.7em;
 }
+
 .hidden {
     display: none;
 }
+
 .form span.required {
     display: block;
 }
+
 .modal {
     position: fixed;
     width: 100%;
@@ -93,8 +108,9 @@ label {
     right: 0;
     bottom: 0;
     margin: 0 auto;
-    background-color: rgba(0,0,0, 0.1);
+    background-color: rgba(0, 0, 0, 0.1);
 }
+
 .modal-content {
     position: absolute;
     width: 414px;
@@ -106,6 +122,7 @@ label {
     bottom: 25%;
     background: white;
 }
+
 .modal button {
     background-color: #337ab7;
     /*color: #ffffff;*/
@@ -118,6 +135,7 @@ label {
     cursor: pointer;
     margin-top: 30px;
 }
+
 .modal-title {
     display: flex;
     justify-content: left;
@@ -128,10 +146,12 @@ label {
     padding-left: 22px;
     margin-bottom: 40px;
 }
+
 .modal-label {
     margin-bottom: 20px;
     margin-left: 10%;
 }
+
 .modal-label div {
     display: inline-block;
     padding-bottom: 3px;
@@ -140,6 +160,7 @@ label {
     overflow: hidden;
     max-width: 80%;
 }
+
 .modal-input-value {
     border-bottom: 1px solid rgb(202, 202, 202);
 }

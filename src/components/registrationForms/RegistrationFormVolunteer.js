@@ -9,8 +9,8 @@ import preferredDaysAndHoursList from '../../resources/preferredDaysAndHoursList
 import digitalDevicesList from '../../resources/digitalDevicesList';
 import servicesList from '../../resources/servicesList';
 import { registerVolunteer } from '../../services/server';
+import { generatePassword, regexes } from '../../ClientUtils';
 import './RegistrationForm.css';
-import { regexes } from '../../ClientUtils';
 
 class RegistrationFormVolunteer extends Component {
     constructor(props) {
@@ -22,8 +22,10 @@ class RegistrationFormVolunteer extends Component {
             email: '',
             username: '',
             password: '',
+            birthYear: '',
             city: '',
             gender: '',
+            phoneNumber: '',
             selectedAreasOfInterest: [],
             selectedLanguages: [],
             preferredDaysAndHours: [],
@@ -34,17 +36,19 @@ class RegistrationFormVolunteer extends Component {
                 firstName: true,
                 lastName: true,
                 username: true,
-                password: true,
                 email: true,
+                birthYear: true,
+                phoneNumber: true
             },
             touched: {
                 organizationName: false,
                 firstName: false,
                 lastName: false,
                 username: false,
-                password: false,
                 email: false,
-                gender: false
+                gender: false,
+                birthYear: false,
+                phoneNumber: false
             },
             modalisOpen: false
         };
@@ -55,8 +59,9 @@ class RegistrationFormVolunteer extends Component {
             firstName: regexes.hebrewEnglishRegex,
             lastName: regexes.hebrewEnglishRegex,
             username: regexes.usernameRegex,
-            password: regexes.passwordRegex,
-            email: regexes.emailRegex
+            email: regexes.emailRegex,
+            birthYear: regexes.yearRegex,
+            phoneNumber: regexes.phoneNumberRegex
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -67,6 +72,9 @@ class RegistrationFormVolunteer extends Component {
     }
 
     handleChange = (e, name) => {
+        if(name === 'username' && this.state.password === ''){
+            this.setState({password: generatePassword()});
+        }
         this.setState({[e.target.name]: e.target.value}, () => {
             this.checkData(this.rexExpMap[name], this.state[name], this.state.valid[name], name)
         });
@@ -87,13 +95,14 @@ class RegistrationFormVolunteer extends Component {
         }
     }
 
-    validate(firstName, lastName, username, password, email) {
+    validate(firstName, lastName, username, email, birthYear, phoneNumber) {
         return {
             firstName: firstName.length === 0,
             lastName: lastName.length === 0,
             username: username.length === 0,
-            password: password.length === 0,
-            email: email.length === 0
+            email: email.length === 0,
+            birthYear: birthYear.length === 0,
+            phoneNumber: phoneNumber.length === 0
         };
     }
 
@@ -109,13 +118,13 @@ class RegistrationFormVolunteer extends Component {
     }
 
     checkOnSubmit() {
-        console.log("checkOnSubmit");
-        const {firstName, lastName, username, password, email} = this.state;
-        const formFilled = !(firstName === '' || lastName === '' || username === '' || password === '' || email === '');
+        const {firstName, lastName, username, email, birthYear, phoneNumber} = this.state;
+        const formFilled = !(firstName === '' || lastName === '' || username === '' || email === '' || birthYear === '' || phoneNumber === '');
         const formInvalid = Object.keys(this.state.valid).some(x => !this.state.valid[x]);
         const formHasErrors = !formFilled || formInvalid;
 
         if (!formHasErrors) {
+            this.handleSubmit()
             this.toggleModal();
         }
         this.setState({
@@ -124,16 +133,15 @@ class RegistrationFormVolunteer extends Component {
                 firstName: true,
                 lastName: true,
                 username: true,
-                password: true,
                 email: true,
-            },
+                birthYear: true
+            }
         });
-
-        this.handleSubmit()
     }
 
     async handleSubmit() {
         try {
+            console.log(this.state.password);
             const response = await registerVolunteer(this.state);
             await response.json();
             this.setState({message: 'הרישום הצליח'})
@@ -153,7 +161,7 @@ class RegistrationFormVolunteer extends Component {
 
     render() {
         const errors = this.validate(this.state.firstName, this.state.lastName,
-            this.state.username, this.state.password, this.state.email);
+            this.state.username, this.state.email, this.state.birthYear, this.state.phoneNumber);
         const shouldMarkError = (field) => {
             const hasError = errors[field];
             const shouldShow = this.state.touched[field];
@@ -233,17 +241,18 @@ class RegistrationFormVolunteer extends Component {
 
                                 <div className="field">
                                     <label>
-                                        סיסמה
+                                        שנת לידה
                                         <input
-                                            type="password"
-                                            value={this.state.password}
-                                            name="password"
-                                            className={shouldMarkError("password") ? "error" : ""}
-                                            onChange={(e) => this.handleChange(e, "password")}/>
+                                            type="number"
+                                            min="1900"
+                                            max="2099"
+                                            value={this.state.birthYear}
+                                            name="birthYear"
+                                            className={shouldMarkError('birthYear') ? 'error' : ''}
+                                            onChange={(e) => this.handleChange(e, 'birthYear')}/>
                                     </label>
-                                    <span className="note" style={helpMessage('password')}>At least 8 characters</span>
                                     <span className="required-field"
-                                          style={this.requiredStyle('password')}>{this.errorMessages('password')}</span>
+                                          style={this.requiredStyle('birthYear')}>{this.errorMessages('birthYear')}</span>
                                 </div>
 
                                 <div className="field">
@@ -258,6 +267,20 @@ class RegistrationFormVolunteer extends Component {
                                     </label>
                                     <span className="required-field"
                                           style={this.requiredStyle('email')}>{this.errorMessages('email')}</span>
+                                </div>
+
+                                <div className="field">
+                                    <label>
+                                        מספר טלפון
+                                        <input
+                                            type="number"
+                                            name="phoneNumber"
+                                            value={this.state.phoneNumber}
+                                            className={shouldMarkError('phoneNumber') ? 'error' : ''}
+                                            onChange={(e) => this.handleChange(e, 'phoneNumber')}/>
+                                    </label>
+                                    <span className="required-field"
+                                          style={this.requiredStyle('phoneNumber')}>{this.errorMessages('phoneNumber')}</span>
                                 </div>
 
                                 <div className="field">

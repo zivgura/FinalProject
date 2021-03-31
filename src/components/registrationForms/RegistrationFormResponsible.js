@@ -5,7 +5,7 @@ import genderList from '../../resources/genders';
 import { registerResponsible } from '../../services/server';
 import responsibleTypes from '../../resources/responsibleTypes';
 import './RegistrationForm.css';
-import { regexes } from '../../ClientUtils';
+import { generatePassword, regexes } from '../../ClientUtils';
 
 class RegistrationFormResponsible extends Component {
 	constructor(props) {
@@ -49,9 +49,13 @@ class RegistrationFormResponsible extends Component {
 		this.checkData = this.checkData.bind(this);
 		this.toggleModal = this.toggleModal.bind(this);
 		this.checkOnSubmit = this.checkOnSubmit.bind(this);
+		this.closeModal= this.closeModal.bind(this);
 	}
 
 	handleChange = (e, name) => {
+		if(name === 'username' && this.state.password === ''){
+			this.setState({password: generatePassword()});
+		}
 		this.setState({[e.target.name]: e.target.value}, () => {
 			this.checkData(this.rexExpMap[name], this.state[name], this.state.valid[name], name);
 		});
@@ -95,14 +99,19 @@ class RegistrationFormResponsible extends Component {
 	}
 
 	checkOnSubmit() {
-		const {firstName, lastName, username, password, email} = this.state;
-		const formFilled = !(firstName === '' || lastName === '' || username === '' || password === '' || email === '');
+		const {firstName, lastName, username, email} = this.state;
+		const formFilled = !(firstName === '' || lastName === '' || username === '' || email === '');
 		const formInvalid = Object.keys(this.state.valid).some(x => !this.state.valid[x]);
 		const formHasErrors = !formFilled || formInvalid;
 
 		if (!formHasErrors) {
+			this.handleSubmit();
+		}
+		else{
+			this.setState({message: `אחד או יותר מהשדות לא תקינים`});
 			this.toggleModal();
 		}
+
 		this.setState({
 			touched: {
 				firstName: true,
@@ -112,7 +121,6 @@ class RegistrationFormResponsible extends Component {
 				email: true
 			}
 		});
-		this.handleSubmit();
 	}
 
 	async handleSubmit() {
@@ -121,7 +129,6 @@ class RegistrationFormResponsible extends Component {
 			await response.json();
 			this.setState({message: 'הרישום הצליח'});
 			this.toggleModal();
-			// this.props.history.push("/admin");
 		}
 		catch (error) {
 			this.setState({message: `הרישום נכשל. \n ${error.message}`});
@@ -133,6 +140,14 @@ class RegistrationFormResponsible extends Component {
 		this.setState(prevState => ({
 			modalisOpen: !prevState.modalisOpen
 		}));
+	}
+
+	closeModal() {
+		this.setState({
+			modalisOpen: false
+		});
+
+		this.props.history.push("/admin");
 	}
 
 	render() {
@@ -216,21 +231,6 @@ class RegistrationFormResponsible extends Component {
 
 								<div className="field">
 									<label>
-										סיסמה
-										<input
-											type="password"
-											value={this.state.password}
-											name="password"
-											className={shouldMarkError('password') ? 'error' : ''}
-											onChange={(e) => this.handleChange(e, 'password')}/>
-									</label>
-									<span className="note" style={helpMessage('password')}>At least 8 characters</span>
-									<span className="required-field"
-										  style={this.requiredStyle('password')}>{this.errorMessages('password')}</span>
-								</div>
-
-								<div className="field">
-									<label>
 										כתובת דואר אלקטרוני
 										<input
 											type="text"
@@ -281,9 +281,8 @@ class RegistrationFormResponsible extends Component {
 						</div>
 						{this.state.modalisOpen ?
 							<Modal
-								text='Your Data'
 								{...this.state}
-								closeModal={this.toggleModal}
+								closeModal={this.closeModal}
 							/>
 							: null
 						}

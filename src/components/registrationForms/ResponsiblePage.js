@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import * as ClientUtils from '../../ClientUtils';
+import { convertVolunteerDetailsFromDB } from '../../ClientUtils';
 import { fetchOrganizationsNames, fetchVolunteers } from '../../services/server';
 import Navbar from '../Navbar';
 
@@ -38,7 +38,7 @@ function ResponsiblePage(props) {
 
 	async function onClickManageVolunteers(event) {
 		let volunteers = await getVolunteers();
-		volunteers = ClientUtils.convertVolunteerDetailsFromDB(volunteers);
+		volunteers = convertVolunteerDetailsFromDB(volunteers);
 		console.log('volunteers');
 		console.log(volunteers);
 

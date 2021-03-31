@@ -11,8 +11,9 @@ import ManageUsers from './components/manage/ManageUsers';
 import VolunteerPage from './components/pages/VolunteerPage';
 import MeetingsPage from './components/meetings/MeetingsPage';
 import VideoCallPage from './components/pages/VideoCallPage';
-import './components/registrationForms/RegistrationForm.css';
 import ElderlyPage from './components/pages/ElderlyPage';
+import { ChangePasswordPage } from './components/pages/ChangePasswordPage';
+import './components/registrationForms/RegistrationForm.css';
 
 function Routes() {
 	return (
@@ -22,6 +23,7 @@ function Routes() {
 					<Redirect to="/login"/>
 				</Route>
 				<Route exact path="/login" component={LoginForm}/>
+				<Route exact path="/user/activate/:username/:password" component={ChangePasswordPage}/>
 				<Route exact path="/admin" component={AdminPage}/>
 				<Route exact path="/admin/register-responsible" component={RegistrationFormResponsible}/>
 				<Route exact path="/admin/register-organization" component={RegistrationFormOrganization}/>

@@ -1,14 +1,14 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const DButils = require('../DButils.js');
+const {bcrypt_saltRounds} = require('../DButils');
+const {sendConfirmationEmail} = require('../emailSender');
 const router = express.Router();
-
-bcrypt_saltRounds = 13;
 
 // register volunteer
 router.post('/registerVolunteer', async (req, res, next) => {
 	try {
-		const {firstName, lastName, username, password, email, additionalInformation} = req.body;
+		const {firstName, lastName, birthYear, username, password, email, phoneNumber, additionalInformation} = req.body;
 		const organizationName = req.body.organizationName.value;
 		const city = req.body.city.value;
 		const gender = req.body.gender.value;
@@ -33,14 +33,13 @@ router.post('/registerVolunteer', async (req, res, next) => {
 			+ `VALUES ('${username}', '${hash_password}', 'volunteer', '${organizationName}');`);
 
 		// insert into DB volunteerUsers
-		await DButils.execQuery('Insert into volunteerUsers (userName, firstName, lastName, city, email, gender, ' +
-			'areasOfInterest, languages, organizationName, services, preferredDays, digitalDevices, additionalInformation) '
-			+ `VALUES ('${username}', '${firstName}', '${lastName}', '${city}', '${email}', '${gender}',
+		await DButils.execQuery('Insert into volunteerUsers (userName, firstName, lastName, birthYear, city, email, gender, ' +
+			'phoneNumber, areasOfInterest, languages, organizationName, services, preferredDays, digitalDevices, additionalInformation) '
+			+ `VALUES ('${username}', '${firstName}', '${lastName}', '${birthYear}', '${city}', '${email}', '${gender}', '${phoneNumber}',
              '${JSON.stringify(areasOfInterest)}', '${JSON.stringify(languages)}', '${organizationName}', '${JSON.stringify(services)}', '${JSON.stringify(preferredDaysAndHours)}',
              '${JSON.stringify(digitalDevices)}', '${additionalInformation}');`);
 
-		//changed to JSON!!
-
+		await sendConfirmationEmail({username, email, password, firstName, lastName});
 		//send result
 		res.setHeader('Content-Type', 'application/json');
 		res.status(200).send({message: 'registration succeeded', success: true});
@@ -52,7 +51,7 @@ router.post('/registerVolunteer', async (req, res, next) => {
 // register elderly
 router.post('/registerElderly', async (req, res, next) => {
 	try {
-		const {firstName, lastName, username, password, email, additionalInformation} = req.body;
+		const {firstName, lastName, birthYear, username, password, email, phoneNumber, additionalInformation} = req.body;
 		const organizationName = req.body.organizationName.value;
 		const city = req.body.city.value;
 		const gender = req.body.gender.value;
@@ -78,12 +77,14 @@ router.post('/registerElderly', async (req, res, next) => {
 			+ `VALUES ('${username}', '${hash_password}', 'elderly', '${organizationName}');`);
 
 		// insert into DB Elderly
-		await DButils.execQuery('Insert into elderlyUsers (userName, firstName, lastName, city, email, gender, ' +
-			'areasOfInterest, languages, organizationName, wantedServices, genderToMeetWith, preferredDays, digitalDevices, additionalInformation) '
-			+ `VALUES ('${username}', '${firstName}', '${lastName}', '${city}', '${email}', '${gender}',
+		await DButils.execQuery('Insert into elderlyUsers (userName, firstName, lastName, birthYear, city, email, gender, ' +
+			'phoneNumber, areasOfInterest, languages, organizationName, wantedServices, genderToMeetWith, preferredDays, digitalDevices, additionalInformation) '
+			+ `VALUES ('${username}', '${firstName}', '${lastName}', '${birthYear}', '${city}', '${email}', '${gender}', '${phoneNumber}',
              '${JSON.stringify(areasOfInterest)}', '${JSON.stringify(languages)}', '${organizationName}',
               '${JSON.stringify(wantedServices)}','${genderToMeetWith}', '${JSON.stringify(preferredDaysAndHours)}',
               '${JSON.stringify(digitalDevices)}', '${additionalInformation}');`);
+
+		await sendConfirmationEmail({username, email, password, firstName, lastName});
 
 		//send result
 		res.setHeader('Content-Type', 'application/json');

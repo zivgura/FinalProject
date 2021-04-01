@@ -5,7 +5,7 @@ import generator from 'generate-password';
 const serverURL = 'http://localhost:3001';
 
 const regexes = {
-	hebrewEnglishRegex: /^[a-z\u0590-\u05fe ]+$/i,
+	hebrewEnglishRegex: /^[a-z\u0590-\u05fe -]+$/i,
 	emailRegex: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
 	passwordRegex: /^.{8,}$/,
 	usernameRegex: /^[0-9]{9}$/,

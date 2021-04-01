@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import Modal from '../Modal.js';
-import './RegistrationForm.css';
 import Select from 'react-select';
-import organizationTypes from '../../resources/organizationTypes';
+import { organizationTypes } from '../../resources/lists';
 import { registerOrganization } from '../../services/server';
 import { regexes } from '../../ClientUtils';
+import './RegistrationForm.css';
 
 class RegistrationFormOrganization extends Component {
 	constructor(props) {

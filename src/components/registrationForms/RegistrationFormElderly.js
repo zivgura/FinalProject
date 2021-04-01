@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
 import Modal from '../Modal.js';
-import languagesList from '../../resources/languages';
-import areasOfInterestList from '../../resources/areasOfInterest';
-import citiesList from '../../resources/cities';
-import genderList from '../../resources/genders';
-import preferredDaysAndHoursList from '../../resources/preferredDaysAndHoursList';
-import digitalDevicesList from '../../resources/digitalDevicesList';
-import servicesList from '../../resources/servicesList';
 import { registerElderly } from '../../services/server';
 import { generatePassword, regexes } from '../../ClientUtils';
+import { languagesList, areasOfInterestList, citiesList, genderList, preferredDaysAndHoursList, digitalDevicesList,
+	servicesList, preferredGenderList } from '../../resources/lists';
 import './RegistrationForm.css';
 
 class RegistrationFormElderly extends Component {
@@ -377,7 +372,7 @@ class RegistrationFormElderly extends Component {
 											name="genderToMeetWith"
 											className={shouldMarkError('genderToMeetWith') ? 'error' : ''}
 											value={this.state.genderToMeetWith}
-											options={genderList}
+											options={preferredGenderList}
 											onChange={(value) => this.setState({genderToMeetWith: value})}
 										/>
 									</label>

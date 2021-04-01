@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
 import Modal from '../Modal.js';
-import genderList from '../../resources/genders';
 import { registerResponsible } from '../../services/server';
-import responsibleTypes from '../../resources/responsibleTypes';
-import './RegistrationForm.css';
+import { genderList, responsibleTypes } from '../../resources/lists';
 import { generatePassword, regexes } from '../../ClientUtils';
+import './RegistrationForm.css';
 
 class RegistrationFormResponsible extends Component {
 	constructor(props) {
@@ -49,11 +48,11 @@ class RegistrationFormResponsible extends Component {
 		this.checkData = this.checkData.bind(this);
 		this.toggleModal = this.toggleModal.bind(this);
 		this.checkOnSubmit = this.checkOnSubmit.bind(this);
-		this.closeModal= this.closeModal.bind(this);
+		this.closeModal = this.closeModal.bind(this);
 	}
 
 	handleChange = (e, name) => {
-		if(name === 'username' && this.state.password === ''){
+		if (name === 'username' && this.state.password === '') {
 			this.setState({password: generatePassword()});
 		}
 		this.setState({[e.target.name]: e.target.value}, () => {
@@ -107,7 +106,7 @@ class RegistrationFormResponsible extends Component {
 		if (!formHasErrors) {
 			this.handleSubmit();
 		}
-		else{
+		else {
 			this.setState({message: `אחד או יותר מהשדות לא תקינים`});
 			this.toggleModal();
 		}
@@ -147,7 +146,7 @@ class RegistrationFormResponsible extends Component {
 			modalisOpen: false
 		});
 
-		this.props.history.push("/admin");
+		this.props.history.push('/admin');
 	}
 
 	render() {

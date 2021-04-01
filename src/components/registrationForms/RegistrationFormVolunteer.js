@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
 import Modal from '../Modal.js';
-import languagesList from '../../resources/languages';
-import areasOfInterestList from '../../resources/areasOfInterest';
-import citiesList from '../../resources/cities';
-import genderList from '../../resources/genders';
-import preferredDaysAndHoursList from '../../resources/preferredDaysAndHoursList';
-import digitalDevicesList from '../../resources/digitalDevicesList';
-import servicesList from '../../resources/servicesList';
 import { registerVolunteer } from '../../services/server';
 import { generatePassword, regexes } from '../../ClientUtils';
+import {
+	areasOfInterestList,
+	citiesList,
+	digitalDevicesList,
+	genderList,
+	languagesList,
+	preferredDaysAndHoursList,
+	servicesList
+} from '../../resources/lists';
 import './RegistrationForm.css';
 
 class RegistrationFormVolunteer extends Component {
@@ -68,7 +70,7 @@ class RegistrationFormVolunteer extends Component {
 		this.checkData = this.checkData.bind(this);
 		this.toggleModal = this.toggleModal.bind(this);
 		this.checkOnSubmit = this.checkOnSubmit.bind(this);
-
+		this.closeModal = this.closeModal.bind(this);
 	}
 
 	handleChange = (e, name) => {
@@ -126,6 +128,9 @@ class RegistrationFormVolunteer extends Component {
 
 		if (!formHasErrors) {
 			this.handleSubmit();
+		}
+		else{
+			this.setState({message: `אחד או יותר מהשדות לא תקינים`});
 			this.toggleModal();
 		}
 		this.setState({
@@ -159,6 +164,14 @@ class RegistrationFormVolunteer extends Component {
 		this.setState(prevState => ({
 			modalisOpen: !prevState.modalisOpen
 		}));
+	}
+
+	closeModal() {
+		this.setState({
+			modalisOpen: false
+		});
+
+		this.props.history.push('/responsible');
 	}
 
 	render() {
@@ -423,9 +436,8 @@ class RegistrationFormVolunteer extends Component {
 						</div>
 						{this.state.modalisOpen ?
 							<Modal
-								text='Your Data'
 								{...this.state}
-								closeModal={this.toggleModal}
+								closeModal={this.closeModal}
 							/>
 							: null
 						}

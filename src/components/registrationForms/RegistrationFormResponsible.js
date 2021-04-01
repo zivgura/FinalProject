@@ -158,9 +158,6 @@ class RegistrationFormResponsible extends Component {
 			const shouldShow = this.state.touched[field];
 			return hasError ? shouldShow : false;
 		};
-		const helpMessage = (name) => {
-			return {display: shouldMarkError(name) ? 'none' : 'block'};
-		};
 
 		return (
 			<div>

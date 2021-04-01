@@ -4,7 +4,7 @@ const USER = 'televol.noreply@gmail.com';
 const PASSWORD = 'ZivNadav1!';
 const DOMAIN = 'http://localhost:3000/Tele-vol';
 
-exports.sendConfirmationEmail = function (toUser) {
+exports.sendConfirmationEmail = function ({username, email, password, firstName, lastName}) {
 	// Return promise in order to use async/await or "then"
 	return new Promise((res, rej) => {
 		// Create transporter object with gmail service
@@ -23,14 +23,14 @@ exports.sendConfirmationEmail = function (toUser) {
 		// Create a message you want to send to a user
 		const message = {
 			from: USER,
-			// to: toUser.email // in production uncomment this
+			// to: email // in production uncomment this
 			// While we are testing we want to send a message to our selfs
 			to: USER,
 			subject: 'Tele-Vol - Activate Account',
 			html: `
-        <h3> שלום ${toUser.firstName + ' ' + toUser.lastName}</h3>
+        <h3> שלום ${firstName + ' ' + lastName}</h3>
         <p>Thank you for registering into our Application. Much Appreciated! Just one last step is laying ahead of you...</p>
-        <p>To activate your account please follow this link: <a target="_" href="${DOMAIN}/user/activate/${toUser.username}/${toUser.password}">${DOMAIN}/activate </a></p>
+        <p>To activate your account please follow this link: <a target="_" href="${DOMAIN}/user/activate/${username}/${password}">${DOMAIN}/activate </a></p>
         <p>Cheers</p>
         <p>Your Application Team</p>
       `

@@ -1,21 +1,39 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import * as Cookies from 'js-cookie';
 import { tryLogin, updatePassword } from '../../services/server';
 import Modal from '../Modal';
-import { useParams } from 'react-router-dom';
 
 function ChangePasswordPage() {
+	const [state, setState] = useState({message: '', modalisOpen: false});
+	const newPassword = useRef('');
+	const confirmNewPassword = useRef('');
 	const {username, password} = useParams();
-	console.log(username);
-	console.log(password);
 
-	useEffect(async () => {await tryLogin(username,password)} ,[]);
+	const toggleModal = useCallback(
+		() => {
+			setState({modalisOpen: !state.modalisOpen});
+		},[state.modalisOpen]);
 
-	// const userName = Cookies.get('userName');
-	const [state, setState] = useState({modalisOpen: false, newPassword: '', confirmNewPassword: ''});
+	useEffect(() => {
+		async function tryToLogin() {
+			try {
+				await tryLogin(username, password);
+				Cookies.set('userName', username);
+			}
+			catch (error) {
+				setState({message: 'שגיאה ברישום. לא ניתן להחליף סיסמה'});
+				toggleModal();
+			}
+		}
 
-	const handleChange = (e) => {
-		setState({[e.target.name]: e.target.value});
-	};
+		tryToLogin();
+	}, [username, password, toggleModal]);
+
+	const handleChange = useCallback(
+		(e) => {
+			setState({[e.target.name]: e.target.value});
+		}, []);
 
 	const bindThisToToggleModal = useCallback(
 		() => {
@@ -23,21 +41,22 @@ function ChangePasswordPage() {
 		}, [state.modalisOpen]
 	);
 
-	const toggleModal = () => {
-		setState({modalisOpen: !state.modalisOpen});
-	};
+	const checkOnSubmit = useCallback(
+		async () => {
+			console.log('checkOnSubmit password');
+			if (newPassword.current.value === confirmNewPassword.current.value) {
+				console.log('same password');
+				await updatePassword(username, newPassword.current.value);
+				setState({message: 'הסיסמה שונתה בהצלחה'});
 
-	const checkOnSubmit = async () => {
-		if (state.newPassword === state.confirmNewPassword) {
-			await updatePassword(username, state.newPassword);
-			setState({message: 'הסיסמה שונתה בהצלחה'});
-		}
-		else {
-			setState({message: 'הסיסמאות לא זהות'});
-		}
+			}
+			else {
+				console.log('not the same');
+				setState({message: 'הסיסמאות לא זהות'});
+			}
 
-		toggleModal();
-	};
+			toggleModal();
+		}, [newPassword,confirmNewPassword,username,toggleModal]);
 
 	return (
 		<div className="page">
@@ -46,9 +65,9 @@ function ChangePasswordPage() {
 					<label>
 						סיסמה חדשה
 						<input
+							ref={newPassword}
 							minLength={8}
 							type="password"
-							value={state.newPassword}
 							name="newPassword"
 							onChange={(e) => handleChange(e)}/>
 					</label>
@@ -58,9 +77,9 @@ function ChangePasswordPage() {
 					<label>
 						אשר סיסמה חדשה
 						<input
+							ref={confirmNewPassword}
 							minLength={8}
 							type="password"
-							value={state.confirmNewPassword}
 							name="confirmNewPassword"
 							onChange={(e) => handleChange(e)}/>
 					</label>

@@ -9,7 +9,7 @@ const regexes = {
 	emailRegex: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
 	passwordRegex: /^.{8,}$/,
 	usernameRegex: /^[0-9]{9}$/,
-	phoneNumberRegex: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/i,
+	phoneNumberRegex: /^[(]?[0-9]{3}[)]?[-\s]?[0-9]{3}[-\s]?[0-9]{4,6}$/i,
 	yearRegex: /^(19|20)\d{2}$/
 };
 
@@ -17,9 +17,11 @@ const generatePassword = function () {
 	const password = generator.generate({
 		length: 10,
 		numbers: true,
-		symbols: true
+		symbols: true,
+		exclude:'/'
 	});
 
+	console.log(password);
 	return password;
 }
 

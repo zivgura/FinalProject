@@ -12,7 +12,7 @@ const loginCheck = async (username, password) =>
 	});
 
 const tryLogin = async (username, password) => {
-	await fetch(serverURL + `user/activate/`+ new URLSearchParams({username,password}), {
+	await fetch(serverURL + `/user/activate/`+ new URLSearchParams({username,password}), {
 		method: 'post'
 	});
 }

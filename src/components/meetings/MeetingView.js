@@ -1,7 +1,6 @@
 import React from 'react';
 import { AGORA_APP_ID } from '../../agora.config';
 import * as Cookies from 'js-cookie';
-
 import '../manage/manage.css';
 
 function MeetingView({meeting, history}) {

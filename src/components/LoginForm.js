@@ -54,7 +54,7 @@ class LoginForm extends React.Component {
 					<input ref={this.usernameRef} type="text" id="username"/>
 					<label>סיסמה</label>
 					<input ref={this.passwordRef} type="password" id="password"/>
-					<button className="sb-btn" type="button" onClick={this.checkOnSubmit}>SUBMIT</button>
+					<button className="sb-btn" type="button" onClick={this.checkOnSubmit}>כניסה</button>
 					{this.state.modalisOpen ?
 						<Modal
 							text='Message'

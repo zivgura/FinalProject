@@ -11,15 +11,18 @@ class RegistrationFormOrganization extends Component {
 		super(props);
 		this.state = {
 			organizationName: '',
+			organizationEnglishName: '',
 			organizationType: '',
 			phoneNumber: '',
 			valid: {
 				organizationName: true,
+				organizationEnglishName: true,
 				organizationType: true,
 				phoneNumber: true
 			},
 			touched: {
 				organizationName: false,
+				organizationEnglishName: false,
 				organizationType: false,
 				phoneNumber: false
 			},
@@ -28,6 +31,7 @@ class RegistrationFormOrganization extends Component {
 
 		this.rexExpMap = {
 			organizationName: regexes.hebrewEnglishRegex,
+			organizationEnglishName: regexes.englishRegex,
 			organizationType: regexes.hebrewEnglishRegex,
 			phoneNumber: regexes.phoneNumberRegex
 		};
@@ -60,9 +64,10 @@ class RegistrationFormOrganization extends Component {
 		}
 	}
 
-	validate(organizationName, organizationType, phoneNumber) {
+	validate(organizationName, organizationEnglishName, organizationType, phoneNumber) {
 		return {
 			organizationName: organizationName.length === 0,
+			organizationEnglishName: organizationEnglishName.length === 0,
 			organizationType: organizationType.length === 0,
 			phoneNumber: phoneNumber.length === 0
 		};
@@ -74,8 +79,8 @@ class RegistrationFormOrganization extends Component {
 	}
 
 	errorMessages(name) {
-		const requiredStr = 'This field is required.';
-		const invalidStr = 'Enter valid ' + name + '.';
+		const requiredStr = 'שדב חובה';
+		const invalidStr = 'ערך לא תקין';
 		return !this.state.valid[name] && this.state[name] !== '' ? invalidStr : requiredStr;
 	}
 
@@ -103,13 +108,12 @@ class RegistrationFormOrganization extends Component {
 			const response = await registerOrganization(this.state);
 			await response.json();
 			this.setState({message: 'הרישום הצליח'});
-			this.toggleModal();
-			// this.props.history.push("/admin");
 		}
 		catch (error) {
 			this.setState({message: `הרישום נכשל. \n ${error.message}`});
-			this.toggleModal();
 		}
+
+			this.toggleModal();
 	}
 
 	toggleModal() {
@@ -118,8 +122,18 @@ class RegistrationFormOrganization extends Component {
 		}));
 	}
 
+	closeModal() {
+		this.setState({
+			modalisOpen: false
+		});
+
+		if(!this.state.hasErrors) {
+			this.props.history.push('/admin');
+		}
+	}
+
 	render() {
-		const errors = this.validate(this.state.organizationName, this.state.organizationType, this.state.phoneNumber);
+		const errors = this.validate(this.state.organizationName, this.organizationEnglishName, this.state.organizationType, this.state.phoneNumber);
 		const shouldMarkError = (field) => {
 			const hasError = errors[field];
 			const shouldShow = this.state.touched[field];
@@ -147,6 +161,19 @@ class RegistrationFormOrganization extends Component {
 									</label>
 									<span className="required-field"
 										  style={this.requiredStyle('organizationName')}>{this.errorMessages('organizationName')}</span>
+								</div>
+								<div className="field">
+									<label>
+										שם ארגון באנגלית
+										<input
+											type="text"
+											value={this.state.organizationEnglishName}
+											name="organizationEnglishName"
+											className={shouldMarkError('organizationEnglishName') ? 'error' : ''}
+											onChange={(e) => this.handleChange(e, 'organizationEnglishName')}/>
+									</label>
+									<span className="required-field"
+										  style={this.requiredStyle('organizationEnglishName')}>{this.errorMessages('organizationEnglishName')}</span>
 								</div>
 								<div className="field">
 									<label>

@@ -17,8 +17,7 @@ router.post('/registerVolunteer', async (req, res, next) => {
 		const services = req.body.services.map((dict) => dict.value);
 		const preferredDaysAndHours = req.body.preferredDaysAndHours.map((dict) => dict.value);
 		const digitalDevices = req.body.digitalDevices.map((dict) => dict.value);
-		console.log(city);
-		console.log(areasOfInterest);
+
 		// username exists
 		let users = [];
 		users = await DButils.execQuery('SELECT username FROM users');

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { convertVolunteerDetailsFromDB } from '../../ClientUtils';
 import { fetchOrganizationsNames, fetchVolunteers } from '../../services/server';
 import Navbar from '../Navbar';
+import Modal from '../Modal';
 
 function ResponsiblePage(props) {
 	const [responsibleState, setResponsibleState] = useState({
@@ -9,7 +10,8 @@ function ResponsiblePage(props) {
 		users: [],
 		isVolunteerClicked: false,
 		isElderlyClicked: false,
-		isManageVolunteersClicked: false
+		isManageVolunteersClicked: false,
+		modalisOpen: false
 	});
 
 	async function getOrganizationsNames() {
@@ -18,15 +20,20 @@ function ResponsiblePage(props) {
 	}
 
 	async function getVolunteers() {
-		const response = fetchVolunteers(props.history.location.state);
-		return (await response).json();
+		try {
+			const response = fetchVolunteers(props.history.location.state);
+			return (await response).json();
+		}
+		catch (error) {
+
+		}
 	}
 
 	async function onClick(event) {
 		let organizations = await getOrganizationsNames();
 
 		organizations = organizations.map((dic) => (
-			{value: dic.organizationName, label: dic.organizationName}
+			{value: dic.organizationEnglishName, label: dic.organizationName}
 		));
 
 		console.log(organizations);
@@ -65,6 +72,12 @@ function ResponsiblePage(props) {
 		}
 	});
 
+	const toggleModal= () => {
+		setResponsibleState({
+			modalisOpen: !responsibleState.modalisOpen
+		});
+	}
+
 	return (
 		<div className="page">
 			<Navbar history={props.history} organizationName={props.history.location.state}/>
@@ -94,6 +107,13 @@ function ResponsiblePage(props) {
 					נהל מתנדבים
 				</button>
 			</div>
+			{responsibleState.modalisOpen ?
+				<Modal
+					{...responsibleState}
+					closeModal={toggleModal}
+				/>
+				: null
+			}
 		</div>
 	);
 }

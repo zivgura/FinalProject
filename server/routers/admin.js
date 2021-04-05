@@ -8,20 +8,20 @@ const router = express.Router();
 // register organization
 router.post('/registerOrganization', async (req, res, next) => {
 	try {
-		const {organizationName, phoneNumber} = req.body;
+		const {organizationName, organizationEnglishName, phoneNumber} = req.body;
 		const organizationType = req.body.organizationType.value;
 
 		console.log('organization');
 		console.log(req.body);
 		// organizations exist
 		let organizations = [];
-		organizations = await DButils.execQuery('SELECT organizationName FROM organizations');
-		if (organizations.find((x) => x.organizationName === organizationName))
-			throw {status: 409, message: 'organizationName taken'};
+		organizations = await DButils.execQuery('SELECT organizationName, organizationEnglishName FROM organizations');
+		if (organizations.find((x) => x.organizationName === organizationName || x.organizationEnglishName === organizationEnglishName))
+			throw {status: 409, message: 'Organization name taken'};
 
 		//insert into DB Organization
-		await DButils.execQuery('Insert into organizations (organizationName, organizationType, phoneNumber) '
-			+ `VALUES ('${organizationName}', '${organizationType}', '${phoneNumber}');`);
+		await DButils.execQuery('Insert into organizations (organizationName, organizationEnglishName, organizationType, phoneNumber) '
+			+ `VALUES ('${organizationName}', '${organizationEnglishName}', '${organizationType}', '${phoneNumber}');`);
 
 	} catch (error) {
 		next(error);
@@ -65,7 +65,7 @@ router.post('/registerResponsible', async (req, res, next) => {
 
 router.get('/organizationNames', async (req, res, next) => {
 	try {
-		let organizations = await DButils.execQuery(`SELECT organizationName FROM organizations`);
+		let organizations = await DButils.execQuery(`SELECT organizationName,organizationEnglishName FROM organizations`);
 		// console.log(JSON.parse(JSON.stringify(organizations)))
 		res.send(JSON.parse(JSON.stringify(organizations)));
 	} catch (error) {

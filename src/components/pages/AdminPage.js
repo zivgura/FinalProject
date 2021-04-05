@@ -14,7 +14,7 @@ function AdminPage(props) {
 		let organizations = await getOrganizationsNames();
 
 		organizations = organizations.map((dic) => {
-			return {value: dic.organizationName, label: dic.organizationName};
+			return {value: dic.organizationEnglishName, label: dic.organizationName};
 		});
 		console.log(organizations);
 		setAdminState({organizations: organizations});

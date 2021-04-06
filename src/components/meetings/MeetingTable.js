@@ -7,13 +7,17 @@ function MeetingTable({props}) {
 		<div className="meetings-table">
 			<table className="users-table">
 				<thead className="table-header">
-				<th className="col-1">קשיש</th>
-				<th className="col-2">פגישה</th>
+				<tr>
+					<th className="col-4">פעולות</th>
+					<th className="col-3">נושא הפגישה</th>
+					<th className="col-2">פגישה</th>
+					<th className="col-1">קשיש</th>
+				</tr>
 				</thead>
 				<tbody>
-				{meetings.map((meeting) => (
-					<tr key={meeting} className="table-row">
-						<MeetingView meeting={meeting} history={props.history}/>
+				{meetings.map((meeting, index) => (
+					<tr key={index} className="table-row">
+						<MeetingView key={index} meeting={meeting} history={props.history}/>
 					</tr>
 				))}
 				</tbody>

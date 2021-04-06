@@ -133,6 +133,16 @@ const fetchChannels = async (elderlyUserName) => {
 	return response;
 }
 
+const fetchElderlyDetails = async (elderlyUserName) =>{
+	const response = await fetch(serverURL + `/elderly/details/` + new URLSearchParams(elderlyUserName),
+		{
+			method: 'get'
+		});
+
+	handleError(response);
+	return response;
+}
+
 export {
 	loginCheck,
 	tryLogin,
@@ -146,5 +156,6 @@ export {
 	fetchVolunteers,
 	addMeetingDB,
 	getMeetings,
-	fetchChannels
+	fetchChannels,
+	fetchElderlyDetails
 };

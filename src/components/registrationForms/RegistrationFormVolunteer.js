@@ -52,7 +52,8 @@ class RegistrationFormVolunteer extends Component {
 				birthYear: false,
 				phoneNumber: false
 			},
-			modalisOpen: false
+			modalisOpen: false,
+			hasErrors: false
 		};
 
 		this.rexExpMap = {
@@ -130,7 +131,7 @@ class RegistrationFormVolunteer extends Component {
 			this.handleSubmit();
 		}
 		else{
-			this.setState({message: `אחד או יותר מהשדות לא תקינים`});
+			this.setState({message: `אחד או יותר מהשדות לא תקינים`, hasErrors: true});
 			this.toggleModal();
 		}
 		this.setState({
@@ -150,14 +151,13 @@ class RegistrationFormVolunteer extends Component {
 			console.log(this.state.password);
 			const response = await registerVolunteer(this.state);
 			await response.json();
-			this.setState({message: 'הרישום הצליח'});
-			this.toggleModal();
-			// this.props.history.push("/admin");
+			this.setState({message: 'הרישום הצליח', hasErrors: false});
 		}
 		catch (error) {
-			this.setState({message: `הרישום נכשל. \n ${error.message}`});
-			this.toggleModal();
+			this.setState({message: `הרישום נכשל. \n ${error.message}`, hasErrors: true});
 		}
+
+		this.toggleModal();
 	}
 
 	toggleModal() {
@@ -171,7 +171,9 @@ class RegistrationFormVolunteer extends Component {
 			modalisOpen: false
 		});
 
-		this.props.history.push('/responsible');
+		if(!this.state.hasErrors) {
+			this.props.history.push('/responsible');
+		}
 	}
 
 	render() {
@@ -285,7 +287,7 @@ class RegistrationFormVolunteer extends Component {
 									<label>
 										מספר טלפון
 										<input
-											type="number"
+											type="text"
 											name="phoneNumber"
 											value={this.state.phoneNumber}
 											className={shouldMarkError('phoneNumber') ? 'error' : ''}

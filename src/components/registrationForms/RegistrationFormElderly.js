@@ -3,8 +3,16 @@ import Select from 'react-select';
 import Modal from '../Modal.js';
 import { registerElderly } from '../../services/server';
 import { generatePassword, regexes } from '../../ClientUtils';
-import { languagesList, areasOfInterestList, citiesList, genderList, preferredDaysAndHoursList, digitalDevicesList,
-	servicesList, preferredGenderList } from '../../resources/lists';
+import {
+	areasOfInterestList,
+	citiesList,
+	digitalDevicesList,
+	genderList,
+	languagesList,
+	preferredDaysAndHoursList,
+	preferredGenderList,
+	servicesList
+} from '../../resources/lists';
 import './RegistrationForm.css';
 
 class RegistrationFormElderly extends Component {
@@ -46,7 +54,8 @@ class RegistrationFormElderly extends Component {
 				birthYear: false,
 				phoneNumber: false
 			},
-			modalisOpen: false
+			modalisOpen: false,
+			hasErrors: false
 		};
 
 		this.rexExpMap = {
@@ -64,10 +73,11 @@ class RegistrationFormElderly extends Component {
 		this.checkData = this.checkData.bind(this);
 		this.toggleModal = this.toggleModal.bind(this);
 		this.checkOnSubmit = this.checkOnSubmit.bind(this);
+		this.closeModal = this.closeModal.bind(this);
 	}
 
 	handleChange = (e, name) => {
-		if(name === 'username' && this.state.password === ''){
+		if (name === 'username' && this.state.password === '') {
 			this.setState({password: generatePassword()});
 		}
 		this.setState({[e.target.name]: e.target.value}, () => {
@@ -121,6 +131,9 @@ class RegistrationFormElderly extends Component {
 
 		if (!formHasErrors) {
 			this.handleSubmit();
+		}
+		else{
+			this.setState({message: `אחד או יותר מהשדות לא תקינים`, hasErrors: true});
 			this.toggleModal();
 		}
 		this.setState({
@@ -140,18 +153,30 @@ class RegistrationFormElderly extends Component {
 		try {
 			const response = await registerElderly(this.state);
 			await response.json();
-			this.setState({message: 'הרישום הצליח'});
+			this.setState({message: 'הרישום הצליח', hasErrors: false});
 
 		}
 		catch (error) {
-			this.setState({message: `הרישום נכשל. \n ${error.message}`});
+			this.setState({message: `הרישום נכשל. \n ${error.message}`, hasErrors: true});
 		}
+
+		this.toggleModal();
 	}
 
 	toggleModal() {
 		this.setState(prevState => ({
 			modalisOpen: !prevState.modalisOpen
 		}));
+	}
+
+	closeModal() {
+		this.setState({
+			modalisOpen: false
+		});
+
+		if(!this.state.hasErrors) {
+			this.props.history.push('/responsible');
+		}
 	}
 
 	render() {
@@ -265,7 +290,7 @@ class RegistrationFormElderly extends Component {
 									<label>
 										מספר טלפון
 										<input
-											type="number"
+											type="text"
 											name="phoneNumber"
 											value={this.state.phoneNumber}
 											className={shouldMarkError('phoneNumber') ? 'error' : ''}
@@ -436,7 +461,7 @@ class RegistrationFormElderly extends Component {
 							<Modal
 								text='שים לב'
 								{...this.state}
-								closeModal={this.toggleModal}
+								closeModal={this.closeModal}
 							/>
 							: null
 						}

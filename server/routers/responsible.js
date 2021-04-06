@@ -195,15 +195,18 @@ router.post('/addMeeting', async (req, res, next) => {
 		const meetingDayAndHour = req.body.user.actualDate;
 		const volunteerUsername = req.body.user.volunteerUsername;
 		const elderlyUsername = req.body.user.elderly.userName;
+		const meetingSubject = req.body.user.meetingSubject;
 		const channelName = volunteerUsername+elderlyUsername+meetingDayAndHour;
 		console.log(meetingDayAndHour);
 		console.log(volunteerUsername);
 		console.log(elderlyUsername);
 		console.log(channelName);
+		console.log(meetingSubject);
 
-		await DButils.execQuery('Insert into meetings (volunteeruserName, elderlyuserName, meeting, channelName) '
-			+ `VALUES ('${volunteerUsername}', '${elderlyUsername}', '${meetingDayAndHour}' ,'${channelName}');`);
+		await DButils.execQuery('Insert into meetings (volunteeruserName, elderlyuserName, meeting, meetingSubject, channelName) '
+			+ `VALUES ('${volunteerUsername}', '${elderlyUsername}', '${meetingDayAndHour}', '${meetingSubject}' ,'${channelName}');`);
 
+		res.status(200).send({message: 'added meeting', success: true});
 	} catch (error) {
 		next(error);
 	}

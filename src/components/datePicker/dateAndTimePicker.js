@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import DateTimePicker from 'react-datetime-picker';
 import { addMeetingDB } from '../../services/server';
+import Select from 'react-select';
+import { servicesList } from '../../resources/lists';
 
 const DateTimePickerWrapper = ({user, closeModal}) => {
-	const [value, onChange] = useState(new Date());
+	const [state, setState] = useState({date: new Date(), wantedService: ''})
 
 	const onClick = async () => {
-		user.actualDate = value.toLocaleDateString() + ' ' + value.toLocaleTimeString();
-		console.log();
+		user.actualDate = state.date.toLocaleDateString() + ' ' + state.date.toLocaleTimeString();
+		user.meetingSubject = state.wantedService.label;
+		console.log(user.actualDate);
+		console.log(user.meetingSubject);
 
 		try {
 			await addMeetingDB({user});
@@ -15,8 +19,9 @@ const DateTimePickerWrapper = ({user, closeModal}) => {
 		catch (error) {
 			console.log(error);
 		}
-
-		closeModal();
+		finally {
+			closeModal();
+		}
 	};
 	return (
 		<div className="modal-wrapper">
@@ -24,11 +29,25 @@ const DateTimePickerWrapper = ({user, closeModal}) => {
 				<DateTimePicker
 					calendarType={'Hebrew'}
 					disableClock={true}
-					value={value}
-					onChange={onChange}
+					value={state.date}
+					onChange={(value) => setState({...state,date: value})}
 					required={true}
 				/>
+			<div className="field">
+				<label>
+					סוגי שירות רצויים
+					<Select
+						placeholder="בחר/י..."
+						isRtl
+						name="wantedService"
+						value={state.wantedService}
+						options={servicesList}
+						onChange={(value) => setState({...state,wantedService: value})}
+					/>
+				</label>
 			</div>
+			</div>
+
 			<div className="modal-buttons">
 				<button className="modal-btn" onClick={onClick}>אישור</button>
 			</div>

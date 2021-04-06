@@ -5,6 +5,7 @@ import '../manage/manage.css';
 
 function MeetingView({meeting, history}) {
 	const userName = Cookies.get('userName');
+	const elderlyDetails = meeting.elderlyDetails;
 	const channel = userName+meeting.elderlyUserName+meeting.meetingDate;
 
 	const onClick = () => {
@@ -22,9 +23,7 @@ function MeetingView({meeting, history}) {
 
 	return (
 		<React.Fragment>
-			<td className="col-1">{meeting.elderlyUserName}</td>
-			<td className="col-2">{meeting.meetingDate}</td>
-			<td className="col-3">
+			<td className="col-4">
 				<button
 					className="table-button"
 					type="button"
@@ -32,6 +31,9 @@ function MeetingView({meeting, history}) {
 					התחל שיחה
 				</button>
 			</td>
+			<td className="col-3">{meeting.meetingSubject}</td>
+			<td className="col-2">{meeting.meetingDate}</td>
+			<td className="col-1">{elderlyDetails.firstName +' '+elderlyDetails.lastName}</td>
 		</React.Fragment>
 	);
 }

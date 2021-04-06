@@ -11,6 +11,8 @@
 .modal-body{
     display: flex;
     justify-content: center;
+    flex-direction: column;
+
 }
 
 .modal-buttons{
@@ -32,6 +34,6 @@
     background-color: #3e8e41;
 }
 
-.calendar{
-
+.modal .field{
+    direction: rtl;
 }

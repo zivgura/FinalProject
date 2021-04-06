@@ -13,7 +13,7 @@ function ChangePasswordPage() {
 	const toggleModal = useCallback(
 		() => {
 			setState({modalisOpen: !state.modalisOpen});
-		},[state.modalisOpen]);
+		}, [state.modalisOpen]);
 
 	useEffect(() => {
 		async function tryToLogin() {
@@ -56,36 +56,40 @@ function ChangePasswordPage() {
 			}
 
 			toggleModal();
-		}, [newPassword,confirmNewPassword,username,toggleModal]);
+		}, [newPassword, confirmNewPassword, username, toggleModal]);
 
 	return (
 		<div className="page">
-			<div className="form">
-				<div className="field">
-					<label>
-						סיסמה חדשה
-						<input
-							ref={newPassword}
-							minLength={8}
-							type="password"
-							name="newPassword"
-							onChange={(e) => handleChange(e)}/>
-					</label>
-				</div>
+			<div className="register-wrapper">
+				<div className="register-form">
+					<div className="form">
+						<div className="field">
+							<label>
+								סיסמה חדשה
+								<input
+									ref={newPassword}
+									minLength={8}
+									type="password"
+									name="newPassword"
+									onChange={(e) => handleChange(e)}/>
+							</label>
+						</div>
 
-				<div className="field">
-					<label>
-						אשר סיסמה חדשה
-						<input
-							ref={confirmNewPassword}
-							minLength={8}
-							type="password"
-							name="confirmNewPassword"
-							onChange={(e) => handleChange(e)}/>
-					</label>
-				</div>
+						<div className="field">
+							<label>
+								אשר סיסמה חדשה
+								<input
+									ref={confirmNewPassword}
+									minLength={8}
+									type="password"
+									name="confirmNewPassword"
+									onChange={(e) => handleChange(e)}/>
+							</label>
+						</div>
 
-				<button className="sb-btn" type="button" onClick={checkOnSubmit}>אישור</button>
+						<button className="sb-btn" type="button" onClick={checkOnSubmit}>אישור</button>
+					</div>
+				</div>
 			</div>
 			{state.modalisOpen ?
 				<Modal

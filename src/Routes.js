@@ -9,7 +9,7 @@ import AdminPage from './components/pages/AdminPage';
 import ResponsiblePage from './components/registrationForms/ResponsiblePage';
 import ManageUsers from './components/manage/ManageUsers';
 import VolunteerPage from './components/pages/VolunteerPage';
-import MeetingsPage from './components/meetings/MeetingsPage';
+import MeetingsPage from './components/pages/MeetingsPage';
 import VideoCallPage from './components/pages/VideoCallPage';
 import ElderlyPage from './components/pages/ElderlyPage';
 import { ChangePasswordPage } from './components/pages/ChangePasswordPage';

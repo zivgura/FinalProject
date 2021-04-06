@@ -15,4 +15,18 @@ router.get('/channels/:userName', async (req, res, next) => {
 	}
 });
 
+router.get('/details/:organizationName', async (req, res, next) => {
+	try {
+		let {organizationName} = req.params;
+		console.log(organizationName);
+		organizationName = organizationName.substring(0, organizationName.length - 1);
+		let elderlyDetails = await DButils.execQuery(`SELECT * FROM elderlyusers WHERE organizationName= '${organizationName}'`);
+		console.log(elderlyDetails);
+		elderlyDetails = DButils.convertElderlyDetailsFromDB(elderlyDetails);
+		res.send(JSON.stringify(elderlyDetails));
+	} catch (error) {
+		next(error);
+	}
+});
+
 module.exports = router;

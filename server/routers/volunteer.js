@@ -6,7 +6,7 @@ router.get('/meetings/:userName', async (req, res, next) => {
 	try {
 		let {userName} = req.params;
 		userName = userName.substring(0, userName.length - 1);
-		let meetingsPerElderly = await DButils.execQuery(`SELECT meeting,elderlyuserName FROM meetings WHERE volunteeruserName= '${userName}'`);
+		let meetingsPerElderly = await DButils.execQuery(`SELECT meeting, elderlyuserName, meetingSubject FROM meetings WHERE volunteeruserName= '${userName}'`);
 		console.log(meetingsPerElderly);
 		res.send(JSON.parse(JSON.stringify(meetingsPerElderly)));
 

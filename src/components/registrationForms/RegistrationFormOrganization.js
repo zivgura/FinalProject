@@ -85,8 +85,8 @@ class RegistrationFormOrganization extends Component {
 	}
 
 	checkOnSubmit() {
-		const {organizationName, organizationType, phoneNumber} = this.state;
-		const formFilled = !(organizationName === '' || organizationType === '' || phoneNumber === '');
+		const {organizationName, organizationEnglishName,  organizationType, phoneNumber} = this.state;
+		const formFilled = !(organizationName === '' || organizationType === '' || phoneNumber === '' || organizationEnglishName === '');
 		const formInvalid = Object.keys(this.state.valid).some(x => !this.state.valid[x]);
 		const formHasErrors = !formFilled || formInvalid;
 
@@ -96,10 +96,12 @@ class RegistrationFormOrganization extends Component {
 		this.setState({
 			touched: {
 				organizationName: true,
+				organizationEnglishName: true,
 				organizationType: true,
 				phoneNumber: true
 			}
 		});
+
 		this.handleSubmit();
 	}
 
@@ -133,7 +135,7 @@ class RegistrationFormOrganization extends Component {
 	}
 
 	render() {
-		const errors = this.validate(this.state.organizationName, this.organizationEnglishName, this.state.organizationType, this.state.phoneNumber);
+		const errors = this.validate(this.state.organizationName, this.state.organizationEnglishName, this.state.organizationType, this.state.phoneNumber);
 		const shouldMarkError = (field) => {
 			const hasError = errors[field];
 			const shouldShow = this.state.touched[field];

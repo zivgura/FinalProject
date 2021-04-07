@@ -1,7 +1,7 @@
 const organizationTypes = [
-    {value: "volunteers",label: "מתנדבים"},
-    {value: "elderly",label: "קשישים"},
-    {value: "both",label: "מתנדבים וקשישים"}
+    {value: "מתנדבים",label: "מתנדבים"},
+    {value: "קשישים",label: "קשישים"},
+    {value: "מתנדבים וקשישים",label: "מתנדבים וקשישים"}
 ];
 
 export default organizationTypes;

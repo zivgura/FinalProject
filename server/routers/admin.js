@@ -35,6 +35,8 @@ router.post('/registerResponsible', async (req, res, next) => {
 		const responsibleType = req.body.responsibleType.value;
 		const gender = req.body.gender.value;
 
+		console.log("organizationName");
+		console.log(organizationName);
 		// username exists
 		let users = [];
 		users = await DButils.execQuery('SELECT username FROM users');
@@ -45,7 +47,7 @@ router.post('/registerResponsible', async (req, res, next) => {
 		let hash_password = bcrypt.hashSync(password, parseInt(bcrypt_saltRounds));
 
 		//insert into DB users
-		await DButils.execQuery('Insert into users (username, password, userRole, organizationName) '
+		await DButils.execQuery('Insert into users (userName, password, userRole, organizationName) '
 			+ `VALUES ('${username}', '${hash_password}', 'responsible', '${organizationName}');`);
 
 		// insert into DB responsibleUsers

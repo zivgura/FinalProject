@@ -6,7 +6,7 @@ import RegistrationFormElderly from './components/registrationForms/Registration
 import RegistrationFormVolunteer from './components/registrationForms/RegistrationFormVolunteer';
 import RegistrationFormResponsible from './components/registrationForms/RegistrationFormResponsible';
 import AdminPage from './components/pages/AdminPage';
-import ResponsiblePage from './components/registrationForms/ResponsiblePage';
+import ResponsiblePage from './components/pages/ResponsiblePage';
 import ManageUsers from './components/manage/ManageUsers';
 import VolunteerPage from './components/pages/VolunteerPage';
 import MeetingsPage from './components/pages/MeetingsPage';

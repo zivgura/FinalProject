@@ -1,13 +1,13 @@
 const digitalDevicesList = [
-    {value: "computer low",label: "מחשב - רמת ידע נמוכה"},
-    {value: "computer medium",label: "מחשב - רמת ידע בסיסית"},
-    {value: "computer high",label: "מחשב - רמת ידע גבוהה"},
-    {value: "smartphone low",label: "טלפון חכם - רמת ידע נמוכה"},
-    {value: "smartphone medium",label: "טלפון חכם - רמת ידע בסיסית"},
-    {value: "smartphone high",label: "טלפון חכם - רמת ידע גבוהה"},
-    {value: "tablet low",label: "טאבלט - רמת ידע נמוכה"},
-    {value: "tablet medium",label: "טאבלט - רמת ידע בסיסית"},
-    {value: "tablet high",label: "טאבלט - רמת ידע גבוהה"},
+    {value: "מחשב - רמת ידע נמוכה",label: "מחשב - רמת ידע נמוכה"},
+    {value: "מחשב - רמת ידע בסיסית",label: "מחשב - רמת ידע בסיסית"},
+    {value: "מחשב - רמת ידע גבוהה",label: "מחשב - רמת ידע גבוהה"},
+    {value: "טלפון חכם - רמת ידע נמוכה",label: "טלפון חכם - רמת ידע נמוכה"},
+    {value: "טלפון חכם - רמת ידע בסיסית",label: "טלפון חכם - רמת ידע בסיסית"},
+    {value: "טלפון חכם - רמת ידע גבוהה",label: "טלפון חכם - רמת ידע גבוהה"},
+    {value: "טאבלט - רמת ידע נמוכה",label: "טאבלט - רמת ידע נמוכה"},
+    {value: "טאבלט - רמת ידע בסיסית",label: "טאבלט - רמת ידע בסיסית"},
+    {value: "טאבלט - רמת ידע גבוהה",label: "טאבלט - רמת ידע גבוהה"},
 
 ];
 

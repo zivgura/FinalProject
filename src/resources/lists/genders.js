@@ -1,7 +1,7 @@
 const genderList = [
-    {value: "Male",label: "זכר"},
-    {value: "Female",label: "נקבה"},
-    {value: "Other",label: "אחר"}
+    {value: "זכר",label: "זכר"},
+    {value: "נקבה",label: "נקבה"},
+    {value: "אחר",label: "אחר"}
 ];
 
 export default genderList;

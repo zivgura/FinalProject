@@ -176,7 +176,7 @@ router.post('/assign', async (req, res, next) => {
 				}
 				//handle gender
 				let preferredGender = null;
-				if (volunteerDetails.gender.includes(elderly.genderToMeetWith) || elderly.genderToMeetWith === 'NoPreference') {
+				if (volunteerDetails.gender.includes(elderly.genderToMeetWith) || elderly.genderToMeetWith === 'אין העדפה') {
 					preferredGender = elderly.genderToMeetWith;
 				}
 				if (preferredGender) {

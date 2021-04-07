@@ -1,7 +1,7 @@
 const preferredGenderList = [
-	{value: "Male",label: "זכר"},
-	{value: "Female",label: "נקבה"},
-	{value: "NoPreference",label: "אין העדפה"}
+	{value: "זכר",label: "זכר"},
+	{value: "נקבה",label: "נקבה"},
+	{value: "אין העדפה",label: "אין העדפה"}
 ];
 
 export default preferredGenderList;

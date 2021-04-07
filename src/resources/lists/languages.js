@@ -1,20 +1,20 @@
 const languagesList = [
-    {value: "Hebrew",label: "עברית"},
-    {value: "English",label: "אנגלית"},
-    {value: "Russian",label: "רוסית"},
-    {value: "Arabic",label: "ערבית"},
-    {value: "Amharic",label: "אמהרית"},
-    {value: "Romanian" ,label: "רומנית"},
-    {value: "Yiddish",label: "איידיש"},
-    {value: "German" ,label: "גרמנית"},
-    {value: "Polish",label: "פולנית"},
-    {value: "Ukrainian",label: "אוקראינית"},
-    {value: "Spanish",label: "ספרדית"},
-    {value: "French",label: "צרפתית"},
-    {value: "Italian",label: "איטלקית"},
-    {value: "Turkish",label: "טורקית"},
-    {value: "Persian",label: "פרסית"},
-    {value: "Hungarian",label: "הונגרית"}
+    {value: "עברית",label: "עברית"},
+    {value: "אנגלית",label: "אנגלית"},
+    {value: "רוסית",label: "רוסית"},
+    {value: "ערבית",label: "ערבית"},
+    {value: "אמהרית",label: "אמהרית"},
+    {value: "רומנית" ,label: "רומנית"},
+    {value: "איידיש",label: "איידיש"},
+    {value: "גרמנית" ,label: "גרמנית"},
+    {value: "פולנית",label: "פולנית"},
+    {value: "אוקראינית",label: "אוקראינית"},
+    {value: "ספרדית",label: "ספרדית"},
+    {value: "צרפתית",label: "צרפתית"},
+    {value: "איטלקית",label: "איטלקית"},
+    {value: "טורקית",label: "טורקית"},
+    {value: "פרסית",label: "פרסית"},
+    {value: "הונגרית",label: "הונגרית"}
 ];
 
 export default languagesList;

@@ -1,17 +1,17 @@
 const areasOfInterestList = [
-    {value: "Music",label: "מוזיקה"},
-    {value: "Poetry",label: "שירה"},
-    {value: "Reading",label: "קריאה"},
-    {value: "Torah",label: "תורה ומקרא"},
-    {value: "Theater",label: "תיאטרון"},
-    {value: "Dance" ,label: "מחול"},
-    {value: "Sports",label: "ספורט"},
-    {value: "Food" ,label: "אוכל"},
-    {value: "TV",label: "טלויזיה"},
-    {value: "Politics",label: "פוליטיקה"},
-    {value: "History",label: "היסטוריה"},
-    {value: "Arts",label: "אמנות"},
-    {value: "Linguistics",label: "בלשנות"}
+    {value: "מוזיקה",label: "מוזיקה"},
+    {value: "שירה",label: "שירה"},
+    {value: "קריאה",label: "קריאה"},
+    {value: "תורה ומקרא",label: "תורה ומקרא"},
+    {value: "תיאטרון",label: "תיאטרון"},
+    {value: "מחול" ,label: "מחול"},
+    {value: "ספורט",label: "ספורט"},
+    {value: "אוכל" ,label: "אוכל"},
+    {value: "טלויזיה",label: "טלויזיה"},
+    {value: "פוליטיקה",label: "פוליטיקה"},
+    {value: "היסטוריה",label: "היסטוריה"},
+    {value: "אמנות",label: "אמנות"},
+    {value: "בלשנות",label: "בלשנות"}
 ];
 
 export default areasOfInterestList;

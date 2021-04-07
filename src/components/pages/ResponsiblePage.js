@@ -20,6 +20,7 @@ function ResponsiblePage(props) {
 	}
 
 	async function getVolunteers() {
+		console.log(props.history.location.state);
 		try {
 			const response = fetchVolunteers(props.history.location.state);
 			return (await response).json();
@@ -31,9 +32,8 @@ function ResponsiblePage(props) {
 
 	async function onClick(event) {
 		let organizations = await getOrganizationsNames();
-
 		organizations = organizations.map((dic) => (
-			{value: dic.organizationEnglishName, label: dic.organizationName}
+			{value: dic.organizationName, label: dic.organizationName}
 		));
 
 		console.log(organizations);

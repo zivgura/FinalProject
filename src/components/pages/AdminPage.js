@@ -12,13 +12,12 @@ function AdminPage(props) {
 
 	async function onClick() {
 		let organizations = await getOrganizationsNames();
-
 		organizations = organizations.map((dic) => {
-			return {value: dic.organizationEnglishName, label: dic.organizationName};
+			return {value: dic.organizationName, label: dic.organizationName};
 		});
+
 		console.log(organizations);
 		setAdminState({organizations: organizations});
-
 	}
 
 	useEffect(() => {

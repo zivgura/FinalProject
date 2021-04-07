@@ -22,7 +22,6 @@ const generatePassword = function () {
 		exclude:'/'
 	});
 
-	console.log(password);
 	return password;
 }
 

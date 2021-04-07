@@ -3,6 +3,7 @@ import DateTimePicker from 'react-datetime-picker';
 import { addMeetingDB } from '../../services/server';
 import Select from 'react-select';
 import { servicesList } from '../../resources/lists';
+// import './DateTimePicker.css';
 
 const DateTimePickerWrapper = ({user, closeModal}) => {
 	const [state, setState] = useState({date: new Date(), wantedService: ''})
@@ -27,6 +28,7 @@ const DateTimePickerWrapper = ({user, closeModal}) => {
 		<div className="modal-wrapper">
 			<div className="modal-body">
 				<DateTimePicker
+					className="calender"
 					calendarType={'Hebrew'}
 					disableClock={true}
 					value={state.date}

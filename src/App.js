@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import "./styles/App.css";
+import "./App.css";
 import { useSpring, animated } from "react-spring";
-import RegistrationFormElderly from "./components/RegistrationFormElderly.js"
-import RegistrationFormOrganization from "./components/RegistrationFormOrganization";
-import RegistrationFormResponsible from "./components/RegistrationFormResponsible";
-import RegistrationFormVolunteer from "./components/RegistrationFormVolunteer";
+import RegistrationFormElderly from "./components/registrationForms/RegistrationFormElderly.js"
+import RegistrationFormOrganization from "./components/registrationForms/RegistrationFormOrganization";
+import RegistrationFormResponsible from "./components/registrationForms/RegistrationFormResponsible";
+import RegistrationFormVolunteer from "./components/registrationForms/RegistrationFormVolunteer";
 import LoginForm from "./components/LoginForm";
+import {serverURL} from "./ClientUtils";
 
 function App() {
     const [registrationFormStatus, setRegistartionFormStatus] = useState({isClicked :false, users: []});
@@ -29,7 +30,7 @@ function App() {
     });
 
     async function getResponsibleUsers() {
-        return await fetch(`http://localhost:3001/admin/responsibleUsers`, {
+        return await fetch(serverURL+`/admin/responsibleUsers`, {
             method: 'get',
         })
             .then(function (response) {

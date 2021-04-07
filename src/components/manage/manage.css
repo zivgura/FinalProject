@@ -1,0 +1,98 @@
+.list-group-item {
+    padding: 12px 0;
+    display: flex;
+    justify-content: center;
+    flex-direction: row-reverse;
+}
+
+.content {
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 5px;
+}
+
+.volunteer-name {
+    color: rgb(109, 177, 8);
+}
+
+.action {
+    /*width: 50%;*/
+    display: flex;
+}
+
+.manage-wrapper {
+    text-align: center;
+    height: 100%;
+    width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1.5em 2em;
+    overflow-x: hidden;
+    color: black;
+}
+
+.scrollable{
+    height: 400px;
+    overflow-y: auto;
+}
+
+.users-table {
+    width: 100%;
+}
+
+.table-header {
+    width: 100%;
+    background-color: rgb(170, 198, 164);
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.table-row {
+    /*background-color: #ffffff;*/
+    box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    padding: 25px 30px;
+    margin-bottom: 13px;
+}
+
+.col-1 {
+    flex-basis: 30%;
+}
+
+.col-2 {
+    flex-basis: 50%;
+}
+
+.col-3 {
+    flex-basis: 20%;
+}
+
+.table-button {
+    font-weight: 700;
+    font-size: 1em;
+    text-align: center;
+    color: rgba(255, 255, 255, 1);
+    padding: 0px 0px;
+    width: 100px;
+    height: 35px;
+    border: none;
+    border-radius: 20px;
+    margin: 0;
+    cursor: pointer;
+    background-color: rgb(109, 177, 8);
+}
+
+.check-icon-button{
+    margin: 0;
+}
+
+.table-button:hover {
+    background-color: #3e8e41
+}
+
+.tooltip{
+    direction: rtl;
+}

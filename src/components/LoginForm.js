@@ -1,84 +1,73 @@
-import React from "react";
-import Modal from "./Modal";
-
+import React from 'react';
+import Modal from './Modal';
+import { loginCheck } from '../services/server';
+import * as Cookies from 'js-cookie';
 
 class LoginForm extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            username: '',
-            password: '',
-            message: '',
-            modalisOpen: false
+	constructor(props) {
+		super(props);
+		this.state = {
+			username: '',
+			password: '',
+			message: '',
+			modalisOpen: false
 
-        };
-        this.usernameRef = React.createRef();
-        this.passwordRef = React.createRef();
-        this.checkOnSubmit = this.checkOnSubmit.bind(this);
-        this.toggleModal = this.toggleModal.bind(this);
+		};
+		this.usernameRef = React.createRef();
+		this.passwordRef = React.createRef();
+		this.checkOnSubmit = this.checkOnSubmit.bind(this);
+		this.toggleModal = this.toggleModal.bind(this);
+	}
 
-    }
+	async checkOnSubmit() {
+		try {
+			const result = await loginCheck(this.usernameRef.current.value, this.passwordRef.current.value);
+			const user = await result.json();
+			console.log(user);
+			if (user.user.userRole === 'volunteer' || user.user.userRole === 'elderly') {
+				this.props.history.push('/' + user.user.userRole, user.user.userName);
+			}
+			else {
+				this.props.history.push('/' + user.user.userRole, user.user.organizationName);
+			}
 
-    async checkOnSubmit() {
-        const user = await fetch(`http://localhost:3001/user/login`, {
-            method: 'post',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                username: this.usernameRef.current.value,
-                password: this.passwordRef.current.value
-            })
-        })
-            .then(result => {
-                //Here body is not ready yet, throw promise
-                if (!result.ok) throw result;
-                return result.json();
-            })
-            .then(data => data)
-            .catch((error) => {
-                console.log("errorrrrrr");
-                console.log(error.message);
-                this.setState({message: error.message});
-                this.toggleModal();
-            })
+			Cookies.set('userName', user.user.userName);
+		}
+		catch (error) {
+			console.log('error');
+			console.log(error.message);
+			this.setState({message: 'שם משתמש או סיסמה שגויים'});
+			this.toggleModal();
+		}
+	}
 
-        try {
-            console.log("user");
-            console.log(user);
+	toggleModal() {
+		this.setState(prevState => ({
+			modalisOpen: !prevState.modalisOpen
+		}));
+	}
 
-            this.props.history.push("/" + user.user.userRole, user.user.organizationName);
-        } catch (error) {
-
-        }
-    }
-
-    toggleModal() {
-        this.setState(prevState => ({
-            modalisOpen: !prevState.modalisOpen
-        }));
-    }
-
-    render() {
-        return (
-            <div className="login-wrapper">
-                <div className="form-group">
-                    <label for="username">שם משתמש</label>
-                    <input ref={this.usernameRef} type="text" id="username"/>
-                    <label for="password">סיסמה</label>
-                    <input ref={this.passwordRef} type="password" id="password"/>
-                    <button className="sb-btn" type="button" onClick={this.checkOnSubmit}>SUBMIT</button>
-                    {this.state.modalisOpen ?
-                        <Modal
-                            text='Message'
-                            {...this.state}
-                            closeModal={this.toggleModal}
-                        />
-                        : null
-                    }
-                </div>
-            </div>
-        );
-    }
-
+	render() {
+		return (
+			<div className="login-wrapper">
+				<div className="form-group">
+					<label>שם משתמש</label>
+					<input ref={this.usernameRef} type="text" id="username"/>
+					<label>סיסמה</label>
+					<input ref={this.passwordRef} type="password" id="password"/>
+					<button className="sb-btn" type="button" onClick={this.checkOnSubmit}>כניסה</button>
+					{this.state.modalisOpen ?
+						<Modal
+							text='Message'
+							{...this.state}
+							closeModal={this.toggleModal}
+						/>
+						: null
+					}
+				</div>
+			</div>
+		);
+	}
 }
 
 export default LoginForm;

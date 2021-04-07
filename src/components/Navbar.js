@@ -1,21 +1,24 @@
-import React from "react";
-import logo from '../resources/Milbat-logo.png'
+import React from 'react';
+import logo from '../resources/Milbat-logo.png';
+import * as Cookies from 'js-cookie';
 
-function Navbar(props) {
+function Navbar({history}) {
+	const onClick = () => {
+		Cookies.remove('userName');
+		history.push('/login');
+	}
 
-    return (
-        <div className="nabvar-container">
-            <div className="nabvar">
-                <button className="nav-buttons">התנתק</button>
-                <div className="logo">
-                    <img src={logo}/>
-                </div>
-                <div className="app-logo">
+	return (
+		<div className="navbar">
+			<button className="nav-buttons" onClick={onClick}>התנתק</button>
+			<div className="logo">
+				<img src={logo} alt={''}/>
+			</div>
+			<div className="app-logo">
 
-                </div>
-            </div>
-        </div>
-    )
+			</div>
+		</div>
+	);
 }
 
 export default Navbar;

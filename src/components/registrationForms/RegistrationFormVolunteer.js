@@ -116,8 +116,8 @@ class RegistrationFormVolunteer extends Component {
 	}
 
 	errorMessages(name) {
-		const requiredStr = 'This field is required.';
-		const invalidStr = 'Enter valid ' + name + '.';
+		const requiredStr = 'שדה חובה';
+		const invalidStr = 'ערך לא תקין';
 		return !this.state.valid[name] && this.state[name] !== '' ? invalidStr : requiredStr;
 	}
 
@@ -433,7 +433,7 @@ class RegistrationFormVolunteer extends Component {
 									<span className="required-field"
 										  style={this.requiredStyle('additionalInformation')}>{this.errorMessages('additionalInformation')}</span>
 								</div>
-								<button className="sb-btn" type="button" onClick={this.checkOnSubmit}>SUBMIT</button>
+								<button className="sb-btn" type="button" onClick={this.checkOnSubmit}>סיום</button>
 							</div>
 						</div>
 						{this.state.modalisOpen ?

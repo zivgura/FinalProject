@@ -275,7 +275,7 @@ class RegistrationFormResponsible extends Component {
 									<span className="required-field"
 										  style={this.requiredStyle('gender')}>{this.errorMessages('responsibleType')}</span>
 								</div>
-								<button className="sb-btn" type="button" onClick={this.checkOnSubmit}>SUBMIT</button>
+								<button className="sb-btn" type="button" onClick={this.checkOnSubmit}>סיום</button>
 							</div>
 						</div>
 						{this.state.modalisOpen ?

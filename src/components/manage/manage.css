@@ -80,7 +80,7 @@
     height: 35px;
     border: none;
     border-radius: 20px;
-    margin-top: 23px;
+    margin: 0;
     cursor: pointer;
     background-color: rgb(109, 177, 8);
 }

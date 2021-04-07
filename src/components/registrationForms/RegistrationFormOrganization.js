@@ -205,7 +205,7 @@ class RegistrationFormOrganization extends Component {
 											onChange={(e) => this.handleChange(e, 'phoneNumber')}/>
 									</label>
 								</div>
-								<button className="sb-btn" type="button" onClick={this.checkOnSubmit}>SUBMIT</button>
+								<button className="sb-btn" type="button" onClick={this.checkOnSubmit}>סיום</button>
 							</div>
 						</div>
 						{this.state.modalisOpen ?

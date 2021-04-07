@@ -19,12 +19,11 @@ function VolunteerPage(props) {
 	async function onClick() {
 		let meetings = await getMeetingsNames();
 		let elderlyDetails = await getElderlyDetails();
-		meetings =  meetings.map( (dic) => {
-			return (
+		meetings = meetings.map( (dic) =>  (
 				{meetingDate: dic.meeting, elderlyUserName:	dic.elderlyuserName,
 				meetingSubject:	dic.meetingSubject, elderlyDetails: elderlyDetails.find(row => row.userName === dic.elderlyuserName)}
 			)
-		});
+		);
 
 		setVolunteerState({meetings: meetings});
 		console.log(meetings);

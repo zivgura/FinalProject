@@ -69,7 +69,8 @@ class VideoComponent extends React.Component {
 			console.log('AgoraRTC client initialized');
 			this.subscribeStreamEvents();
 			this.client.join($.appId, $.channel, $.uid, (uid) => {
-				this.setState(uid);
+				this.state.uid=uid;
+				// this.setState(prevState => prevState.uid !== uid ? {uid} : {});
 				console.log('User ' + uid + ' join channel successfully');
 				console.log('At ' + new Date().toLocaleTimeString());
 				// create local stream
@@ -125,7 +126,7 @@ class VideoComponent extends React.Component {
 				this.setState({displayMode: 'tile'});
 				return;
 			}
-			this.setState(prevState => prevState.streamList.map((item, index) => {
+			this.state.streamList.map((item, index) => {
 				let id = item.getId();
 				let dom = document.querySelector('#ag-item-' + id);
 				if (!dom) {
@@ -147,7 +148,7 @@ class VideoComponent extends React.Component {
 				}
 
 				item.player.resize && item.player.resize();
-			}));
+			});
 		}
 		// tile mode
 		else if (this.state.displayMode === 'tile') {

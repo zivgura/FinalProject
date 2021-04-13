@@ -15,14 +15,12 @@ const regexes = {
 };
 
 const generatePassword = function () {
-	const password = generator.generate({
+	return generator.generate({
 		length: 10,
 		numbers: true,
 		symbols: true,
 		exclude:'/'
 	});
-
-	return password;
 }
 
 const convertElderlyDetailsFromDB = function(records) {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
-import Modal from '../Modal.js';
+import Modal from '../modal/Modal.js';
 import { registerElderly } from '../../services/server';
 import { generatePassword, regexes } from '../../ClientUtils';
 import {

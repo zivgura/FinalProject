@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Modal from '../Modal.js';
+import Modal from '../modal/Modal.js';
 import Select from 'react-select';
 import { organizationTypes } from '../../resources/lists';
 import { registerOrganization } from '../../services/server';

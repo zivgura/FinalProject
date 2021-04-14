@@ -1,8 +1,8 @@
 import { serverURL } from '../ClientUtils';
 import { handleError } from './errorHandler';
 
-const loginCheck = async (username, password) =>
-	await fetch(serverURL + `/user/login`, {
+const loginCheck = async (username, password) => {
+	const response = await fetch(serverURL + `/user/login`, {
 		method: 'post',
 		headers: {'Content-Type': 'application/json'},
 		body: JSON.stringify({
@@ -10,6 +10,11 @@ const loginCheck = async (username, password) =>
 			password
 		})
 	});
+
+	handleError(response);
+	return response;
+}
+
 
 const tryLogin = async (username, password) => {
 	await fetch(serverURL + `/user/activate/`+ new URLSearchParams({username,password}), {
@@ -113,6 +118,16 @@ const addMeetingDB = async (state) => {
 	return response;
 }
 
+const fetchOrganizationMeetings = async (organizationName) =>{
+	const response = await fetch(serverURL + `/responsible/meetings/` + new URLSearchParams(organizationName),
+		{
+			method: 'get'
+		});
+
+	handleError(response);
+	return response;
+}
+
 const getMeetings = async (state) => {
 	const response = await fetch(serverURL + `/volunteer/meetings/` + new URLSearchParams(state),
 		{
@@ -157,5 +172,6 @@ export {
 	addMeetingDB,
 	getMeetings,
 	fetchChannels,
-	fetchElderlyDetails
+	fetchElderlyDetails,
+	fetchOrganizationMeetings
 };

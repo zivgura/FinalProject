@@ -1,5 +1,5 @@
 import React from 'react';
-import Modal from './Modal';
+import Modal from './modal/Modal';
 import { loginCheck } from '../services/server';
 import * as Cookies from 'js-cookie';
 
@@ -13,6 +13,7 @@ class LoginForm extends React.Component {
 			modalisOpen: false
 
 		};
+
 		this.usernameRef = React.createRef();
 		this.passwordRef = React.createRef();
 		this.checkOnSubmit = this.checkOnSubmit.bind(this);
@@ -23,7 +24,6 @@ class LoginForm extends React.Component {
 		try {
 			const result = await loginCheck(this.usernameRef.current.value, this.passwordRef.current.value);
 			const user = await result.json();
-			console.log(user);
 			if (user.user.userRole === 'volunteer' || user.user.userRole === 'elderly') {
 				this.props.history.push('/' + user.user.userRole, user.user.userName);
 			}
@@ -34,9 +34,7 @@ class LoginForm extends React.Component {
 			Cookies.set('userName', user.user.userName);
 		}
 		catch (error) {
-			console.log('error');
-			console.log(error.message);
-			this.setState({message: 'שם משתמש או סיסמה שגויים'});
+			this.setState({message: error.message});
 			this.toggleModal();
 		}
 	}
@@ -58,7 +56,6 @@ class LoginForm extends React.Component {
 					<button className="sb-btn" type="button" onClick={this.checkOnSubmit}>כניסה</button>
 					{this.state.modalisOpen ?
 						<Modal
-							text='Message'
 							{...this.state}
 							closeModal={this.toggleModal}
 						/>

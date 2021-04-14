@@ -154,6 +154,8 @@ form, .forgot-panel {
 .buttons-section {
     display: flex;
     justify-content: center;
+    margin-right: 20%;
+    margin-left: 20%;
     margin-top: 9%;
 }
 

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import DateTimePicker from 'react-datetime-picker';
 import { addMeetingDB } from '../../services/server';
 import Select from 'react-select';
-import { servicesList } from '../../resources/lists';
 import dateFormat from 'dateformat';
 // import './DateTimePicker.css';
 
@@ -12,8 +11,7 @@ const DateTimePickerWrapper = ({user, closeModal}) => {
 	const onClick = async () => {
 		user.actualDate = dateFormat(state.date, 'dd.mm.yyyy,HH:MM');
 		user.meetingSubject = state.wantedService.label;
-		console.log(user.actualDate);
-		console.log(user.meetingSubject);
+		console.log(user);
 
 		try {
 			await addMeetingDB({user});
@@ -27,6 +25,27 @@ const DateTimePickerWrapper = ({user, closeModal}) => {
 	return (
 		<div className="modal-wrapper">
 			<div className="modal-body">
+				<div className="modal-preferred-days">
+					<h4>ימים ושעות מועדפים משותפים:</h4>
+					{user.commonPreferredDays.length > 0 ? user.commonPreferredDays.toString() : 'אין ימים ושעות מועדפים משותפים'}
+				</div>
+				<br/>
+				<div className="field">
+					<label>
+						<h4>סוגי שירות אפשריים</h4>
+						<Select
+							placeholder="בחר/י..."
+							isRtl
+							name="wantedService"
+							value={state.wantedService}
+							options={user.commonServices.map((dic) => (
+								{value: dic, label: dic}
+							))}
+							onChange={(value) => setState({...state, wantedService: value})}
+						/>
+					</label>
+				</div>
+				<br/>
 				<DateTimePicker
 					className="calender"
 					calendarType={'Hebrew'}
@@ -35,19 +54,6 @@ const DateTimePickerWrapper = ({user, closeModal}) => {
 					onChange={(value) => setState({...state, date: value})}
 					required={true}
 				/>
-				<div className="field">
-					<label>
-						סוגי שירות רצויים
-						<Select
-							placeholder="בחר/י..."
-							isRtl
-							name="wantedService"
-							value={state.wantedService}
-							options={servicesList}
-							onChange={(value) => setState({...state, wantedService: value})}
-						/>
-					</label>
-				</div>
 			</div>
 
 			<div className="modal-buttons">

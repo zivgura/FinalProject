@@ -1,5 +1,5 @@
 .modal-content{
-    height: 35%;
+    height: 25%;
     width: 30%;
 }
 
@@ -10,8 +10,8 @@
 
 .modal-body{
     display: flex;
-    justify-content: center;
     flex-direction: column;
+    justify-content: center;
 
 }
 
@@ -22,6 +22,7 @@
 
 .modal-title{
     padding-right:22px;
+    margin-bottom: 15px;
     display: flex;
     justify-content: flex-end;
     background-color: rgb(109, 177, 8);
@@ -39,6 +40,9 @@
     direction: rtl;
 }
 
+.modal-preferred-days{
+    direction: rtl;
+}
 /*.calender button{*/
 /*    margin: 0;*/
 /*    display: flex;*/

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
-import Modal from '../Modal.js';
+import Modal from '../modal/Modal.js';
 import { registerResponsible } from '../../services/server';
 import { genderList, responsibleTypes } from '../../resources/lists';
 import { generatePassword, regexes } from '../../ClientUtils';
@@ -177,7 +177,6 @@ class RegistrationFormResponsible extends Component {
 											isRtl
 											placeholder="בחר/י..."
 											name="organizationName"
-											className={shouldMarkError('organizationName') ? 'error' : ''}
 											value={this.state.organizationName}
 											options={this.props.history.location.state}
 											onChange={(value) => this.setState({organizationName: value})}

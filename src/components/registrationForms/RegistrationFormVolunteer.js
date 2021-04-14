@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
-import Modal from '../Modal.js';
+import Modal from '../modal/Modal.js';
 import { registerVolunteer } from '../../services/server';
 import { generatePassword, regexes } from '../../ClientUtils';
 import {
@@ -202,7 +202,6 @@ class RegistrationFormVolunteer extends Component {
 											isRtl
 											placeholder="בחר/י..."
 											name="organizationName"
-											className={shouldMarkError('organizationName') ? 'error' : ''}
 											value={this.state.organizationName}
 											options={this.props.history.location.state}
 											onChange={(value) => this.setState({organizationName: value})}

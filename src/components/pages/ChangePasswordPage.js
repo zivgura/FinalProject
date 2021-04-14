@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import * as Cookies from 'js-cookie';
 import { tryLogin, updatePassword } from '../../services/server';
-import Modal from '../Modal';
+import Modal from '../modal/Modal';
 
 function ChangePasswordPage() {
 	const [state, setState] = useState({message: '', modalisOpen: false});

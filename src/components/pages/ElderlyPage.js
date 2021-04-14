@@ -4,7 +4,6 @@ import { fetchChannels } from '../../services/server';
 import { AGORA_APP_ID } from '../../agora.config';
 
 function ElderlyPage(props) {
-
 	async function getChannelsNames() {
 		const response = await fetchChannels(props.history.location.state);
 		return await response.json();
@@ -12,9 +11,9 @@ function ElderlyPage(props) {
 
 	async function onClick() {
 		let channels = await getChannelsNames();
-
 		const videoOptions = {
 			'appId': AGORA_APP_ID,
+			//todo: not [0]
 			'channel': channels[0].channelName,
 			'baseMode': 'avc',
 			'transcode': 'interop',

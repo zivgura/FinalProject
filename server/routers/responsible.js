@@ -224,22 +224,67 @@ router.post('/addMeeting', async (req, res, next) => {
 	}
 });
 
-router.get('/meetings/:organizationName', async (req, res, next) => {
+router.get('/meetings-volunteers/:organizationName', async (req, res, next) => {
 	try {
 		let {organizationName} = req.params;
 		organizationName = organizationName.substring(0, organizationName.length - 1);
-		let meetingsInOrganizations = await DButils.execQuery(`SELECT volunteerusers.firstName as volunteerFirstName,
+		let volunteerMeetingsInOrganizations = await DButils.execQuery(`SELECT volunteerusers.firstName as volunteerFirstName,
 		 volunteerusers.lastName as volunteerLastName, elderlyusers.firstName as elderlyFirstName,elderlyusers.lastName as elderlyLastName,
 		  meeting, meetingSubject FROM elderly.meetings JOIN elderly.volunteerusers ON
 		   meetings.volunteeruserName = volunteerusers.userName JOIN elderly.elderlyusers ON
 		    meetings.elderlyuserName = elderlyusers.userName WHERE volunteerusers.organizationName= '${organizationName}'`);
-		console.log(meetingsInOrganizations);
-		res.send(JSON.parse(JSON.stringify(meetingsInOrganizations)));
+		console.log(volunteerMeetingsInOrganizations);
+		res.send(JSON.parse(JSON.stringify(volunteerMeetingsInOrganizations)));
 
 	} catch (error) {
 		next(error);
 	}
 });
+
+router.get('/meetings-elderly/:organizationName', async (req, res, next) => {
+	try {
+		let {organizationName} = req.params;
+		organizationName = organizationName.substring(0, organizationName.length - 1);
+		let elderlyMeetingsInOrganizations = await DButils.execQuery(`SELECT volunteerusers.firstName as volunteerFirstName,
+		 volunteerusers.lastName as volunteerLastName, elderlyusers.firstName as elderlyFirstName,elderlyusers.lastName as elderlyLastName,
+		  meeting, meetingSubject FROM elderly.meetings JOIN elderly.volunteerusers ON
+		   meetings.volunteeruserName = volunteerusers.userName JOIN elderly.elderlyusers ON
+		    meetings.elderlyuserName = elderlyusers.userName WHERE elderlyusers.organizationName= '${organizationName}'`);
+		console.log(elderlyMeetingsInOrganizations);
+		res.send(JSON.parse(JSON.stringify(elderlyMeetingsInOrganizations)));
+
+	} catch (error) {
+		next(error);
+	}
+});
+
+
+router.get('/volunteers/:organizationName', async (req, res, next) => {
+	try {
+		let {organizationName} = req.params;
+		organizationName = organizationName.substring(0, organizationName.length - 1);
+		let elderlyDetails = await DButils.execQuery(`SELECT * from volunteerUsers WHERE volunteerUsers.organizationName= '${organizationName}'`);
+		console.log(elderlyDetails);
+		res.send(JSON.parse(JSON.stringify(elderlyDetails)));
+
+	} catch (error) {
+		next(error);
+	}
+});
+
+router.get('/elderly/:organizationName', async (req, res, next) => {
+	try {
+		let {organizationName} = req.params;
+		organizationName = organizationName.substring(0, organizationName.length - 1);
+		let volunteersDetails = await DButils.execQuery(`SELECT * from elderlyUsers WHERE elderlyUsers.organizationName= '${organizationName}'`);
+		console.log(volunteersDetails);
+		res.send(JSON.parse(JSON.stringify(volunteersDetails)));
+
+	} catch (error) {
+		next(error);
+	}
+});
+
 
 module.exports = router;
 

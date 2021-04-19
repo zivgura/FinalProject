@@ -9,7 +9,7 @@ const ManageMeetingsPage = (props) => {
 		<div className="page">
 			<Navbar />
 			<h2 className="header">
-				פגישות מתנדבים בארגון
+				פגישות בארגון
 			</h2>
 			<OrganizationMeetingTable meetings={organizationMeetings}/>
 		</div>

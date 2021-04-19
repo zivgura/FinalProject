@@ -1,6 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { convertVolunteerDetailsFromDB } from '../../ClientUtils';
-import { fetchOrganizationMeetings, fetchOrganizationsNames, fetchVolunteers } from '../../services/server';
+import {
+	fetchVolunteerOrganizationMeetings,
+	fetchOrganizationsNames,
+	fetchVolunteers,
+	fetchElderlyOrganizationMeetings
+} from '../../services/server';
 import Navbar from '../Navbar';
 import Modal from '../modal/Modal';
 import * as Cookies from 'js-cookie';
@@ -14,7 +19,8 @@ function ResponsiblePage(props) {
 		isVolunteerClicked: false,
 		isElderlyClicked: false,
 		isManageVolunteersClicked: false,
-		isManageMeetingsClicked: false,
+		isManageVolunteersMeetingsClicked: false,
+		isManageElderlyMeetingsClicked: false,
 		modalisOpen: false
 	});
 
@@ -23,9 +29,25 @@ function ResponsiblePage(props) {
 		return (await response).json();
 	}
 
-	async function getOrganizationMeetings() {
+	async function getVolunteerOrganizationMeetings() {
 		try {
-			const response = fetchOrganizationMeetings(organizationName);
+			const response = fetchVolunteerOrganizationMeetings(organizationName);
+			return (await response).json();
+		}
+		catch (e) {
+			console.log("e.message.toString()");
+			console.log(e.message.toString());
+			setResponsibleState({...responsibleState,
+				message: e.message.toString(),
+			});
+
+			toggleModal();
+		}
+	}
+
+	async function getElderlyOrganizationMeetings() {
+		try {
+			const response = fetchElderlyOrganizationMeetings(organizationName);
 			return (await response).json();
 		}
 		catch (e) {
@@ -76,17 +98,26 @@ function ResponsiblePage(props) {
 		});
 	}
 
-	async function onClickManageMeetings(event) {
-		let organizationMeetings = await getOrganizationMeetings();
-		// volunteers = convertVolunteerDetailsFromDB(volunteers);
+	async function onClickManageVolunteersMeetings(event) {
+		let organizationMeetings = await getVolunteerOrganizationMeetings();
 		console.log('organizationMeetings');
 		console.log(organizationMeetings);
 
 		setResponsibleState({
-			organizationMeetings: organizationMeetings,
+			volunteerOrganizationMeetings: organizationMeetings,
 			[event.target.name]: true
 		});
+	}
 
+	async function onClickManageElderlyMeetings(event) {
+		let organizationMeetings = await getElderlyOrganizationMeetings();
+		console.log('organizationMeetings');
+		console.log(organizationMeetings);
+
+		setResponsibleState({
+			elderlyOrganizationMeetings: organizationMeetings,
+			[event.target.name]: true
+		});
 	}
 
 	useEffect(() => {
@@ -104,10 +135,15 @@ function ResponsiblePage(props) {
 				users: responsibleState.users
 			});
 		}
-		else if (responsibleState.isManageMeetingsClicked) {
-			console.log('responsibleState.organizationMeetings');
-			console.log(responsibleState.organizationMeetings);
-			props.history.push('/responsible/manage-meetings', responsibleState.organizationMeetings);
+		else if (responsibleState.isManageVolunteersMeetingsClicked) {
+			console.log('responsibleState.volunteerOrganizationMeetings');
+			console.log(responsibleState.volunteerOrganizationMeetings);
+			props.history.push('/responsible/manage-volunteers-meetings', responsibleState.volunteerOrganizationMeetings);
+		}
+		else if (responsibleState.isManageElderlyMeetingsClicked) {
+			console.log('responsibleState.elderlyOrganizationMeetings');
+			console.log(responsibleState.elderlyOrganizationMeetings);
+			props.history.push('/responsible/manage-elderly-meetings', responsibleState.elderlyOrganizationMeetings);
 		}
 	});
 
@@ -147,11 +183,19 @@ function ResponsiblePage(props) {
 				</button>
 				<button
 					className="sb-btn"
-					name="isManageMeetingsClicked"
+					name="isManageVolunteersMeetingsClicked"
 					type="button"
-					onClick={(e) => onClickManageMeetings(e)}
+					onClick={(e) => onClickManageVolunteersMeetings(e)}
 				>
-					נהל פגישות
+					נהל פגישות מתנדבים
+				</button>
+				<button
+					className="sb-btn"
+					name="isManageElderlyMeetingsClicked"
+					type="button"
+					onClick={(e) => onClickManageVolunteersMeetings(e)}
+				>
+					נהל פגישות קשישים
 				</button>
 			</div>
 			{responsibleState.modalisOpen ?

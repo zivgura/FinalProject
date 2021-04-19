@@ -118,8 +118,18 @@ const addMeetingDB = async (state) => {
 	return response;
 }
 
-const fetchOrganizationMeetings = async (organizationName) =>{
-	const response = await fetch(serverURL + `/responsible/meetings/` + new URLSearchParams(organizationName),
+const fetchVolunteerOrganizationMeetings = async (organizationName) =>{
+	const response = await fetch(serverURL + `/responsible/meetings-volunteers/` + new URLSearchParams(organizationName),
+		{
+			method: 'get'
+		});
+
+	handleError(response);
+	return response;
+}
+
+const fetchElderlyOrganizationMeetings = async (organizationName) =>{
+	const response = await fetch(serverURL + `/responsible/meetings-elderly/` + new URLSearchParams(organizationName),
 		{
 			method: 'get'
 		});
@@ -173,5 +183,6 @@ export {
 	getMeetings,
 	fetchChannels,
 	fetchElderlyDetails,
-	fetchOrganizationMeetings
+	fetchVolunteerOrganizationMeetings,
+	fetchElderlyOrganizationMeetings
 };

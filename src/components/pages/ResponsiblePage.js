@@ -193,7 +193,7 @@ function ResponsiblePage(props) {
 					className="sb-btn"
 					name="isManageElderlyMeetingsClicked"
 					type="button"
-					onClick={(e) => onClickManageVolunteersMeetings(e)}
+					onClick={(e) => onClickManageElderlyMeetings(e)}
 				>
 					נהל פגישות קשישים
 				</button>

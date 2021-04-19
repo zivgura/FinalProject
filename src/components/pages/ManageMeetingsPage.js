@@ -7,7 +7,7 @@ const ManageMeetingsPage = (props) => {
 
 	return (
 		<div className="page">
-			<Navbar />
+			<Navbar history={props.history}/>
 			<h2 className="header">
 				פגישות בארגון
 			</h2>

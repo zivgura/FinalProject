@@ -32,6 +32,7 @@ class LoginForm extends React.Component {
 			}
 
 			Cookies.set('userName', user.user.userName);
+			Cookies.set('organizationName', user.user.organizationName);
 		}
 		catch (error) {
 			this.setState({message: error.message});

@@ -163,12 +163,7 @@ router.post('/assign', async (req, res, next) => {
 					rankForGender = 1;
 				}
 				//handle areaOfInterest
-				const commonAreaOfInterest = elderly.areasOfInterest.map(area => {
-					if (volunteerDetails.areasOfInterest.includes(area)) {
-						return area;
-					}
-				});
-				// const foundSameInterest = elderlyWithDay.elderly.areasOfInterest.some(r => volunteerDetails.areasOfInterest.includes(r));
+				const commonAreaOfInterest = elderly.areasOfInterest.filter(area => volunteerDetails.areasOfInterest.includes(area));
 				if (commonAreaOfInterest.length > 0) {
 					rankForInterest = 1;
 				}
@@ -183,7 +178,7 @@ router.post('/assign', async (req, res, next) => {
 					commonLanguages: commonLanguages,
 					commonPreferredDays: commonPreferredDays,
 					commonServices: commonServices,
-					preferredGender: preferredGender
+					preferredGender: elderly.genderToMeetWith
 				});
 			}
 
@@ -236,7 +231,8 @@ router.get('/meetings-volunteers/:organizationName', async (req, res, next) => {
 		console.log(volunteerMeetingsInOrganizations);
 		res.send(JSON.parse(JSON.stringify(volunteerMeetingsInOrganizations)));
 
-	} catch (error) {
+	}
+	catch (error) {
 		next(error);
 	}
 });
@@ -253,11 +249,11 @@ router.get('/meetings-elderly/:organizationName', async (req, res, next) => {
 		console.log(elderlyMeetingsInOrganizations);
 		res.send(JSON.parse(JSON.stringify(elderlyMeetingsInOrganizations)));
 
-	} catch (error) {
+	}
+	catch (error) {
 		next(error);
 	}
 });
-
 
 router.get('/volunteers/:organizationName', async (req, res, next) => {
 	try {
@@ -267,7 +263,8 @@ router.get('/volunteers/:organizationName', async (req, res, next) => {
 		console.log(elderlyDetails);
 		res.send(JSON.parse(JSON.stringify(elderlyDetails)));
 
-	} catch (error) {
+	}
+	catch (error) {
 		next(error);
 	}
 });
@@ -280,11 +277,11 @@ router.get('/elderly/:organizationName', async (req, res, next) => {
 		console.log(volunteersDetails);
 		res.send(JSON.parse(JSON.stringify(volunteersDetails)));
 
-	} catch (error) {
+	}
+	catch (error) {
 		next(error);
 	}
 });
-
 
 module.exports = router;
 

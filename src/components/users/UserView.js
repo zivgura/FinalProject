@@ -33,9 +33,9 @@ function UserView({toggleModal, user, setUser}) {
 							<br/>
 							{'שפות משותפות:  ' + (user.commonLanguages.length > 0 ? user.commonLanguages.toString() : 'אין')}
 							<br/>
-							{'ימים ושעות מועדפים משותפים:  ' + (user.commonPreferredDays.length > 0 ? user.commonPreferredDays.toString() : 'אין')}
+							{'ימים ושעות מועדפים משותפים:  ' + (user.commonPreferredDays?.length > 0 ? user.commonPreferredDays?.toString() : 'אין')}
 							<br/>
-							{'מגדר מועדף על הקשיש:  ' + user.preferredGender.toString()}
+							{'מגדר מועדף על הקשיש:  ' + user.preferredGender?.toString()}
 						</div>
 					);
 				}}/>

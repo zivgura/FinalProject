@@ -5,6 +5,7 @@ import * as Cookies from 'js-cookie';
 function Navbar({history}) {
 	const onClick = () => {
 		Cookies.remove('userName');
+		Cookies.remove('organizationName');
 		history.push('/login');
 	}
 

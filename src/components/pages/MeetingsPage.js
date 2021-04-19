@@ -8,9 +8,9 @@ function MeetingsPage(props) {
 		<div className="page">
 			<Navbar history={props.history}/>
 			<div className="meeting-wrapper">
-			<div className="scrollable">
-				<MeetingTable props={props}/>
-			</div>
+				<div className="scrollable">
+					<MeetingTable props={props}/>
+				</div>
 			</div>
 		</div>
 	);

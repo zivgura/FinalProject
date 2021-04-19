@@ -1,22 +1,42 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { convertVolunteerDetailsFromDB } from '../../ClientUtils';
-import { fetchOrganizationsNames, fetchVolunteers } from '../../services/server';
+import { fetchOrganizationMeetings, fetchOrganizationsNames, fetchVolunteers } from '../../services/server';
 import Navbar from '../Navbar';
-import Modal from '../Modal';
+import Modal from '../modal/Modal';
+import * as Cookies from 'js-cookie';
 
 function ResponsiblePage(props) {
+	const organizationName = Cookies.get('organizationName');
+
 	const [responsibleState, setResponsibleState] = useState({
 		organizations: [],
 		users: [],
 		isVolunteerClicked: false,
 		isElderlyClicked: false,
 		isManageVolunteersClicked: false,
+		isManageMeetingsClicked: false,
 		modalisOpen: false
 	});
 
 	async function getOrganizationsNames() {
 		const response = fetchOrganizationsNames();
 		return (await response).json();
+	}
+
+	async function getOrganizationMeetings() {
+		try {
+			const response = fetchOrganizationMeetings(organizationName);
+			return (await response).json();
+		}
+		catch (e) {
+			console.log("e.message.toString()");
+			console.log(e.message.toString());
+			setResponsibleState({...responsibleState,
+				message: e.message.toString(),
+			});
+
+			toggleModal();
+		}
 	}
 
 	async function getVolunteers() {
@@ -36,6 +56,7 @@ function ResponsiblePage(props) {
 			{value: dic.organizationName, label: dic.organizationName}
 		));
 
+		organizations = organizations.filter(obj => obj.value !== 'admin');
 		console.log(organizations);
 		setResponsibleState({
 			organizations: organizations,
@@ -55,6 +76,19 @@ function ResponsiblePage(props) {
 		});
 	}
 
+	async function onClickManageMeetings(event) {
+		let organizationMeetings = await getOrganizationMeetings();
+		// volunteers = convertVolunteerDetailsFromDB(volunteers);
+		console.log('organizationMeetings');
+		console.log(organizationMeetings);
+
+		setResponsibleState({
+			organizationMeetings: organizationMeetings,
+			[event.target.name]: true
+		});
+
+	}
+
 	useEffect(() => {
 		if (responsibleState.isVolunteerClicked) {
 			console.log(responsibleState.organizations);
@@ -70,13 +104,18 @@ function ResponsiblePage(props) {
 				users: responsibleState.users
 			});
 		}
+		else if (responsibleState.isManageMeetingsClicked) {
+			console.log('responsibleState.organizationMeetings');
+			console.log(responsibleState.organizationMeetings);
+			props.history.push('/responsible/manage-meetings', responsibleState.organizationMeetings);
+		}
 	});
 
-	const toggleModal= () => {
-		setResponsibleState({
-			modalisOpen: !responsibleState.modalisOpen
-		});
-	}
+	const toggleModal = useCallback(
+		() => {
+			setResponsibleState({...responsibleState,
+				modalisOpen: !responsibleState.modalisOpen});
+		}, [responsibleState.modalisOpen]);
 
 	return (
 		<div className="page">
@@ -105,6 +144,14 @@ function ResponsiblePage(props) {
 					onClick={(e) => onClickManageVolunteers(e)}
 				>
 					נהל מתנדבים
+				</button>
+				<button
+					className="sb-btn"
+					name="isManageMeetingsClicked"
+					type="button"
+					onClick={(e) => onClickManageMeetings(e)}
+				>
+					נהל פגישות
 				</button>
 			</div>
 			{responsibleState.modalisOpen ?

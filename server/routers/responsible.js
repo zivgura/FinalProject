@@ -228,11 +228,11 @@ router.get('/meetings/:organizationName', async (req, res, next) => {
 	try {
 		let {organizationName} = req.params;
 		organizationName = organizationName.substring(0, organizationName.length - 1);
-		let meetingsInOrganizations = await DButils.execQuery(`SELECT volunteerusers.firstName as volunteerfirstName,
-		 volunteerusers.lastName as volunteerlastName, elderlyusers.firstName as elderlyfirstName,elderlyusers.lastName as elderlylastName,
+		let meetingsInOrganizations = await DButils.execQuery(`SELECT volunteerusers.firstName as volunteerFirstName,
+		 volunteerusers.lastName as volunteerLastName, elderlyusers.firstName as elderlyFirstName,elderlyusers.lastName as elderlyLastName,
 		  meeting, meetingSubject FROM elderly.meetings JOIN elderly.volunteerusers ON
 		   meetings.volunteeruserName = volunteerusers.userName JOIN elderly.elderlyusers ON
-		    meetings.elderlyuserName = elderlyusers.userName WHERE volunteerusers.organizationName= ${organizationName}`);
+		    meetings.elderlyuserName = elderlyusers.userName WHERE volunteerusers.organizationName= '${organizationName}'`);
 		console.log(meetingsInOrganizations);
 		res.send(JSON.parse(JSON.stringify(meetingsInOrganizations)));
 

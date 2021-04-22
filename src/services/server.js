@@ -97,8 +97,8 @@ const registerVolunteer = async (state) => {
 	return response;
 };
 
-const fetchVolunteers = async (state) => {
-	const response = await fetch(serverURL + `/responsible/volunteersDetails/` + new URLSearchParams(state),
+const fetchVolunteers = async (organizationName) => {
+	const response = await fetch(serverURL + `/responsible/volunteersDetails/` + new URLSearchParams(organizationName),
 		{
 			method: 'get'
 		});

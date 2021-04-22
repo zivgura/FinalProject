@@ -16,7 +16,9 @@ router.post('/login', async (req, res, next) => {
 		// check that the password is correct
 		const user = (
 			await DButils.execQuery(
-				`SELECT * FROM users WHERE username = '${username}'`
+				`SELECT userName, password, userRole, elderly.users.organizationName, organizationType
+				 FROM elderly.users JOIN elderly.organizations ON elderly.users.organizationName = elderly.organizations.organizationName
+				 WHERE username = '${username}'`
 			)
 		)[0];
 

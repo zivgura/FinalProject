@@ -28,7 +28,7 @@ class LoginForm extends React.Component {
 				this.props.history.push('/' + user.user.userRole, user.user.userName);
 			}
 			else {
-				this.props.history.push('/' + user.user.userRole, user.user.organizationName);
+				this.props.history.push('/' + user.user.userRole, user.user.organizationType);
 			}
 
 			Cookies.set('userName', user.user.userName);

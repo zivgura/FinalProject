@@ -22,7 +22,7 @@ function UserView({toggleModal, user, setUser}) {
 			</td>
 			<td className="col-3">
 				<p data-tip={user.elderly.userName} data-for={`tooltip-${user.elderly.userName}`}>
-					{user.finalRank * 100 + '%'}
+					{(user.finalRank * 100).toFixed() + '%'}
 				</p>
 				<ReactTooltip id={`tooltip-${user.elderly.userName}`} getContent={() => {
 					return (

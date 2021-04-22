@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { convertVolunteerDetailsFromDB } from '../../ClientUtils';
 import {
-	fetchVolunteerOrganizationMeetings,
+	fetchElderlyOrganizationMeetings,
 	fetchOrganizationsNames,
-	fetchVolunteers,
-	fetchElderlyOrganizationMeetings
+	fetchVolunteerOrganizationMeetings,
+	fetchVolunteers
 } from '../../services/server';
 import Navbar from '../Navbar';
 import Modal from '../modal/Modal';
@@ -12,10 +12,13 @@ import * as Cookies from 'js-cookie';
 
 function ResponsiblePage(props) {
 	const organizationName = Cookies.get('organizationName');
+	const organizationType = props.history.location.state;
 
 	const [responsibleState, setResponsibleState] = useState({
 		organizations: [],
 		users: [],
+		isElderlyResponsible: false,
+		isVolunteerResponsible: false,
 		isVolunteerClicked: false,
 		isElderlyClicked: false,
 		isManageVolunteersClicked: false,
@@ -23,6 +26,27 @@ function ResponsiblePage(props) {
 		isManageElderlyMeetingsClicked: false,
 		modalisOpen: false
 	});
+
+	useEffect(() => {
+		if (organizationType.includes('מתנדבים') && organizationType.includes('קשישים')){
+			setResponsibleState({
+				isVolunteerResponsible: true,
+				isElderlyResponsible: true
+			});
+		}
+		else if (organizationType.includes('מתנדבים')) {
+			setResponsibleState({...responsibleState,
+				isVolunteerResponsible: true
+			});
+		}
+		else if (organizationType.includes('קשישים')) {
+			setResponsibleState({...responsibleState,
+				isElderlyResponsible: true
+			});
+		}
+
+		console.log(organizationType);
+	}, [organizationType]);
 
 	async function getOrganizationsNames() {
 		const response = fetchOrganizationsNames();
@@ -35,10 +59,11 @@ function ResponsiblePage(props) {
 			return (await response).json();
 		}
 		catch (e) {
-			console.log("e.message.toString()");
+			console.log('e.message.toString()');
 			console.log(e.message.toString());
-			setResponsibleState({...responsibleState,
-				message: e.message.toString(),
+			setResponsibleState({
+				...responsibleState,
+				message: e.message.toString()
 			});
 
 			toggleModal();
@@ -51,10 +76,11 @@ function ResponsiblePage(props) {
 			return (await response).json();
 		}
 		catch (e) {
-			console.log("e.message.toString()");
+			console.log('e.message.toString()');
 			console.log(e.message.toString());
-			setResponsibleState({...responsibleState,
-				message: e.message.toString(),
+			setResponsibleState({
+				...responsibleState,
+				message: e.message.toString()
 			});
 
 			toggleModal();
@@ -62,9 +88,8 @@ function ResponsiblePage(props) {
 	}
 
 	async function getVolunteers() {
-		console.log(props.history.location.state);
 		try {
-			const response = fetchVolunteers(props.history.location.state);
+			const response = fetchVolunteers(organizationName);
 			return (await response).json();
 		}
 		catch (error) {
@@ -131,7 +156,7 @@ function ResponsiblePage(props) {
 		}
 		else if (responsibleState.isManageVolunteersClicked) {
 			props.history.push('/responsible/manage-volunteers', {
-				organizationName: props.history.location.state,
+				organizationName: organizationName,
 				users: responsibleState.users
 			});
 		}
@@ -149,55 +174,66 @@ function ResponsiblePage(props) {
 
 	const toggleModal = useCallback(
 		() => {
-			setResponsibleState({...responsibleState,
-				modalisOpen: !responsibleState.modalisOpen});
+			setResponsibleState({
+				...responsibleState,
+				modalisOpen: !responsibleState.modalisOpen
+			});
 		}, [responsibleState.modalisOpen]);
 
 	return (
 		<div className="page">
-			<Navbar history={props.history} organizationName={props.history.location.state}/>
-			<div className="buttons-section">
-				<button
-					className="sb-btn"
-					name="isVolunteerClicked"
-					type="button"
-					onClick={(e) => onClick(e)}
-				>
-					צור מתנדב חדש
-				</button>
-				<button
-					className="sb-btn"
-					name="isElderlyClicked"
-					type="button"
-					onClick={(e) => onClick(e)}
-				>
-					צור קשיש חדש
-				</button>
-				<button
-					className="sb-btn"
-					name="isManageVolunteersClicked"
-					type="button"
-					onClick={(e) => onClickManageVolunteers(e)}
-				>
-					נהל מתנדבים
-				</button>
-				<button
-					className="sb-btn"
-					name="isManageVolunteersMeetingsClicked"
-					type="button"
-					onClick={(e) => onClickManageVolunteersMeetings(e)}
-				>
-					נהל פגישות מתנדבים
-				</button>
-				<button
-					className="sb-btn"
-					name="isManageElderlyMeetingsClicked"
-					type="button"
-					onClick={(e) => onClickManageElderlyMeetings(e)}
-				>
-					נהל פגישות קשישים
-				</button>
-			</div>
+			<Navbar history={props.history} organizationName={organizationName}/>
+			{console.log(responsibleState.isElderlyResponsible + ' ' + responsibleState.isVolunteerResponsible)}
+			{responsibleState.isVolunteerResponsible ?
+				<div className="buttons-section">
+					<button
+						className="sb-btn"
+						name="isVolunteerClicked"
+						type="button"
+						onClick={(e) => onClick(e)}
+					>
+						צור מתנדב חדש
+					</button>
+					<button
+						className="sb-btn"
+						name="isManageVolunteersClicked"
+						type="button"
+						onClick={(e) => onClickManageVolunteers(e)}
+					>
+						קבע פגישות למתנדבים
+					</button>
+					<button
+						className="sb-btn"
+						name="isManageVolunteersMeetingsClicked"
+						type="button"
+						onClick={(e) => onClickManageVolunteersMeetings(e)}
+					>
+						נהל פגישות מתנדבים
+					</button>
+				</div>
+				: null
+			}
+			{responsibleState.isElderlyResponsible ?
+				<div className="buttons-section">
+					<button
+						className="sb-btn"
+						name="isElderlyClicked"
+						type="button"
+						onClick={(e) => onClick(e)}
+					>
+						צור קשיש חדש
+					</button>
+					<button
+						className="sb-btn"
+						name="isManageElderlyMeetingsClicked"
+						type="button"
+						onClick={(e) => onClickManageElderlyMeetings(e)}
+					>
+						נהל פגישות קשישים
+					</button>
+				</div>
+				: null
+			}
 			{responsibleState.modalisOpen ?
 				<Modal
 					{...responsibleState}

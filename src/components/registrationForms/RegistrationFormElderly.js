@@ -170,9 +170,7 @@ class RegistrationFormElderly extends Component {
 	}
 
 	closeModal() {
-		this.setState({
-			modalisOpen: false
-		});
+		this.toggleModal();
 
 		if(!this.state.hasErrors) {
 			this.props.history.push('/responsible');
@@ -443,7 +441,7 @@ class RegistrationFormElderly extends Component {
 
 								<div className="field">
 									<label>
-										עוד משהו שכדאי לדעת עלי
+										עוד משהו שכדאי לדעת עליו
 										<input
 											name="additionalInformation"
 											className={shouldMarkError('additionalInformation') ? 'error' : ''}
@@ -459,7 +457,7 @@ class RegistrationFormElderly extends Component {
 						</div>
 						{this.state.modalisOpen ?
 							<Modal
-								text='שים לב'
+								text='שים/י לב'
 								{...this.state}
 								closeModal={this.closeModal}
 							/>

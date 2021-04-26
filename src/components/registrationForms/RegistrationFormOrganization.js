@@ -26,7 +26,8 @@ class RegistrationFormOrganization extends Component {
 				organizationType: false,
 				phoneNumber: false
 			},
-			modalisOpen: false
+			modalisOpen: false,
+			hasErrors: false
 		};
 
 		this.rexExpMap = {
@@ -40,6 +41,7 @@ class RegistrationFormOrganization extends Component {
 		this.checkData = this.checkData.bind(this);
 		this.toggleModal = this.toggleModal.bind(this);
 		this.checkOnSubmit = this.checkOnSubmit.bind(this);
+		this.closeModal = this.closeModal.bind(this);
 	}
 
 	handleChange = (e, name) => {
@@ -79,7 +81,7 @@ class RegistrationFormOrganization extends Component {
 	}
 
 	errorMessages(name) {
-		const requiredStr = 'שדב חובה';
+		const requiredStr = 'שדה חובה';
 		const invalidStr = 'ערך לא תקין';
 		return !this.state.valid[name] && this.state[name] !== '' ? invalidStr : requiredStr;
 	}
@@ -91,6 +93,10 @@ class RegistrationFormOrganization extends Component {
 		const formHasErrors = !formFilled || formInvalid;
 
 		if (!formHasErrors) {
+			this.handleSubmit();
+		}
+		else{
+			this.setState({message: `אחד או יותר מהשדות לא תקינים`, hasErrors: true});
 			this.toggleModal();
 		}
 		this.setState({
@@ -101,21 +107,19 @@ class RegistrationFormOrganization extends Component {
 				phoneNumber: true
 			}
 		});
-
-		this.handleSubmit();
 	}
 
 	async handleSubmit() {
 		try {
 			const response = await registerOrganization(this.state);
 			await response.json();
-			this.setState({message: 'הרישום הצליח'});
+			this.setState({message: 'הרישום הצליח', hasErrors: false});
 		}
 		catch (error) {
-			this.setState({message: `הרישום נכשל. \n ${error.message}`});
+			this.setState({message: `הרישום נכשל. \n ${error.message}`, hasErrors:true});
 		}
 
-			this.toggleModal();
+		this.toggleModal();
 	}
 
 	toggleModal() {
@@ -125,9 +129,7 @@ class RegistrationFormOrganization extends Component {
 	}
 
 	closeModal() {
-		this.setState({
-			modalisOpen: false
-		});
+		this.toggleModal();
 
 		if(!this.state.hasErrors) {
 			this.props.history.push('/admin');
@@ -204,14 +206,17 @@ class RegistrationFormOrganization extends Component {
 											className={shouldMarkError('phoneNumber') ? 'error' : ''}
 											onChange={(e) => this.handleChange(e, 'phoneNumber')}/>
 									</label>
+									<span className="required-field"
+										  style={this.requiredStyle('phoneNumber')}>{this.errorMessages('phoneNumber')}</span>
 								</div>
 								<button className="sb-btn" type="button" onClick={this.checkOnSubmit}>סיום</button>
 							</div>
 						</div>
 						{this.state.modalisOpen ?
 							<Modal
+								text='שים/י לב'
 								{...this.state}
-								closeModal={this.toggleModal}
+								closeModal={this.closeModal}
 							/>
 							: null
 						}
@@ -223,4 +228,3 @@ class RegistrationFormOrganization extends Component {
 }
 
 export default RegistrationFormOrganization;
-

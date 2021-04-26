@@ -4,7 +4,7 @@ const handleError = (response) => {
 			case 401:
 				throw new Error('שם משתמש או סיסמה שגויים');
 			case 409:
-				throw new Error('שם המשתמש תפוס');
+				throw new Error('הערך תפוס');
 			case 500:
 				throw new Error('שגיאה בשרת, נסה שנית');
 			default:

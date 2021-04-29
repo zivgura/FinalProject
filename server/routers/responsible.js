@@ -2,7 +2,7 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const DButils = require('../DButils.js');
 const {bcrypt_saltRounds} = require('../DButils');
-const {sendConfirmationEmail} = require('../emailSender');
+const {sendConfirmationEmail, sendMeetingEmail} = require('../emailSender');
 const router = express.Router();
 
 // register volunteer
@@ -89,19 +89,6 @@ router.post('/registerElderly', async (req, res, next) => {
 		//send result
 		res.setHeader('Content-Type', 'application/json');
 		res.status(200).send({message: 'registration succeeded', success: true});
-	}
-	catch (error) {
-		next(error);
-	}
-});
-
-router.get('/volunteersDetails/:organizationName', async (req, res, next) => {
-	try {
-		let {organizationName} = req.params;
-		organizationName = organizationName.substring(0, organizationName.length - 1);
-		let volunteers = await DButils.execQuery(`SELECT * FROM volunteerUsers where organizationName= '${organizationName}'`);
-		res.send(JSON.parse(JSON.stringify(volunteers)));
-
 	}
 	catch (error) {
 		next(error);
@@ -198,6 +185,7 @@ router.post('/assign', async (req, res, next) => {
 
 router.post('/addMeeting', async (req, res, next) => {
 	try {
+		const user = req.body.user;
 		const meetingDayAndHour = req.body.user.actualDate;
 		const volunteerUsername = req.body.user.volunteerUsername;
 		const elderlyUsername = req.body.user.elderly.userName;
@@ -211,6 +199,20 @@ router.post('/addMeeting', async (req, res, next) => {
 
 		await DButils.execQuery('Insert into meetings (volunteeruserName, elderlyuserName, meeting, meetingSubject, channelName) '
 			+ `VALUES ('${volunteerUsername}', '${elderlyUsername}', '${meetingDayAndHour}', '${meetingSubject}' ,'${channelName}');`);
+
+		let volunteer = await DButils.execQuery(`Select firstName, lastName, email FROM volunteerUsers WHERE userName='${volunteerUsername}';`);
+		volunteer = JSON.parse(JSON.stringify(volunteer))[0];
+
+		await sendMeetingEmail({
+			email: volunteer.email,
+			firstName: volunteer.firstName,
+			lastName: volunteer.lastName,
+			meeting: {
+				meetingDate: user.actualDate,
+				elderlyName: user.elderly.firstName +' '+user.elderly.lastName,
+				meetingSubject: user.meetingSubject
+			}
+		});
 
 		res.status(200).send({message: 'added meeting', success: true});
 	}
@@ -255,28 +257,41 @@ router.get('/meetings-elderly/:organizationName', async (req, res, next) => {
 	}
 });
 
-router.get('/volunteers/:organizationName', async (req, res, next) => {
+router.get('/volunteersDetails/:organizationName', async (req, res, next) => {
 	try {
 		let {organizationName} = req.params;
 		organizationName = organizationName.substring(0, organizationName.length - 1);
-		let elderlyDetails = await DButils.execQuery(`SELECT * from volunteerUsers WHERE volunteerUsers.organizationName= '${organizationName}'`);
-		console.log(elderlyDetails);
-		res.send(JSON.parse(JSON.stringify(elderlyDetails)));
+		let volunteers;
+		if (organizationName !== 'NONE') {
+			volunteers = await DButils.execQuery(`SELECT * FROM volunteerUsers where organizationName= '${organizationName}'`);
+		}
+		else{
+			volunteers = await DButils.execQuery(`SELECT * FROM volunteerUsers`);
+		}
 
+		volunteers = DButils.convertVolunteerDetailsFromDB(volunteers);
+		res.send(JSON.stringify(volunteers));
 	}
 	catch (error) {
 		next(error);
 	}
 });
 
-router.get('/elderly/:organizationName', async (req, res, next) => {
+router.get('/elderlyDetails/:organizationName', async (req, res, next) => {
 	try {
 		let {organizationName} = req.params;
 		organizationName = organizationName.substring(0, organizationName.length - 1);
-		let volunteersDetails = await DButils.execQuery(`SELECT * from elderlyUsers WHERE elderlyUsers.organizationName= '${organizationName}'`);
-		console.log(volunteersDetails);
-		res.send(JSON.parse(JSON.stringify(volunteersDetails)));
+		let elderlyDetails;
 
+		if (organizationName !== 'NONE') {
+			elderlyDetails = await DButils.execQuery(`SELECT * from elderlyUsers WHERE elderlyUsers.organizationName= '${organizationName}'`);
+		}
+		else {
+			elderlyDetails = await DButils.execQuery(`SELECT * from elderlyUsers`);
+		}
+
+		elderlyDetails = DButils.convertElderlyDetailsFromDB(elderlyDetails);
+		res.send(JSON.stringify(elderlyDetails));
 	}
 	catch (error) {
 		next(error);

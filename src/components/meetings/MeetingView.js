@@ -18,7 +18,7 @@ function MeetingView({meeting, history}) {
 			'videoProfile': '480p_4'
 		};
 
-		history.push('/volunteer/meetings/videoCall', videoOptions);
+		history.push('/volunteer/meetings/videoCall', {videoOptions:videoOptions, isElderly:false});
 	};
 
 	return (

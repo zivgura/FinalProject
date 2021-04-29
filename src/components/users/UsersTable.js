@@ -15,8 +15,8 @@ function UsersTable({users, isHidden, toggleModal, setUser}) {
 					</tr>
 					</thead>
 					<tbody>
-					{users.map((user) => (
-						<tr key={user} className="table-row">
+					{users.map((user,index) => (
+						<tr key={index} className="table-row">
 							<UserView user={user} toggleModal={toggleModal} setUser={setUser}/>
 						</tr>
 					))}

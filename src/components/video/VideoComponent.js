@@ -62,6 +62,7 @@ class VideoComponent extends React.Component {
 
 	componentWillMount() {
 		let $ = this.props.videoOptions;
+		console.log("$");
 		console.log($);
 		// init AgoraRTC local client
 		this.client = AgoraRTC.createClient({mode: $.transcode});
@@ -69,7 +70,7 @@ class VideoComponent extends React.Component {
 			console.log('AgoraRTC client initialized');
 			this.subscribeStreamEvents();
 			this.client.join($.appId, $.channel, $.uid, (uid) => {
-				this.state.uid=uid;
+				this.state.uid = uid;
 				// this.setState(prevState => prevState.uid !== uid ? {uid} : {});
 				console.log('User ' + uid + ' join channel successfully');
 				console.log('At ' + new Date().toLocaleTimeString());
@@ -344,6 +345,10 @@ class VideoComponent extends React.Component {
 		});
 	};
 
+	closeCallToAll = () => {
+
+	}
+
 	handleExit = (e) => {
 		if (e.currentTarget.classList.contains('disabled')) {
 			return;
@@ -522,20 +527,26 @@ class VideoComponent extends React.Component {
 		return (
 			<div id="ag-canvas" style={style}>
 				<div className="ag-btn-group">
-					{exitBtn}
-					{videoControlBtn}
-					{audioControlBtn}
 					{
-						<span
-							onClick={this.sharingScreen}
-							className="ag-btn shareScreenBtn"
-							title="Share/unShare Screen"
-						>
-              <i className="ag-icon ag-icon-screen-share"></i>
-            </span>
+						this.props.isElderly
+							? null
+							: <>
+								{exitBtn}
+								{videoControlBtn}
+								{audioControlBtn}
+								{
+									<span
+										onClick={this.sharingScreen}
+										className="ag-btn shareScreenBtn"
+										title="Share/unShare Screen"
+									>
+									<i className="ag-icon ag-icon-screen-share"></i>
+									</span>
+								}
+								{switchDisplayBtn}
+								{hideRemoteBtn}
+							</>
 					}
-					{switchDisplayBtn}
-					{hideRemoteBtn}
 				</div>
 			</div>
 		);

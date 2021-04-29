@@ -4,7 +4,7 @@ import Navbar from '../Navbar';
 import { fetchElderlyDetails, getMeetings } from '../../services/server';
 
 function VolunteerPage(props) {
-	const [volunteerState, setVolunteerState] = useState({meetings: []});
+	const [volunteerState, setVolunteerState] = useState({meetings: [], isMeetingsClicked:false});
 
 	async function getMeetingsNames() {
 		const response = await getMeetings(Cookies.get('userName'));
@@ -12,25 +12,44 @@ function VolunteerPage(props) {
 	}
 
 	async function getElderlyDetails() {
-		const response = await fetchElderlyDetails(Cookies.get('organizationName'));
+		const response = await fetchElderlyDetails();
 		return await response.json();
 	}
+
+	const filterMeetings = (meetings) => {
+		const today = new Date();
+		return meetings.filter(meeting => {
+			const day = parseInt(meeting.meetingDate.substring(0, 2));
+			const month = parseInt(meeting.meetingDate.substring(3, 5));
+			const year = parseInt(meeting.meetingDate.substring(6, 10));
+			const date = new Date(year, month-1, day);
+
+			if (date >= today) {
+				return meeting;
+			}
+		});
+	};
 
 	async function onClick() {
 		let meetings = await getMeetingsNames();
 		let elderlyDetails = await getElderlyDetails();
-		meetings = meetings.map( (dic) =>  (
-				{meetingDate: dic.meeting, elderlyUserName:	dic.elderlyuserName,
-				meetingSubject:	dic.meetingSubject, elderlyDetails: elderlyDetails.find(row => row.userName === dic.elderlyuserName)}
+		console.log(elderlyDetails);
+		meetings = meetings.map((dic) => (
+				{
+					meetingDate: dic.meeting,
+					elderlyUserName: dic.elderlyuserName,
+					meetingSubject: dic.meetingSubject,
+					elderlyDetails: elderlyDetails.find(row => row.userName === dic.elderlyuserName)
+				}
 			)
 		);
 
-		setVolunteerState({meetings: meetings});
-		console.log(meetings);
+		meetings = filterMeetings(meetings);
+		setVolunteerState({meetings: meetings, isMeetingsClicked: true});
 	}
 
 	useEffect(() => {
-		if (volunteerState.meetings.length !== 0) {
+		if (volunteerState.isMeetingsClicked) {
 			console.log(volunteerState.meetings);
 			props.history.push('/volunteer/meetings', volunteerState.meetings);
 		}

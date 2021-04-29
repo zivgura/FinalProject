@@ -4,7 +4,7 @@ const USER = 'televol.noreply@gmail.com';
 const PASSWORD = 'ZivNadav1!';
 const DOMAIN = 'http://localhost:3000/Tele-vol';
 
-exports.sendConfirmationEmail = function ({username, email, password, firstName, lastName}) {
+exports.sendConfirmationEmail = function ({username, email, password, firstName, lastName, message}) {
 	// Return promise in order to use async/await or "then"
 	return new Promise((res, rej) => {
 		// Create transporter object with gmail service
@@ -23,6 +23,7 @@ exports.sendConfirmationEmail = function ({username, email, password, firstName,
 		// Create a message you want to send to a user
 		const message = {
 			from: USER,
+			// todo: change email field
 			// to: email // in production uncomment this
 			// While we are testing we want to send a message to our selfs
 			to: USER,
@@ -37,6 +38,48 @@ exports.sendConfirmationEmail = function ({username, email, password, firstName,
 		};
 
 		// send an email
+		transporter.sendMail(message, function (err, info) {
+			if (err) {
+				rej(err);
+			}
+			else {
+				res(info);
+			}
+		});
+	});
+};
+
+exports.sendMeetingEmail = function ({email, firstName, lastName, meeting}) {
+	return new Promise((res, rej) => {
+		// Create transporter object with gmail service
+		const transporter = nodemailer.createTransport({
+			service: 'gmail',
+			auth: {
+				user: USER,
+				pass: PASSWORD
+			},
+			tls: {
+				rejectUnauthorized: false
+			},
+			secure: false
+		});
+
+		const message = {
+			from: USER,
+			// todo: change email field
+			// to: email // in production uncomment this
+			// While we are testing we want to send a message to our selfs
+			to: USER,
+			subject: 'Tele-Vol - נקבעה לך פגישה',
+			html: `
+        <h3> שלום ${firstName + ' ' + lastName}</h3>
+        <p>נקבעה לך פגישה עם ${meeting.elderlyName}, ב ${meeting.meetingDate} בנושא ${meeting.meetingSubject}</p>
+        <p>לצפיה בפגישות שלך היכנס למערכת בקישור הבא <a target="_" href="${DOMAIN}">${DOMAIN} </a></p>
+        <p>תודה,</p>
+        <p>צוות המערכת</p>
+      `
+		};
+
 		transporter.sendMail(message, function (err, info) {
 			if (err) {
 				rej(err);

@@ -34,7 +34,7 @@
 }
 
 .scrollable{
-    height: 400px;
+    height: 30%;
     overflow-y: auto;
 }
 

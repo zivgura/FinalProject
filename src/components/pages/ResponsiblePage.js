@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { convertVolunteerDetailsFromDB } from '../../ClientUtils';
 import {
+	fetchElderlyDetails,
 	fetchElderlyOrganizationMeetings,
 	fetchOrganizationsNames,
 	fetchVolunteerOrganizationMeetings,
@@ -17,6 +17,8 @@ function ResponsiblePage(props) {
 	const [responsibleState, setResponsibleState] = useState({
 		organizations: [],
 		users: [],
+		elderlyUsers: [],
+		volunteersUsers: [],
 		isElderlyResponsible: false,
 		isVolunteerResponsible: false,
 		isVolunteerClicked: false,
@@ -24,28 +26,30 @@ function ResponsiblePage(props) {
 		isManageVolunteersClicked: false,
 		isManageVolunteersMeetingsClicked: false,
 		isManageElderlyMeetingsClicked: false,
+		isSearchVolunteersClicked: false,
+		isSearchElderlyClicked: false,
 		modalisOpen: false
 	});
 
 	useEffect(() => {
-		if (organizationType.includes('מתנדבים') && organizationType.includes('קשישים')){
+		if (organizationType.includes('מתנדבים') && organizationType.includes('קשישים')) {
 			setResponsibleState({
 				isVolunteerResponsible: true,
 				isElderlyResponsible: true
 			});
 		}
 		else if (organizationType.includes('מתנדבים')) {
-			setResponsibleState({...responsibleState,
+			setResponsibleState({
+				...responsibleState,
 				isVolunteerResponsible: true
 			});
 		}
 		else if (organizationType.includes('קשישים')) {
-			setResponsibleState({...responsibleState,
+			setResponsibleState({
+				...responsibleState,
 				isElderlyResponsible: true
 			});
 		}
-
-		console.log(organizationType);
 	}, [organizationType]);
 
 	async function getOrganizationsNames() {
@@ -97,6 +101,16 @@ function ResponsiblePage(props) {
 		}
 	}
 
+	async function getElderly() {
+		try {
+			const response = fetchElderlyDetails(organizationName);
+			return (await response).json();
+		}
+		catch (error) {
+
+		}
+	}
+
 	async function onClick(event) {
 		let organizations = await getOrganizationsNames();
 		organizations = organizations.map((dic) => (
@@ -113,7 +127,6 @@ function ResponsiblePage(props) {
 
 	async function onClickManageVolunteers(event) {
 		let volunteers = await getVolunteers();
-		volunteers = convertVolunteerDetailsFromDB(volunteers);
 		console.log('volunteers');
 		console.log(volunteers);
 
@@ -145,6 +158,25 @@ function ResponsiblePage(props) {
 		});
 	}
 
+	async function onClickSearchVolunteers(event) {
+		let volunteerUsers = await getVolunteers();
+		console.log(volunteerUsers);
+
+		setResponsibleState({
+			volunteersUsers: volunteerUsers,
+			[event.target.name]: true
+		});
+	}
+
+	async function onClickSearchElderly(event) {
+		let elderlyUsers = await getElderly();
+		console.log(elderlyUsers);
+		setResponsibleState({
+			elderlyUsers: elderlyUsers,
+			[event.target.name]: true
+		});
+	}
+
 	useEffect(() => {
 		if (responsibleState.isVolunteerClicked) {
 			console.log(responsibleState.organizations);
@@ -170,6 +202,16 @@ function ResponsiblePage(props) {
 			console.log(responsibleState.elderlyOrganizationMeetings);
 			props.history.push('/responsible/manage-elderly-meetings', responsibleState.elderlyOrganizationMeetings);
 		}
+		else if (responsibleState.isSearchVolunteersClicked) {
+			console.log('responsibleState.volunteersUsers');
+			console.log(responsibleState.volunteersUsers);
+			props.history.push('/responsible/search-volunteers', responsibleState.volunteersUsers);
+		}
+		else if (responsibleState.isSearchElderlyClicked) {
+			console.log('responsibleState.elderlyUsers');
+			console.log(responsibleState.elderlyUsers);
+			props.history.push('/responsible/search-elderly', responsibleState.elderlyUsers);
+		}
 	});
 
 	const toggleModal = useCallback(
@@ -183,7 +225,6 @@ function ResponsiblePage(props) {
 	return (
 		<div className="page">
 			<Navbar history={props.history} organizationName={organizationName}/>
-			{console.log(responsibleState.isElderlyResponsible + ' ' + responsibleState.isVolunteerResponsible)}
 			{responsibleState.isVolunteerResponsible ?
 				<div className="buttons-section">
 					<button
@@ -210,6 +251,14 @@ function ResponsiblePage(props) {
 					>
 						נהל פגישות מתנדבים
 					</button>
+					<button
+						className="sb-btn"
+						name="isSearchVolunteersClicked"
+						type="button"
+						onClick={(e) => onClickSearchVolunteers(e)}
+					>
+						חפש מתנדבים
+					</button>
 				</div>
 				: null
 			}
@@ -230,6 +279,14 @@ function ResponsiblePage(props) {
 						onClick={(e) => onClickManageElderlyMeetings(e)}
 					>
 						נהל פגישות קשישים
+					</button>
+					<button
+						className="sb-btn"
+						name="isSearchElderlyClicked"
+						type="button"
+						onClick={(e) => onClickSearchElderly(e)}
+					>
+						חפש קשישים
 					</button>
 				</div>
 				: null

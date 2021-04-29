@@ -98,6 +98,9 @@ const registerVolunteer = async (state) => {
 };
 
 const fetchVolunteers = async (organizationName) => {
+	if(!organizationName){
+		organizationName = 'NONE';
+	}
 	const response = await fetch(serverURL + `/responsible/volunteersDetails/` + new URLSearchParams(organizationName),
 		{
 			method: 'get'
@@ -158,8 +161,12 @@ const fetchChannels = async (elderlyUserName) => {
 	return response;
 }
 
-const fetchElderlyDetails = async (elderlyUserName) =>{
-	const response = await fetch(serverURL + `/elderly/details/` + new URLSearchParams(elderlyUserName),
+const fetchElderlyDetails = async (organizationName) =>{
+	if(!organizationName){
+		organizationName = 'NONE';
+	}
+
+	const response = await fetch(serverURL + `/responsible/elderlyDetails/` + new URLSearchParams(organizationName),
 		{
 			method: 'get'
 		});

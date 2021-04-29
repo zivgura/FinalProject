@@ -21,7 +21,7 @@ function ElderlyPage(props) {
 			'videoProfile': '480p_4'
 		};
 
-		props.history.push('/elderly/meetings/videoCall', videoOptions);
+		props.history.push('/elderly/meetings/videoCall', {videoOptions:videoOptions, isElderly:true});
 	}
 
 	return (

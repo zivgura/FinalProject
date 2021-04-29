@@ -15,6 +15,8 @@ import ElderlyPage from './components/pages/ElderlyPage';
 import { ChangePasswordPage } from './components/pages/ChangePasswordPage';
 import './components/registrationForms/RegistrationForm.css';
 import ManageMeetingsPage from './components/pages/ManageMeetingsPage';
+import SearchPage from './components/pages/SearchPage';
+import AdminSearchPage from './components/pages/AdminSearchPage';
 
 function Routes() {
 	return (
@@ -26,6 +28,7 @@ function Routes() {
 				<Route exact path="/login" component={LoginForm}/>
 				<Route exact path="/user/activate/:username/:password" component={ChangePasswordPage}/>
 				<Route exact path="/admin" component={AdminPage}/>
+				<Route exact path="/admin/search" component={AdminSearchPage}/>
 				<Route exact path="/admin/register-responsible" component={RegistrationFormResponsible}/>
 				<Route exact path="/admin/register-organization" component={RegistrationFormOrganization}/>
 				<Route exact path="/responsible" component={ResponsiblePage}/>
@@ -34,6 +37,8 @@ function Routes() {
 				<Route exact path="/responsible/manage-volunteers" component={ManageUsers}/>
 				<Route exact path="/responsible/manage-volunteers-meetings" component={ManageMeetingsPage}/>
 				<Route exact path="/responsible/manage-elderly-meetings" component={ManageMeetingsPage}/>
+				<Route exact path="/responsible/search-volunteers" component={SearchPage}/>
+				<Route exact path="/responsible/search-elderly" component={SearchPage}/>
 				<Route exact path="/volunteer" component={VolunteerPage}/>
 				<Route exact path="/volunteer/meetings" component={MeetingsPage}/>
 				<Route exact path="/volunteer/meetings/videoCall" component={VideoCallPage}/>

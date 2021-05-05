@@ -227,7 +227,7 @@ router.get('/meetings-volunteers/:organizationName', async (req, res, next) => {
 		organizationName = organizationName.substring(0, organizationName.length - 1);
 		let volunteerMeetingsInOrganizations = await DButils.execQuery(`SELECT volunteerusers.firstName as volunteerFirstName,
 		 volunteerusers.lastName as volunteerLastName, elderlyusers.firstName as elderlyFirstName,elderlyusers.lastName as elderlyLastName,
-		  meeting, meetingSubject FROM elderly.meetings JOIN elderly.volunteerusers ON
+		  meeting, meetingSubject, channelName FROM elderly.meetings JOIN elderly.volunteerusers ON
 		   meetings.volunteeruserName = volunteerusers.userName JOIN elderly.elderlyusers ON
 		    meetings.elderlyuserName = elderlyusers.userName WHERE volunteerusers.organizationName= '${organizationName}'`);
 		console.log(volunteerMeetingsInOrganizations);
@@ -245,7 +245,7 @@ router.get('/meetings-elderly/:organizationName', async (req, res, next) => {
 		organizationName = organizationName.substring(0, organizationName.length - 1);
 		let elderlyMeetingsInOrganizations = await DButils.execQuery(`SELECT volunteerusers.firstName as volunteerFirstName,
 		 volunteerusers.lastName as volunteerLastName, elderlyusers.firstName as elderlyFirstName,elderlyusers.lastName as elderlyLastName,
-		  meeting, meetingSubject FROM elderly.meetings JOIN elderly.volunteerusers ON
+		  meeting, meetingSubject, channelName FROM elderly.meetings JOIN elderly.volunteerusers ON
 		   meetings.volunteeruserName = volunteerusers.userName JOIN elderly.elderlyusers ON
 		    meetings.elderlyuserName = elderlyusers.userName WHERE elderlyusers.organizationName= '${organizationName}'`);
 		console.log(elderlyMeetingsInOrganizations);
@@ -292,6 +292,19 @@ router.get('/elderlyDetails/:organizationName', async (req, res, next) => {
 
 		elderlyDetails = DButils.convertElderlyDetailsFromDB(elderlyDetails);
 		res.send(JSON.stringify(elderlyDetails));
+	}
+	catch (error) {
+		next(error);
+	}
+});
+
+router.delete('/deleteMeeting/:channelName',async (req, res, next) => {
+	try {
+		console.log('deleteMeeting');
+		let {channelName} = req.params;
+		channelName = channelName.substring(0, channelName.length - 1);
+		await DButils.execQuery(`DELETE from meetings WHERE meetings.channelName= '${channelName}'`);
+		res.status(200).send({message: 'delete succeeded', success: true});
 	}
 	catch (error) {
 		next(error);

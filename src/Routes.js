@@ -13,10 +13,11 @@ import MeetingsPage from './components/pages/MeetingsPage';
 import VideoCallPage from './components/pages/VideoCallPage';
 import ElderlyPage from './components/pages/ElderlyPage';
 import { ChangePasswordPage } from './components/pages/ChangePasswordPage';
-import './components/registrationForms/RegistrationForm.css';
 import ManageMeetingsPage from './components/pages/ManageMeetingsPage';
 import SearchPage from './components/pages/SearchPage';
 import AdminSearchPage from './components/pages/AdminSearchPage';
+import './components/registrationForms/RegistrationForm.css';
+import AfterVideoCallPage from './components/pages/AfterVideoCallPage';
 
 function Routes() {
 	return (
@@ -42,6 +43,7 @@ function Routes() {
 				<Route exact path="/volunteer" component={VolunteerPage}/>
 				<Route exact path="/volunteer/meetings" component={MeetingsPage}/>
 				<Route exact path="/volunteer/meetings/videoCall" component={VideoCallPage}/>
+				<Route exact path="/volunteer/meetings/feedback" component={AfterVideoCallPage}/>
 				<Route exact path="/elderly" component={ElderlyPage}/>
 				<Route exact path="/elderly/meetings/videoCall" component={VideoCallPage}/>
 			</Switch>

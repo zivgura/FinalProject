@@ -9,8 +9,26 @@ function ElderlyPage(props) {
 		return await response.json();
 	}
 
+	const filterChannelsByDate = (channels) => {
+		let today = new Date();
+		today = today.toLocaleDateString();
+
+		return channels.filter(channel => {
+			const day = parseInt(channel.meeting.substring(0, 2));
+			const month = parseInt(channel.meeting.substring(3, 5));
+			const year = parseInt(channel.meeting.substring(6, 10));
+			let date = new Date(year, month-1, day);
+			date = date.toLocaleDateString();
+
+			if (date >= today) {
+				return channel;
+			}
+		});
+	}
+
 	async function onClick() {
 		let channels = await getChannelsNames();
+		channels = filterChannelsByDate(channels);
 		const videoOptions = {
 			'appId': AGORA_APP_ID,
 			//todo: not [0]

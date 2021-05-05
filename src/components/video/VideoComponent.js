@@ -373,8 +373,10 @@ class VideoComponent extends React.Component {
 			this.setState({readyState: false});
 			this.client = null;
 			this.localStream = null;
-			// redirect to index
-			window.location.hash = '';
+			// redirect
+			this.props.isElderly
+				? this.props.history.goBack()
+				: this.props.history.push('/volunteer/meetings/feedback',{history: this.props.history});
 		}
 	};
 

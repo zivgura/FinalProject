@@ -1,11 +1,25 @@
-import React from 'react';
+import React  from 'react';
 import '../manage/manage.css';
+import deleteIcon from '../../resources/delete-icon.png';
 
-function OrganizationMeetingView({meeting}) {
+function OrganizationMeetingView({meeting, deleteFromUI, toggleModal, setChannelState}) {
+	console.log(meeting);
+	const deleteMeeting = async () => {
+		deleteFromUI(meeting);
+	}
+	const onClick = () => {
+		setChannelState({channelName: meeting.channelName});
+		toggleModal();
+	}
+
 
 	return (
 		<React.Fragment>
-			<td className="col-5"></td>
+			<td className="col-5">
+				<button className="check-icon-button">
+					<img className="delete-icon-button" src={deleteIcon} alt="x" onClick={onClick}/>
+				</button>
+			</td>
 			<td className="col-4">{meeting.meetingSubject}</td>
 			<td className="col-3">{meeting.meeting}</td>
 			<td className="col-2">{meeting.elderlyFirstName +' '+meeting.elderlyLastName}</td>

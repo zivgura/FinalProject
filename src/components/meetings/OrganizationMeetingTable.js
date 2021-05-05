@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import OrganizationMeetingView from './OrganizationMeetingView';
 
-function OrganizationMeetingTable({meetings}) {
-	console.log('meetings');
-	console.log(meetings);
+function OrganizationMeetingTable({meetings, toggleModal, setChannelState}) {
+	const [state, setState] = useState({meetings: meetings});
+
+	const deleteFromUI = (meetingToDelete) => {
+		setState({meetings: meetings.filter(meeting => meeting.channelName !== meetingToDelete.channelName)});
+	}
 
 	return (
 		<div className="meeting-wrapper">
@@ -20,9 +23,15 @@ function OrganizationMeetingTable({meetings}) {
 						</tr>
 						</thead>
 						<tbody>
-						{meetings?.map((meeting, index) => (
+						{state.meetings?.map((meeting, index) => (
 							<tr key={index} className="table-row">
-								<OrganizationMeetingView key={index} meeting={meeting}/>
+								<OrganizationMeetingView
+									key={index}
+									meeting={meeting}
+									deleteFromUI={deleteFromUI}
+									toggleModal={toggleModal}
+									setChannelState={setChannelState}
+								/>
 							</tr>
 						))}
 						</tbody>

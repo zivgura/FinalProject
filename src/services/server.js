@@ -13,14 +13,13 @@ const loginCheck = async (username, password) => {
 
 	handleError(response);
 	return response;
-}
-
+};
 
 const tryLogin = async (username, password) => {
-	await fetch(serverURL + `/user/activate/`+ new URLSearchParams({username,password}), {
+	await fetch(serverURL + `/user/activate/` + new URLSearchParams({username, password}), {
 		method: 'post'
 	});
-}
+};
 
 const updatePassword = async (username, newPassword) => {
 	await fetch(serverURL + `/user/updatePassword`, {
@@ -31,7 +30,7 @@ const updatePassword = async (username, newPassword) => {
 			newPassword
 		})
 	});
-}
+};
 
 const fetchOrganizationsNames = async () =>
 	await fetch(serverURL + `/admin/organizationNames`, {
@@ -51,7 +50,7 @@ const fetchElderlyMatches = async (user) => {
 
 	handleError(response);
 	return response;
-}
+};
 
 const registerElderly = async (state) => {
 	const response = await fetch(serverURL + `/responsible/registerElderly`, {
@@ -98,7 +97,7 @@ const registerVolunteer = async (state) => {
 };
 
 const fetchVolunteers = async (organizationName) => {
-	if(!organizationName){
+	if (!organizationName) {
 		organizationName = 'NONE';
 	}
 	const response = await fetch(serverURL + `/responsible/volunteersDetails/` + new URLSearchParams(organizationName),
@@ -119,9 +118,9 @@ const addMeetingDB = async (state) => {
 
 	handleError(response);
 	return response;
-}
+};
 
-const fetchVolunteerOrganizationMeetings = async (organizationName) =>{
+const fetchVolunteerOrganizationMeetings = async (organizationName) => {
 	const response = await fetch(serverURL + `/responsible/meetings-volunteers/` + new URLSearchParams(organizationName),
 		{
 			method: 'get'
@@ -129,9 +128,9 @@ const fetchVolunteerOrganizationMeetings = async (organizationName) =>{
 
 	handleError(response);
 	return response;
-}
+};
 
-const fetchElderlyOrganizationMeetings = async (organizationName) =>{
+const fetchElderlyOrganizationMeetings = async (organizationName) => {
 	const response = await fetch(serverURL + `/responsible/meetings-elderly/` + new URLSearchParams(organizationName),
 		{
 			method: 'get'
@@ -139,7 +138,7 @@ const fetchElderlyOrganizationMeetings = async (organizationName) =>{
 
 	handleError(response);
 	return response;
-}
+};
 
 const getMeetings = async (state) => {
 	const response = await fetch(serverURL + `/volunteer/meetings/` + new URLSearchParams(state),
@@ -149,7 +148,7 @@ const getMeetings = async (state) => {
 
 	handleError(response);
 	return response;
-}
+};
 
 const fetchChannels = async (elderlyUserName) => {
 	const response = await fetch(serverURL + `/elderly/channels/` + new URLSearchParams(elderlyUserName),
@@ -159,10 +158,10 @@ const fetchChannels = async (elderlyUserName) => {
 
 	handleError(response);
 	return response;
-}
+};
 
-const fetchElderlyDetails = async (organizationName) =>{
-	if(!organizationName){
+const fetchElderlyDetails = async (organizationName) => {
+	if (!organizationName) {
 		organizationName = 'NONE';
 	}
 
@@ -173,7 +172,17 @@ const fetchElderlyDetails = async (organizationName) =>{
 
 	handleError(response);
 	return response;
-}
+};
+
+const deleteMeetingFromDB = async (channelName) => {
+	const response = await fetch(serverURL + '/responsible/deleteMeeting/' + new URLSearchParams(channelName),
+		{
+			method: 'delete'
+		});
+
+	handleError(response);
+	return response;
+};
 
 export {
 	loginCheck,
@@ -191,5 +200,6 @@ export {
 	fetchChannels,
 	fetchElderlyDetails,
 	fetchVolunteerOrganizationMeetings,
-	fetchElderlyOrganizationMeetings
+	fetchElderlyOrganizationMeetings,
+	deleteMeetingFromDB
 };

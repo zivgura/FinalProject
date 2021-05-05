@@ -33,8 +33,8 @@
     color: black;
 }
 
-.scrollable{
-    height: 30%;
+.scrollable {
+    height: 60%;
     overflow-y: auto;
 }
 
@@ -85,14 +85,18 @@
     background-color: rgb(109, 177, 8);
 }
 
-.check-icon-button{
+.check-icon-button {
     margin: 0;
+}
+
+.delete-icon-button {
+    height: 1em;
 }
 
 .table-button:hover {
     background-color: #3e8e41
 }
 
-.tooltip{
+.tooltip {
     direction: rtl;
 }

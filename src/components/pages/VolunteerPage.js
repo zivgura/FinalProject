@@ -17,12 +17,15 @@ function VolunteerPage(props) {
 	}
 
 	const filterMeetings = (meetings) => {
-		const today = new Date();
+		let today = new Date();
+		today = today.toLocaleDateString();
+
 		return meetings.filter(meeting => {
 			const day = parseInt(meeting.meetingDate.substring(0, 2));
 			const month = parseInt(meeting.meetingDate.substring(3, 5));
 			const year = parseInt(meeting.meetingDate.substring(6, 10));
-			const date = new Date(year, month-1, day);
+			let date = new Date(year, month-1, day);
+			date = date.toLocaleDateString();
 
 			if (date >= today) {
 				return meeting;
@@ -33,7 +36,6 @@ function VolunteerPage(props) {
 	async function onClick() {
 		let meetings = await getMeetingsNames();
 		let elderlyDetails = await getElderlyDetails();
-		console.log(elderlyDetails);
 		meetings = meetings.map((dic) => (
 				{
 					meetingDate: dic.meeting,
@@ -45,12 +47,13 @@ function VolunteerPage(props) {
 		);
 
 		meetings = filterMeetings(meetings);
+		console.log('filtered meetings');
+		console.log(meetings);
 		setVolunteerState({meetings: meetings, isMeetingsClicked: true});
 	}
 
 	useEffect(() => {
 		if (volunteerState.isMeetingsClicked) {
-			console.log(volunteerState.meetings);
 			props.history.push('/volunteer/meetings', volunteerState.meetings);
 		}
 	});

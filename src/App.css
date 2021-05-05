@@ -60,7 +60,7 @@ body {
     /*background: linear-gradient(180deg, rgba(19,38,79,1) 0%, rgb(22, 147, 198) 52%, rgba(255,255,255,0) 82%);*/
 }
 
-.modal-wrapper{
+.modal-wrapper {
     width: 100%;
     height: 70%;
 }
@@ -165,9 +165,9 @@ form, .forgot-panel {
     height: 80px;
 }
 
-.nav-buttons{
+.nav-buttons {
     flex: 0 1 auto;
-    left:0;
+    left: 0;
     position: absolute;
 }
 
@@ -175,6 +175,10 @@ form, .forgot-panel {
     flex: 0 1 auto;
     left: 43%;
     position: absolute;
+}
+
+a {
+    text-decoration: none;
 }
 
 /*.search-wrapper .meeting-wrapper{*/

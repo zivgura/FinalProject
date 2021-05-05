@@ -2,16 +2,13 @@ import React  from 'react';
 import '../manage/manage.css';
 import deleteIcon from '../../resources/delete-icon.png';
 
-function OrganizationMeetingView({meeting, deleteFromUI, toggleModal, setChannelState}) {
+function OrganizationMeetingView({meeting, toggleModal, setChannelState}) {
 	console.log(meeting);
-	const deleteMeeting = async () => {
-		deleteFromUI(meeting);
-	}
+
 	const onClick = () => {
 		setChannelState({channelName: meeting.channelName});
 		toggleModal();
 	}
-
 
 	return (
 		<React.Fragment>

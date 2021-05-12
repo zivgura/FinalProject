@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import UsersDetailsTable from './UsersDetailsTable';
 
-const SearchInTable = ({users}) => {
+const SearchInTable = ({history, users}) => {
 	const [state, setState] = useState({
 		filteredUsers: users
 	});
@@ -20,7 +20,7 @@ const SearchInTable = ({users}) => {
 				onChange={e => search(e)}
 			/>
 			<div className="scrollable">
-				<UsersDetailsTable users={state.filteredUsers}/>
+				<UsersDetailsTable history={history} users={state.filteredUsers}/>
 			</div>
 		</div>
 	);

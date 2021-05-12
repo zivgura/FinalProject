@@ -8,8 +8,8 @@ const SearchPage = (props) => {
 	console.log(props);
 	return (
 		<div className="page">
-			<Navbar />
-			<SearchInTable users={users}/>
+			<Navbar history={props.history}/>
+			<SearchInTable history={props.history} users={users}/>
 		</div>
 	);
 };

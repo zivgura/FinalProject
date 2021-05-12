@@ -11,8 +11,13 @@ import Modal from '../modal/Modal';
 import * as Cookies from 'js-cookie';
 
 function ResponsiblePage(props) {
+	if (props?.history?.location.state) {
+		Cookies.set('organizationType', props.history.location.state);
+	}
+
 	const organizationName = Cookies.get('organizationName');
-	const organizationType = props.history.location.state;
+	const organizationType = Cookies.get('organizationType');
+	console.log(organizationType);
 
 	const [responsibleState, setResponsibleState] = useState({
 		organizations: [],
@@ -138,8 +143,6 @@ function ResponsiblePage(props) {
 
 	async function onClickManageVolunteersMeetings(event) {
 		let organizationMeetings = await getVolunteerOrganizationMeetings();
-		console.log('organizationMeetings');
-		console.log(organizationMeetings);
 
 		setResponsibleState({
 			volunteerOrganizationMeetings: organizationMeetings,

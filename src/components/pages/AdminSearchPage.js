@@ -8,7 +8,7 @@ const AdminSearchPage = (props) => {
 
 	return (
 		<div className="page">
-			<Navbar/>
+			<Navbar history={props.history}/>
 			<div className="search-wrapper">
 				<h2 className="header">
 					מתנדבים

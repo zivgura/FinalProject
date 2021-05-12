@@ -18,6 +18,8 @@ import SearchPage from './components/pages/SearchPage';
 import AdminSearchPage from './components/pages/AdminSearchPage';
 import './components/registrationForms/RegistrationForm.css';
 import AfterVideoCallPage from './components/pages/AfterVideoCallPage';
+import ElderlyFullDetails from './components/users/ElderlyFullDetails';
+import FullDetailsPage from './components/pages/FullDetailsPage';
 
 function Routes() {
 	return (
@@ -40,6 +42,8 @@ function Routes() {
 				<Route exact path="/responsible/manage-elderly-meetings" component={ManageMeetingsPage}/>
 				<Route exact path="/responsible/search-volunteers" component={SearchPage}/>
 				<Route exact path="/responsible/search-elderly" component={SearchPage}/>
+				<Route exact path="/responsible/full-details/elderly" component={FullDetailsPage}/>
+				<Route exact path="/responsible/full-details/volunteer" component={FullDetailsPage}/>
 				<Route exact path="/volunteer" component={VolunteerPage}/>
 				<Route exact path="/volunteer/meetings" component={MeetingsPage}/>
 				<Route exact path="/volunteer/meetings/videoCall" component={VideoCallPage}/>

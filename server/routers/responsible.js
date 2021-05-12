@@ -51,7 +51,8 @@ router.post('/registerVolunteer', async (req, res, next) => {
 // register elderly
 router.post('/registerElderly', async (req, res, next) => {
 	try {
-		const {firstName, lastName, birthYear, username, password, email, phoneNumber, additionalInformation} = req.body;
+		const {firstName, lastName, birthYear, username, password, email, phoneNumber, additionalInformation,
+			contactName, kinship, contactPhoneNumber, contactEmail} = req.body;
 		const organizationName = req.body.organizationName.value;
 		const city = req.body.city.value;
 		const gender = req.body.gender.value;
@@ -78,11 +79,13 @@ router.post('/registerElderly', async (req, res, next) => {
 
 		// insert into DB Elderly
 		await DButils.execQuery('Insert into elderlyUsers (userName, firstName, lastName, birthYear, city, email, gender, ' +
-			'phoneNumber, areasOfInterest, languages, organizationName, wantedServices, genderToMeetWith, preferredDays, digitalDevices, additionalInformation) '
+			'phoneNumber, areasOfInterest, languages, organizationName, wantedServices, genderToMeetWith, preferredDays, ' +
+			'digitalDevices, additionalInformation, contactName, kinship, contactPhoneNumber, contactEmail) '
 			+ `VALUES ('${username}', '${firstName}', '${lastName}', '${birthYear}', '${city}', '${email}', '${gender}', '${phoneNumber}',
              '${JSON.stringify(areasOfInterest)}', '${JSON.stringify(languages)}', '${organizationName}',
               '${JSON.stringify(wantedServices)}','${genderToMeetWith}', '${JSON.stringify(preferredDaysAndHours)}',
-              '${JSON.stringify(digitalDevices)}', '${additionalInformation}');`);
+              '${JSON.stringify(digitalDevices)}', '${additionalInformation}', '${contactName}', '${kinship}',
+               '${contactPhoneNumber}', '${contactEmail}');`);
 
 		await sendConfirmationEmail({username, email, password, firstName, lastName});
 

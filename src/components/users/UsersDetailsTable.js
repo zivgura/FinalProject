@@ -1,6 +1,11 @@
 import React from 'react';
+import { Button } from 'react-bootstrap';
 
-function UsersDetailsTable({users}) {
+function UsersDetailsTable({history, users}) {
+	const onClick = (user) => {
+		history.push('/responsible/full-details/elderly', user)
+	}
+
 	return (
 		<div>
 			<table className="users-table">
@@ -25,7 +30,9 @@ function UsersDetailsTable({users}) {
 							{user.userName}
 						</td>
 						<td className="col-1">
+							<Button className="page-link" onClick={() => onClick(user)}>
 							{user.firstName +" "+ user.lastName}
+							</Button>
 						</td>
 					</tr>
 				))}

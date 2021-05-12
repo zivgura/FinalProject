@@ -36,13 +36,19 @@ class RegistrationFormElderly extends Component {
 			digitalDevices: [],
 			genderToMeetWith: '',
 			additionalInformation: '',
+			contactName: '',
+			kinship:'',
+			contactPhoneNumber:'',
+			contactEmail: '',
 			valid: {
 				firstName: true,
 				lastName: true,
 				username: true,
 				email: true,
 				birthYear: true,
-				phoneNumber: true
+				phoneNumber: true,
+				contactPhoneNumber: true,
+				contactEmail: true
 			},
 			touched: {
 				organizationName: false,
@@ -52,7 +58,9 @@ class RegistrationFormElderly extends Component {
 				email: false,
 				gender: false,
 				birthYear: false,
-				phoneNumber: false
+				phoneNumber: false,
+				contactPhoneNumber: false,
+				contactEmail: false
 			},
 			modalisOpen: false,
 			hasErrors: false
@@ -66,7 +74,11 @@ class RegistrationFormElderly extends Component {
 			username: regexes.usernameRegex,
 			email: regexes.emailRegex,
 			birthYear: regexes.yearRegex,
-			phoneNumber: regexes.phoneNumberRegex
+			phoneNumber: regexes.phoneNumberRegex,
+			contactName: regexes.hebrewEnglishRegex,
+			kinship: regexes.hebrewEnglishRegex,
+			contactPhoneNumber: regexes.phoneNumberRegex,
+			contactEmail: regexes.emailRegex
 		};
 
 		this.handleChange = this.handleChange.bind(this);
@@ -124,7 +136,7 @@ class RegistrationFormElderly extends Component {
 	}
 
 	checkOnSubmit() {
-		const {firstName, lastName, username, email, birthYear, phoneNumber} = this.state;
+		const {firstName, lastName, username, email, birthYear, phoneNumber, contactPhoneNumber, contactEmail} = this.state;
 		const formFilled = !(firstName === '' || lastName === '' || username === '' || email === '' || birthYear === '' || phoneNumber === '');
 		const formInvalid = Object.keys(this.state.valid).some(x => !this.state.valid[x]);
 		const formHasErrors = !formFilled || formInvalid;
@@ -144,7 +156,9 @@ class RegistrationFormElderly extends Component {
 				username: true,
 				email: true,
 				birthYear: true,
-				phoneNumber: true
+				phoneNumber: true,
+				contactEmail: true,
+				contactPhoneNumber: true
 			}
 		});
 	}
@@ -452,6 +466,60 @@ class RegistrationFormElderly extends Component {
 										  style={this.requiredStyle('additionalInformation')}>{this.errorMessages('additionalInformation')}</span>
 								</div>
 
+								<h4>פרטי איש קשר</h4>
+								<div className="field">
+									<label>
+										שם ושם משפחה
+										<input
+											type="text"
+											value={this.state.contactName}
+											name="contactName" id="contactName"
+											className={shouldMarkError('contactName') ? 'error' : ''}
+											onChange={(e) => this.handleChange(e, 'contactName')}/>
+									</label>
+									<span className="required-field"
+										  style={this.requiredStyle('contactName')}>{this.errorMessages('contactName')}</span>
+								</div>
+								<div className="field">
+									<label>
+										קירבה
+										<input
+											type="text"
+											value={this.state.kinship}
+											name="kinship"
+											className={shouldMarkError('kinship') ? 'error' : ''}
+											onChange={(e) => this.handleChange(e, 'kinship')}/>
+									</label>
+									<span className="required-field"
+										  style={this.requiredStyle('kinship')}>{this.errorMessages('kinship')}</span>
+								</div>
+								<div className="field">
+									<label>
+										מספר טלפון
+										<input
+											type="text"
+											name="contactPhoneNumber"
+											value={this.state.contactPhoneNumber}
+											className={shouldMarkError('contactPhoneNumber') ? 'error' : ''}
+											onChange={(e) => this.handleChange(e, 'contactPhoneNumber')}/>
+									</label>
+									<span className="required-field"
+										  style={this.requiredStyle('contactPhoneNumber')}>{this.errorMessages('contactPhoneNumber')}</span>
+								</div>
+								<div className="field">
+									<label>
+										כתובת דואר אלקטרוני
+										<input
+											type="text"
+											name="contactEmail"
+											value={this.state.contactEmail}
+											className={shouldMarkError('contactEmail') ? 'error' : ''}
+											onChange={(e) => this.handleChange(e, 'contactEmail')}/>
+									</label>
+									<span className="required-field"
+										  style={this.requiredStyle('contactEmail')}>{this.errorMessages('contactEmail')}</span>
+
+								</div>
 								<button className="sb-btn" type="button" onClick={this.checkOnSubmit}>סיום</button>
 							</div>
 						</div>

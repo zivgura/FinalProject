@@ -23,11 +23,17 @@ body {
 }
 
 .container {
+    text-align: center;
     width: 100%;
     height: 400px;
     /*padding-bottom: 100px;*/
 }
 
+.full-page-container {
+    text-align: center;
+    width: 100%;
+    height: 100vh;
+}
 
 .login-wrapper {
     text-align: center;
@@ -43,8 +49,6 @@ body {
     /*color:#ffffff;*/
     /*background: #337ab7;*/
     color: black;
-    /*background: #eaffeb;*/
-    /*background: linear-gradient(180deg, rgba(19,38,79,1) 0%, rgb(22, 147, 198) 52%, rgba(255,255,255,0) 82%);*/
 }
 
 .register-wrapper {
@@ -57,7 +61,17 @@ body {
     overflow-x: hidden;
     overflow-y: paged-y-controls;
     color: black;
-    /*background: linear-gradient(180deg, rgba(19,38,79,1) 0%, rgb(22, 147, 198) 52%, rgba(255,255,255,0) 82%);*/
+}
+
+.full-page-wrapper {
+    text-align: center;
+    width: 100%;
+    height: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    overflow-x: hidden;
+    overflow-y: paged-y-controls;
+    color: black;
 }
 
 .modal-wrapper {
@@ -107,7 +121,10 @@ button:focus {
     margin-bottom: 20px;
     /*background: rgba(255,255,255,.5);*/
     background: rgb(170, 198, 164);
+}
 
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px rgb(170, 198, 164) inset;
 }
 
 .form-group label {
@@ -179,6 +196,20 @@ form, .forgot-panel {
 
 a {
     text-decoration: none;
+}
+
+.details-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.details-list .field {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    direction: rtl;
+    padding-right: 15%;
+    padding-left: 15%;
 }
 
 /*.search-wrapper .meeting-wrapper{*/

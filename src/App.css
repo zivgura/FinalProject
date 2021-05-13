@@ -72,6 +72,7 @@ body {
     overflow-x: hidden;
     overflow-y: paged-y-controls;
     color: black;
+    direction: rtl;
 }
 
 .modal-wrapper {

@@ -1,9 +1,14 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 
-function UsersDetailsTable({history, users}) {
+function UsersDetailsTable({history, users, usersType}) {
 	const onClick = (user) => {
-		history.push('/responsible/full-details/elderly', user);
+		if (usersType === 'קשישים') {
+			history.push('/responsible/full-details/elderly', {details: user, usersType});
+		}
+		else if (usersType === 'מתנדבים') {
+			history.push('/responsible/full-details/volunteer', {details: user, usersType});
+		}
 	};
 
 	return (

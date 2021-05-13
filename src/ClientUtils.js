@@ -14,16 +14,15 @@ const regexes = {
 	yearRegex: /^(19|20)\d{2}$/
 };
 
-const generatePassword = function () {
-	return generator.generate({
+const generatePassword = () =>
+	generator.generate({
 		length: 10,
 		numbers: true,
 		symbols: true,
-		exclude:'/'
+		exclude: '/'
 	});
-}
 
-const convertElderlyDetailsFromDB = function(records) {
+const convertElderlyDetailsFromDB = function (records) {
 	records = records.map((dic) => {
 		return {
 			userName: dic.userName,
@@ -71,10 +70,15 @@ const convertVolunteerDetailsFromDB = function (records) {
 	return records;
 };
 
+const prettifyStringArray = (array) => {
+	return array.toString().replaceAll(',', '\n');
+};
+
 export {
 	serverURL,
 	regexes,
 	generatePassword,
 	convertElderlyDetailsFromDB,
-	convertVolunteerDetailsFromDB
+	convertVolunteerDetailsFromDB,
+	prettifyStringArray
 };

@@ -2,12 +2,12 @@ import React from 'react';
 import './full-details.css';
 import { prettifyStringArray } from '../../../ClientUtils';
 
-const ElderlyFullDetails = ({details}) => {
-
+const VolunteerFullDetails = ({details}) => {
+	console.log(details);
 	return (
 		<div className="full-page-wrapper">
 			<div className="details-list">
-				{'פרטי הקשיש:'}
+				{'פרטי המתנדב:'}
 				<div className="container">
 					<div className="field">
 						<div className="field-label">
@@ -107,18 +107,10 @@ const ElderlyFullDetails = ({details}) => {
 					</div>
 					<div className="field">
 						<div className="field-label">
-							מעדיף לדבר עם:
+							סוגי שירות:
 						</div>
 						<div className="field-value">
-							{details.genderToMeetWith}
-						</div>
-					</div>
-					<div className="field">
-						<div className="field-label">
-							סוגי שירות רצויים:
-						</div>
-						<div className="field-value">
-							{prettifyStringArray(details.wantedServices)}
+							{prettifyStringArray(details.services)}
 						</div>
 					</div>
 					<div className="field">
@@ -135,4 +127,4 @@ const ElderlyFullDetails = ({details}) => {
 	);
 };
 
-export default ElderlyFullDetails;
+export default VolunteerFullDetails;

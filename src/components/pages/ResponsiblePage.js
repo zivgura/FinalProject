@@ -208,12 +208,12 @@ function ResponsiblePage(props) {
 		else if (responsibleState.isSearchVolunteersClicked) {
 			console.log('responsibleState.volunteersUsers');
 			console.log(responsibleState.volunteersUsers);
-			props.history.push('/responsible/search-volunteers', responsibleState.volunteersUsers);
+			props.history.push('/responsible/search-volunteers', {users: responsibleState.volunteersUsers, usersType: 'מתנדבים'});
 		}
 		else if (responsibleState.isSearchElderlyClicked) {
 			console.log('responsibleState.elderlyUsers');
 			console.log(responsibleState.elderlyUsers);
-			props.history.push('/responsible/search-elderly', responsibleState.elderlyUsers);
+			props.history.push('/responsible/search-elderly', {users: responsibleState.elderlyUsers, usersType: 'קשישים'});
 		}
 	});
 

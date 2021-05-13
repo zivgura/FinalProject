@@ -1,0 +1,13 @@
+.details-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.details-list .field {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    direction: rtl;
+    padding-right: 15%;
+    padding-left: 15%;
+}

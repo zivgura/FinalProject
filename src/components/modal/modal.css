@@ -19,16 +19,28 @@
     border-top-right-radius: 20px;
 }
 
-.modal-body{
+.modal-body {
     padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    direction: rtl;
 }
 
-.modal-buttons{
+.modal-buttons {
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
     padding: 10px;
 }
 
-.modal-btn{
+.modal-btn {
     border-radius: 20px;
+}
+
+.modal-buttons #confirmDeleteButton:hover {
+    background-color: crimson;
+}
+
+.modal button {
+    margin: 2%;
 }

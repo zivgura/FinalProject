@@ -5,7 +5,7 @@ import Select from 'react-select';
 import dateFormat from 'dateformat';
 // import './DateTimePicker.css';
 
-const DateTimePickerWrapper = ({user, closeModal}) => {
+const DateTimePickerWrapper = ({user, closeModal, setModalState}) => {
 	const [state, setState] = useState({date: new Date(), wantedService: ''});
 
 	const onClick = async () => {
@@ -15,16 +15,24 @@ const DateTimePickerWrapper = ({user, closeModal}) => {
 
 		try {
 			await addMeetingDB({user});
+			setModalState({
+				message: 'הפגישה נקבעה בהצלחה',
+				modalIsOpen: true
+			})
 		}
 		catch (error) {
-			console.log(error);
-		} finally {
+			setModalState({
+				message: error.message,
+				modalIsOpen: true
+			})
+		}
+		finally {
 			closeModal();
 		}
 	};
 	return (
 		<div className="modal-wrapper">
-			<div className="modal-body">
+			<div className="date-modal-body">
 				<div className="modal-preferred-days">
 					<h4>ימים ושעות מועדפים משותפים:</h4>
 					{user.commonPreferredDays.length > 0 ? user.commonPreferredDays.toString() : 'אין ימים ושעות מועדפים משותפים'}

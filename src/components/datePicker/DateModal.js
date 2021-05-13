@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { DateTimePickerWrapper } from './dateAndTimePicker';
 import './date-modal.css';
 
-const DateModal = ({user, closeModal}) => {
+const DateModal = ({user, closeModal, setModalState}) => {
 	const modalRef = useRef(null);
 
 	const handleClickOutside = (event) => {
@@ -26,7 +26,7 @@ const DateModal = ({user, closeModal}) => {
 					בחר תאריך ושעה
 					</span>
 				</div>
-				<DateTimePickerWrapper user={user} closeModal={closeModal}/>
+				<DateTimePickerWrapper user={user} closeModal={closeModal} setModalState={setModalState}/>
 			</div>
 		</div>
 	);

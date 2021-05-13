@@ -1,4 +1,5 @@
 import React from 'react';
+import './full-details.css';
 
 const ElderlyFullDetails = ({details}) => {
 	console.log(details);

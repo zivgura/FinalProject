@@ -3,6 +3,7 @@ import OrganizationMeetingTable from '../meetings/OrganizationMeetingTable';
 import Navbar from '../Navbar';
 import Modal from '../modal/Modal';
 import { deleteMeetingFromDB } from '../../services/server';
+import DeleteModal from '../modal/DeleteModal';
 
 const ManageMeetingsPage = (props) => {
 	const organizationMeetings = props.history.location.state;
@@ -22,6 +23,7 @@ const ManageMeetingsPage = (props) => {
 
 	const toggleModal = () => {
 		setState(prevState => ({
+			message: 'האם אתה בטוח שברצונך למחוק את הפגישה?',
 			modalisOpen: !prevState.modalisOpen
 		}));
 	};
@@ -52,10 +54,11 @@ const ManageMeetingsPage = (props) => {
 			</h2>
 			{meetingsComponent}
 			{state.modalisOpen ?
-				<Modal
+				<DeleteModal
 					text='שים/י לב'
 					{...state}
-					closeModal={confirmDelete}
+					delete={confirmDelete}
+					closeModal={toggleModal}
 				/>
 				: null
 			}

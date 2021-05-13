@@ -68,7 +68,6 @@ router.post('/registerResponsible', async (req, res, next) => {
 router.get('/organizationNames', async (req, res, next) => {
 	try {
 		let organizations = await DButils.execQuery(`SELECT organizationName,organizationEnglishName FROM organizations`);
-		// console.log(JSON.parse(JSON.stringify(organizations)))
 		res.send(JSON.parse(JSON.stringify(organizations)));
 	} catch (error) {
 		next(error);

@@ -235,7 +235,6 @@ router.get('/meetings-volunteers/:organizationName', async (req, res, next) => {
 		    meetings.elderlyuserName = elderlyusers.userName WHERE volunteerusers.organizationName= '${organizationName}'`);
 		console.log(volunteerMeetingsInOrganizations);
 		res.send(JSON.parse(JSON.stringify(volunteerMeetingsInOrganizations)));
-
 	}
 	catch (error) {
 		next(error);

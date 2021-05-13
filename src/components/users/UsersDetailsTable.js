@@ -3,8 +3,8 @@ import { Button } from 'react-bootstrap';
 
 function UsersDetailsTable({history, users}) {
 	const onClick = (user) => {
-		history.push('/responsible/full-details/elderly', user)
-	}
+		history.push('/responsible/full-details/elderly', user);
+	};
 
 	return (
 		<div>
@@ -18,7 +18,7 @@ function UsersDetailsTable({history, users}) {
 				</tr>
 				</thead>
 				<tbody>
-				{users.map((user,index) => (
+				{users.map((user, index) => (
 					<tr key={index} className="table-row">
 						<td className="col-4">
 							{user.phoneNumber}
@@ -30,8 +30,8 @@ function UsersDetailsTable({history, users}) {
 							{user.userName}
 						</td>
 						<td className="col-1">
-							<Button className="page-link" onClick={() => onClick(user)}>
-							{user.firstName +" "+ user.lastName}
+							<Button className="hidden-btn" onClick={() => onClick(user)}>
+								{user.firstName + ' ' + user.lastName}
 							</Button>
 						</td>
 					</tr>

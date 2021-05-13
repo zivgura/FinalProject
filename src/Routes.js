@@ -18,7 +18,7 @@ import SearchPage from './components/pages/SearchPage';
 import AdminSearchPage from './components/pages/AdminSearchPage';
 import './components/registrationForms/RegistrationForm.css';
 import AfterVideoCallPage from './components/pages/AfterVideoCallPage';
-import ElderlyFullDetails from './components/users/ElderlyFullDetails';
+import ElderlyFullDetails from './components/users/usersFullDetails/ElderlyFullDetails';
 import FullDetailsPage from './components/pages/FullDetailsPage';
 
 function Routes() {

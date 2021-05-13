@@ -1,5 +1,5 @@
 import React from 'react';
-import ElderlyFullDetails from '../users/ElderlyFullDetails';
+import ElderlyFullDetails from '../users/usersFullDetails/ElderlyFullDetails';
 import Navbar from '../Navbar';
 
 const FullDetailsPage = (props) => {

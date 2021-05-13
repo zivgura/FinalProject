@@ -4,8 +4,7 @@ import Navbar from '../Navbar';
 
 const SearchPage = (props) => {
 	const users = props.history.location.state;
-	console.log("search page");
-	console.log(props);
+
 	return (
 		<div className="page">
 			<Navbar history={props.history}/>

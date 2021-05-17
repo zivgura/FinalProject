@@ -47,6 +47,7 @@ function AdminPage(props) {
 		let elderlyUsers = await getElderly();
 		let volunteersUsers = await getVolunteers();
 		console.log(elderlyUsers);
+
 		setAdminState({
 			elderlyUsers: elderlyUsers,
 			volunteersUsers: volunteersUsers,

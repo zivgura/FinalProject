@@ -4,6 +4,8 @@ import generator from 'generate-password';
 
 const serverURL = 'http://localhost:3001';
 
+const feedbackURL = 'https://forms.gle/mCABoh5EteuNEceH8';
+
 const regexes = {
 	hebrewEnglishRegex: /^[a-z\u0590-\u05fe -]+$/i,
 	englishRegex: /^[a-z -]+$/i,
@@ -76,6 +78,7 @@ const prettifyStringArray = (array) => {
 
 export {
 	serverURL,
+	feedbackURL,
 	regexes,
 	generatePassword,
 	convertElderlyDetailsFromDB,

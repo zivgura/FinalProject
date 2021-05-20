@@ -32,7 +32,9 @@ class Modal extends Component {
 				<div className="modal-content" ref={this.modalRef}>
 					<div className="modal-title">שים לב</div>
 					<div className="modal-body">
-						{this.props.message}
+						<span>
+							{this.props.message}
+						</span>
 					</div>
 					<div className="modal-buttons">
 						<button className="modal-btn" onClick={this.props.closeModal}>סגור</button>

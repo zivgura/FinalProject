@@ -3,7 +3,7 @@ import generator from 'generate-password';
 // exports.serverURL = 'http://132.72.23.153:8114';
 
 const serverURL = 'http://localhost:3001';
-
+const wssURL = 'ws://localhost:3001';
 const feedbackURL = 'https://forms.gle/mCABoh5EteuNEceH8';
 
 const regexes = {
@@ -78,6 +78,7 @@ const prettifyStringArray = (array) => {
 
 export {
 	serverURL,
+	wssURL,
 	feedbackURL,
 	regexes,
 	generatePassword,

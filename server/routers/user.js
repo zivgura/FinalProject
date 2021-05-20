@@ -2,6 +2,9 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const DButils = require('../DButils.js');
 const {bcrypt_saltRounds} = require('../DButils');
+const {initWebSocketServer} = require('../notifications');
+const server = require('../server');
+
 const router = express.Router();
 
 router.post('/login', async (req, res, next) => {
@@ -27,12 +30,26 @@ router.post('/login', async (req, res, next) => {
 		}
 
 		res.status(200).send({user: user, message: 'login succeeded', success: true});
-	} catch (error) {
+	}
+	catch (error) {
 		// next(error);
 		console.log(error);
 		res.status(401).send({message: error.message, success: false});
 	}
 });
+
+router.post('/register-notifications', async (req, res, next) => {
+		try {
+			let {username} = req.body;
+			console.log('register-notifications');
+			initWebSocketServer(username, server);
+			res.status(200).send({message: 'register to notifications succeeded', success: true});
+		}
+		catch (e) {
+
+		}
+	}
+);
 
 router.post('/activate/:username&:password', async (req, res, next) => {
 	try {
@@ -62,7 +79,8 @@ router.post('/activate/:username&:password', async (req, res, next) => {
 		}
 
 		res.status(200).send({user: user, message: 'login succeeded', success: true});
-	} catch (error) {
+	}
+	catch (error) {
 		// next(error);
 		console.log(error);
 		res.status(401).send({message: error.message, success: false});
@@ -71,14 +89,15 @@ router.post('/activate/:username&:password', async (req, res, next) => {
 
 router.put('/updatePassword', async (req, res, next) => {
 	try {
-		console.log("updatePassword");
+		console.log('updatePassword');
 		let {username, newPassword} = req.body;
 		console.log(username);
 		console.log(newPassword);
 		let hashPassword = bcrypt.hashSync(newPassword, parseInt(bcrypt_saltRounds));
 		await DButils.execQuery(`UPDATE users SET password='${hashPassword}' where userName='${username}'`);
 		res.status(200).send({message: 'update password succeeded', success: true});
-	} catch (error) {
+	}
+	catch (error) {
 		// next(error);
 		console.log(error);
 		res.status(401).send({message: error.message, success: false});

@@ -28,10 +28,6 @@
     background-color: rgb(109, 177, 8);
 }
 
-.modal-btn{
-    margin: 15px 0 0 0;
-    background-color: rgb(109, 177, 8);
-}
 .modal button:hover{
     background-color: #3e8e41;
 }

@@ -8,10 +8,12 @@
     "bcrypt": "^5.0.0",
     "bootstrap": "^4.5.3",
     "cors": "^2.8.5",
+    "http": "^0.0.1-security",
     "mysql": "^2.18.1",
     "nodemon": "^2.0.7",
     "tedious": "^9.2.3",
-    "web-vitals": "^0.2.4"
+    "web-vitals": "^0.2.4",
+    "websocket": "^1.0.34"
   },
   "scripts": {},
   "eslintConfig": {

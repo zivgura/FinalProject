@@ -15,10 +15,26 @@ const loginCheck = async (username, password) => {
 	return response;
 };
 
+const registerNotifications = async (username) => {
+	const response = await fetch(serverURL + `/user/register-notifications`, {
+		method: 'post',
+		headers: {'Content-Type': 'application/json'},
+		body: JSON.stringify({
+			username
+		})
+	});
+
+	handleError(response);
+	return response;
+};
+
 const tryLogin = async (username, password) => {
-	await fetch(serverURL + `/user/activate/` + new URLSearchParams({username, password}), {
+	const response = await fetch(serverURL + `/user/activate/` + new URLSearchParams({username, password}), {
 		method: 'post'
 	});
+
+	handleError(response);
+	return response;
 };
 
 const updatePassword = async (username, newPassword) => {
@@ -185,6 +201,7 @@ const deleteMeetingFromDB = async (channelName) => {
 };
 
 export {
+	registerNotifications,
 	loginCheck,
 	tryLogin,
 	updatePassword,

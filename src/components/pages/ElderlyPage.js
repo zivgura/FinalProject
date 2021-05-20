@@ -1,4 +1,4 @@
-import React from 'react';
+import React  from 'react';
 import Navbar from '../Navbar';
 import { fetchChannels } from '../../services/server';
 import { AGORA_APP_ID } from '../../agora.config';

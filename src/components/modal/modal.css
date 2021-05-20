@@ -35,12 +35,17 @@
 
 .modal-btn {
     border-radius: 20px;
+    background-color: rgb(109, 177, 8);
 }
 
 .modal-buttons #confirmDeleteButton:hover {
     background-color: crimson;
 }
 
-.modal button {
-    margin: 2%;
+.modal span {
+    white-space: pre-wrap;
+    text-align: center;
 }
+/*.modal button {*/
+/*    margin: 2%;*/
+/*}*/

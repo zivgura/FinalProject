@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import LoginForm from './components/LoginForm';
+import { LoginForm } from './components/LoginForm';
 import RegistrationFormOrganization from './components/registrationForms/RegistrationFormOrganization';
 import RegistrationFormElderly from './components/registrationForms/RegistrationFormElderly';
 import RegistrationFormVolunteer from './components/registrationForms/RegistrationFormVolunteer';
@@ -18,7 +18,6 @@ import SearchPage from './components/pages/SearchPage';
 import AdminSearchPage from './components/pages/AdminSearchPage';
 import './components/registrationForms/RegistrationForm.css';
 import AfterVideoCallPage from './components/pages/AfterVideoCallPage';
-import ElderlyFullDetails from './components/users/usersFullDetails/ElderlyFullDetails';
 import FullDetailsPage from './components/pages/FullDetailsPage';
 
 function Routes() {

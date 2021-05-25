@@ -46,6 +46,16 @@
     white-space: pre-wrap;
     text-align: center;
 }
-/*.modal button {*/
-/*    margin: 2%;*/
+
+.modal .incoming-call-modal-btn{
+    height: 100px;
+    width: 100px;
+    border-radius: 100%;
+    background-color: rgb(109, 177, 8);
+}
+
+/*#answerCall:hover {*/
+/*    height: 100px;*/
+/*    width: 100px;*/
+/*    background: url('../../resources/answer-call-hover-icon.png') no-repeat;*/
 /*}*/

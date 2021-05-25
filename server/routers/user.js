@@ -38,19 +38,6 @@ router.post('/login', async (req, res, next) => {
 	}
 });
 
-router.post('/register-notifications', async (req, res, next) => {
-		try {
-			let {username} = req.body;
-			console.log('register-notifications');
-			initWebSocketServer(username, server);
-			res.status(200).send({message: 'register to notifications succeeded', success: true});
-		}
-		catch (e) {
-
-		}
-	}
-);
-
 router.post('/activate/:username&:password', async (req, res, next) => {
 	try {
 		//the password is hashed

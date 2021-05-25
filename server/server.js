@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 // const fs = require('fs');
 const http = require('http');
 const cors = require('cors');
+const notifications = require('./notifications');
 const app = express();
 
 const PORT = 3001;
@@ -37,7 +38,7 @@ const server = app.listen(PORT, () => {
     console.log(`listening at http://localhost:${PORT}`)
 });
 
-exports.server = server;
+notifications.initWebSocketServer(server);
 
 // const options = {
 //     key: fs.readFileSync('privateKey.key'),

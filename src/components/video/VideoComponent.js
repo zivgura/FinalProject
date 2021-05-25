@@ -148,7 +148,7 @@ class VideoComponent extends React.Component {
 					);
 				}
 
-				item.player.resize && item.player.resize();
+				item.player?.resize && item.player?.resize();
 			});
 		}
 		// tile mode
@@ -373,10 +373,10 @@ class VideoComponent extends React.Component {
 			this.setState({readyState: false});
 			this.client = null;
 			this.localStream = null;
-			// redirect
+
 			this.props.isElderly
 				? this.props.history.goBack()
-				: this.props.history.push('/volunteer/meetings/feedback',{history: this.props.history});
+				: this.props.history.push('/volunteer/meetings/feedback');
 		}
 	};
 

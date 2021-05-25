@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const DButils = require('../DButils.js');
+const {notifyElderly} = require('../notifications');
 
 router.get('/meetings/:userName', async (req, res, next) => {
 	try {
@@ -14,5 +15,21 @@ router.get('/meetings/:userName', async (req, res, next) => {
 		next(error);
 	}
 });
+
+router.post('/notify-elderly', async (req, res, next) => {
+		try {
+			let {elderlyId, volunteerId, channel, meetingSubject} = req.body;
+			let volunteerName = await DButils.execQuery(`SELECT firstName, lastName FROM volunteerUsers WHERE userName= '${volunteerId}'`);
+			volunteerName = JSON.parse(JSON.stringify(volunteerName))[0];
+			volunteerName = volunteerName.firstName + ' '+ volunteerName.lastName;
+			console.log(volunteerName);
+			notifyElderly(elderlyId, volunteerName, channel, meetingSubject);
+			res.status(200).send({message: 'register to notifications succeeded', success: true});
+		}
+		catch (error) {
+			res.status(500).send({message: error.message, success: false});
+		}
+	}
+);
 
 module.exports = router;

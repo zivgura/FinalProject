@@ -1,10 +1,8 @@
 import React from 'react';
-import Navbar from '../Navbar';
 import { feedbackURL } from '../../ClientUtils';
 
 const AfterVideoCallPage = (props) =>
 	<div className="page">
-		<Navbar history={props.history}/>
 		<div className="manage-wrapper">
 			<h2 className="header">משוב</h2>
 			אנא מלא/י משוב על השיחה

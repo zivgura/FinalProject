@@ -1,23 +1,32 @@
-import { wssURL } from '../ClientUtils';
 import { w3cwebsocket as W3WebSocket } from 'websocket';
+import { wssURL } from '../ClientUtils';
 
-const createWebSocket = () => {
-	 const ws = new W3WebSocket(wssURL);
+const setOnMessage = (func) => {
+	onMessage = func;
+}
 
-	 ws.onopen = () => {
-	 	console.log('client websocket connected');
-	 }
+let onMessage;
 
-	 ws.onmessage = (message) => {
-	 	console.log('client onmessage');
-	 	//notify
-	 }
+const createWebSocket = (clientId) => {
+	const ws = new W3WebSocket(`${wssURL}?param=${clientId}`);
 
-	 ws.onclose = () => {
-	 	console.log('client onclose');
-	 }
+	ws.onopen = () => {
+		console.log('client websocket connected');
+	};
 
-	 return ws;
+	ws.onmessage = (message) => {
+		console.log('client onmessage received '+ message.data);
+		onMessage(JSON.parse(message.data));
+	};
+
+	ws.onclose = () => {
+		console.log('client onclose');
+	};
+
+	return ws;
 };
 
-export { createWebSocket };
+export {
+	createWebSocket,
+	setOnMessage
+};

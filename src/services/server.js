@@ -200,6 +200,17 @@ const deleteMeetingFromDB = async (channelName) => {
 	return response;
 };
 
+const notifyElderly = async (elderlyId, volunteerId, channel, meetingSubject) => {
+	const response = await fetch(serverURL + '/volunteer/notify-elderly', {
+		method: 'post',
+		headers: {'Content-Type': 'application/json'},
+		body: JSON.stringify({elderlyId, volunteerId, channel, meetingSubject})
+	});
+
+	handleError(response);
+	return response;
+};
+
 export {
 	registerNotifications,
 	loginCheck,
@@ -218,5 +229,6 @@ export {
 	fetchElderlyDetails,
 	fetchVolunteerOrganizationMeetings,
 	fetchElderlyOrganizationMeetings,
-	deleteMeetingFromDB
+	deleteMeetingFromDB,
+	notifyElderly
 };

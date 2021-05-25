@@ -1,8 +1,10 @@
 import React from 'react';
 import Modal from './modal/Modal';
-import { loginCheck, registerNotifications } from '../services/server';
+import { loginCheck } from '../services/server';
 import * as Cookies from 'js-cookie';
 import { createWebSocket } from '../services/notifacationService';
+
+let ws;
 
 class LoginForm extends React.Component {
 	constructor(props) {
@@ -12,7 +14,6 @@ class LoginForm extends React.Component {
 			password: '',
 			message: '',
 			modalisOpen: false
-
 		};
 
 		this.usernameRef = React.createRef();
@@ -29,8 +30,8 @@ class LoginForm extends React.Component {
 				this.props.history.push('/' + user.user.userRole, user.user.userName);
 			}
 			else if (user.user.userRole === 'elderly') {
-				await registerNotifications(user.user.userName);
-				const ws = createWebSocket();
+				ws = createWebSocket(user.user.userName);
+				console.log(ws);
 				this.props.history.push('/' + user.user.userRole, user.user.userName);
 			}
 			else {
@@ -74,7 +75,4 @@ class LoginForm extends React.Component {
 	}
 }
 
-export default LoginForm;
-
-
-
+export {LoginForm, ws};

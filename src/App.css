@@ -6,14 +6,12 @@ html, body, body * {
     padding: 0;
     color: inherit;
     background-color: inherit;
-    /* border:2px solid orange; */
 }
 
 body {
     background-image: url('resources/background.png');
     background-repeat: no-repeat;
     background-attachment: fixed;
-    /*height: 100vh;*/
     background-size: cover;
     background-position: center center;
 }
@@ -26,7 +24,6 @@ body {
     text-align: center;
     width: 100%;
     height: 400px;
-    /*padding-bottom: 100px;*/
 }
 
 .full-page-container {

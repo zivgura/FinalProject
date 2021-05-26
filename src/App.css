@@ -9,7 +9,7 @@ html, body, body * {
 }
 
 body {
-    background-image: url('resources/background.png');
+    /*background-image: url('resources/background.png');*/
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
@@ -24,6 +24,12 @@ body {
     text-align: center;
     width: 100%;
     height: 400px;
+}
+
+.shadow-box {
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.25);
 }
 
 .full-page-container {
@@ -111,13 +117,12 @@ button:focus {
 
 /* form styling */
 .form-group input {
-    width: 100%;
+    width: 90%;
     height: 35px;
-    padding-left: 15px;
-    border: none;
+    padding-right: 15px;
     border-radius: 5px;
-    margin-bottom: 20px;
-    /*background: rgba(255,255,255,.5);*/
+    margin: 0 0 20px 0;
+    border: none;
     background: rgb(170, 198, 164);
 }
 
@@ -125,8 +130,21 @@ input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0px 1000px rgb(170, 198, 164) inset;
 }
 
+.form-group .align-right{
+    text-align: right;
+    font-size: 0.7em;
+    width: 95%;
+}
+
+.forgot-password{
+    color: #167bff;
+    text-decoration: underline;
+}
+
 .form-group label {
-    text-transform: uppercase;
+    width: 95%;
+    text-align: right;
+    font-weight: bold;
 }
 
 input.submit {
@@ -177,7 +195,7 @@ form, .forgot-panel {
 .navbar {
     top: 0;
     width: 100%;
-    height: 80px;
+    height: 40px;
 }
 
 .nav-buttons {

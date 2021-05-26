@@ -56,23 +56,30 @@ class LoginForm extends React.Component {
 	render() {
 		return (
 			<div className="login-wrapper">
-				<div className="form-group">
-					<label>שם משתמש</label>
-					<input ref={this.usernameRef} type="text" id="username"/>
-					<label>סיסמה</label>
-					<input ref={this.passwordRef} type="password" id="password"/>
-					<button className="sb-btn" type="button" onClick={this.checkOnSubmit}>כניסה</button>
-					{this.state.modalisOpen ?
-						<Modal
-							{...this.state}
-							closeModal={this.toggleModal}
-						/>
-						: null
-					}
+				<div className="shadow-box">
+					<div className="form-group">
+						<h2>התחברות</h2>
+						<br/>
+						<label>שם משתמש</label>
+						<input ref={this.usernameRef} type="text" id="username"/>
+						<label>סיסמה</label>
+						<input ref={this.passwordRef} type="password" id="password"/>
+						<div className="align-right">
+							<a className="forgot-password" href="">שכחתי סיסמה</a>
+						</div>
+						<button className="sb-btn" type="button" onClick={this.checkOnSubmit}>כניסה</button>
+						{this.state.modalisOpen ?
+							<Modal
+								{...this.state}
+								closeModal={this.toggleModal}
+							/>
+							: null
+						}
+					</div>
 				</div>
 			</div>
 		);
 	}
 }
 
-export {LoginForm, ws};
+export { LoginForm, ws };

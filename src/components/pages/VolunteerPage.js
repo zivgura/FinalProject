@@ -18,16 +18,15 @@ function VolunteerPage(props) {
 
 	const filterMeetings = (meetings) => {
 		let today = new Date();
-		today = today.toLocaleDateString();
 
 		return meetings.filter(meeting => {
 			const day = parseInt(meeting.meetingDate.substring(0, 2));
 			const month = parseInt(meeting.meetingDate.substring(3, 5));
 			const year = parseInt(meeting.meetingDate.substring(6, 10));
 			let date = new Date(year, month-1, day);
-			date = date.toLocaleDateString();
 
 			if (date >= today) {
+				console.log(date+'>='+today);
 				return meeting;
 			}
 		});

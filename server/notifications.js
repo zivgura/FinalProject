@@ -27,12 +27,17 @@ const initWebSocketServer = (server) => {
 };
 
 const notifyElderly = (elderlyId, volunteerName, channel, meetingSubject) => {
-	clients[elderlyId].send(JSON.stringify({
-		message:'incoming call',
-		volunteerName: volunteerName,
-		channel: channel,
-		meetingSubject: meetingSubject
-	}));
+	try {
+		clients[elderlyId].send(JSON.stringify({
+			message: 'incoming call',
+			volunteerName: volunteerName,
+			channel: channel,
+			meetingSubject: meetingSubject
+		}));
+	}
+	catch (e) {
+		throw {status: 400, message: 'המשתמש לא מחובר למערכת'};
+	}
 }
 
 exports.initWebSocketServer = initWebSocketServer;

@@ -15,11 +15,8 @@ function UserView({toggleModal, user, setUser}) {
 
 	return (
 		<React.Fragment>
-			<td className="col-4">
-				<button className="check-icon-button">
-					<img src={checkIcon} alt="v" onClick={setModal}/>
-				</button>
-			</td>
+			<td className="col-1">{user.elderly.firstName}</td>
+			<td className="col-2">{user.elderly.wantedServices.toString()}</td>
 			<td className="col-3">
 				<p data-tip={user.elderly.userName} data-for={`tooltip-${user.elderly.userName}`}>
 					{(user.finalRank * 100).toFixed() + '%'}
@@ -40,8 +37,11 @@ function UserView({toggleModal, user, setUser}) {
 					);
 				}}/>
 			</td>
-			<td className="col-2">{user.elderly.wantedServices.toString()}</td>
-			<td className="col-1">{user.elderly.firstName}</td>
+			<td className="col-4">
+				<button className="check-icon-button">
+					<img src={checkIcon} alt="v" onClick={setModal}/>
+				</button>
+			</td>
 		</React.Fragment>
 	);
 }

@@ -16,6 +16,21 @@ router.get('/meetings/:userName', async (req, res, next) => {
 	}
 });
 
+router.get('/meetings-full-details/:userName', async (req, res, next) => {
+	try {
+		let {userName} = req.params;
+		userName = userName.substring(0, userName.length - 1);
+		let meetings = await DButils.execQuery(`SELECT volunteeruserName, meeting, meetingSubject, firstName, lastName
+		 FROM elderly.meetings JOIN elderly.elderlyusers ON meetings.elderlyuserName = elderlyusers.userName
+		  WHERE volunteeruserName= '${userName}'`);
+		console.log(meetings);
+		res.send(JSON.parse(JSON.stringify(meetings)));
+
+	} catch (error) {
+		next(error);
+	}
+});
+
 router.post('/notify-elderly', async (req, res, next) => {
 		try {
 			let {elderlyId, volunteerId, channel, meetingSubject} = req.body;

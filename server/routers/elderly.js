@@ -15,4 +15,19 @@ router.get('/channels/:userName', async (req, res, next) => {
 	}
 });
 
+router.get('/meetings-full-details/:userName', async (req, res, next) => {
+	try {
+		let {userName} = req.params;
+		userName = userName.substring(0, userName.length - 1);
+		let meetings = await DButils.execQuery(`SELECT elderlyuserName, meeting, meetingSubject, firstName, lastName
+		 FROM elderly.meetings JOIN elderly.volunteerusers ON meetings.volunteeruserName = volunteerusers.userName
+		  WHERE elderlyuserName= '${userName}'`);
+		console.log(meetings);
+		res.send(JSON.parse(JSON.stringify(meetings)));
+
+	} catch (error) {
+		next(error);
+	}
+});
+
 module.exports = router;

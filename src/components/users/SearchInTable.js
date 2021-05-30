@@ -14,7 +14,7 @@ const SearchInTable = ({history, users, usersType}) => {
 	};
 
 	return (
-		<div className="meeting-wrapper">
+		<div >
 			<h2>{'חיפוש ' + usersType?.toString()}</h2>
 			<input
 				placeholder="חפש שם או תעודת זהות..."

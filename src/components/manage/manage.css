@@ -2,7 +2,9 @@
     padding: 12px 0;
     display: flex;
     justify-content: center;
-    flex-direction: row-reverse;
+    flex-direction: row;
+    overflow-y: auto;
+
 }
 
 .content {
@@ -14,18 +16,17 @@
 }
 
 .volunteer-name {
-    color: rgb(109, 177, 8);
+    color: #457b9d;
 }
 
 .action {
-    /*width: 50%;*/
     display: flex;
 }
 
 .manage-wrapper {
     text-align: center;
     height: 100%;
-    width: 560px;
+    width: 50%;
     margin-left: auto;
     margin-right: auto;
     padding: 1.5em 2em;
@@ -44,7 +45,8 @@
 
 .table-header {
     width: 100%;
-    background-color: rgb(170, 198, 164);
+    background-color: #457b9d;
+    color: #f1faee;
     font-size: 14px;
     text-transform: uppercase;
     letter-spacing: 0.03em;
@@ -70,31 +72,12 @@
     flex-basis: 20%;
 }
 
-.table-button {
-    font-weight: 700;
-    font-size: 1em;
-    text-align: center;
-    color: rgba(255, 255, 255, 1);
-    padding: 0px 0px;
-    width: 100px;
-    height: 35px;
-    border: none;
-    border-radius: 20px;
-    margin: 0;
-    cursor: pointer;
-    background-color: rgb(109, 177, 8);
-}
-
 .check-icon-button {
     margin: 0;
 }
 
 .delete-icon-button {
     height: 1em;
-}
-
-.table-button:hover {
-    background-color: #3e8e41
 }
 
 .tooltip {

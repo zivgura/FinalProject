@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { DateTimePickerWrapper } from './dateAndTimePicker';
+import { DateTimePickerWrapper } from '../datePicker/dateAndTimePicker';
 import './date-modal.css';
 
 const DateModal = ({user, closeModal, setModalState}) => {

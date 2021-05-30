@@ -14,6 +14,7 @@ import {
 	servicesList
 } from '../../resources/lists';
 import './RegistrationForm.css';
+import Navbar from '../navbar/Navbar';
 
 class RegistrationFormElderly extends Component {
 	constructor(props) {
@@ -202,7 +203,7 @@ class RegistrationFormElderly extends Component {
 
 		return (
 			<div>
-				{/*<Navbar/>*/}
+				<Navbar history={this.props.history}/>
 				<h2 className="header">
 					טופס רישום קשיש
 				</h2>

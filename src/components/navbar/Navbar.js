@@ -1,7 +1,7 @@
 import React from 'react';
-import { ws } from './LoginForm';
-import logo from '../resources/Milbat-logo.png';
+import { ws } from '../LoginForm';
 import * as Cookies from 'js-cookie';
+import './navbar.css';
 
 function Navbar({history}) {
 	const onClick = () => {
@@ -17,12 +17,7 @@ function Navbar({history}) {
 	return (
 		<div className="navbar">
 			<button className="nav-buttons" onClick={onClick}>התנתק</button>
-			<div className="logo">
-				<img src={logo} alt={''}/>
-			</div>
-			<div className="app-logo">
-
-			</div>
+			<button className="nav-buttons" onClick={history.goBack}>חזור</button>
 		</div>
 	);
 }

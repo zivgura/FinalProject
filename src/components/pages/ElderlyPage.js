@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Navbar from '../Navbar';
+import Navbar from '../navbar/Navbar';
 import { setOnMessage } from '../../services/notifacationService';
 import { fetchChannels } from '../../services/server';
 import { AGORA_APP_ID } from '../../agora.config';

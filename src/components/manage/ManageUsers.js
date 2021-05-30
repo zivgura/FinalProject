@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AssignableUsers from '../users/AssignableUsers';
-import Navbar from '../Navbar';
-import { DateModal } from '../datePicker/DateModal';
+import Navbar from '../navbar/Navbar';
+import { DateModal } from '../modal/DateModal';
 import Modal from '../modal/Modal';
 
 function ManageUsers({history}) {

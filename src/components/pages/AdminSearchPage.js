@@ -1,23 +1,23 @@
 import React from 'react';
 import SearchInTable from '../users/SearchInTable';
-import Navbar from '../Navbar';
+import Navbar from '../navbar/Navbar';
 
 const AdminSearchPage = (props) => {
 	const volunteersUsers = props.history.location.state.volunteersUsers;
 	const elderlyUsers = props.history.location.state.elderlyUsers;
-
 	return (
-		<div className="page">
+		<div className="no-sidebar-page">
 			<Navbar history={props.history}/>
-			<div className="search-wrapper">
-				<h2 className="header">
-					מתנדבים
-				</h2>
-				<SearchInTable users={volunteersUsers}/>
-				<h2 className="header">
-					קשישים
-				</h2>
-				<SearchInTable users={elderlyUsers}/>
+			<div className="page-content">
+				<div className="centered-container">
+					<div className="half">
+						<SearchInTable history={props.history} users={volunteersUsers} usersType="מתנדבים"/>
+					</div>
+					<br />
+					<div className="half">
+						<SearchInTable history={props.history} users={elderlyUsers} usersType="קשישים"/>
+					</div>
+				</div>
 			</div>
 		</div>
 	);

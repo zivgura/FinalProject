@@ -4,7 +4,6 @@ import * as Cookies from 'js-cookie';
 import { notifyElderly } from '../../services/server';
 import videoCall from '../../resources/video-call-icon.png';
 import '../manage/manage.css';
-import deleteIcon from '../../resources/delete-icon.png';
 
 function MeetingView({meeting, history}) {
 	const userName = Cookies.get('userName');
@@ -27,14 +26,14 @@ function MeetingView({meeting, history}) {
 
 	return (
 		<React.Fragment>
+			<td className="col-1">{elderlyDetails.firstName +' '+elderlyDetails.lastName}</td>
+			<td className="col-2">{meeting.meetingDate}</td>
+			<td className="col-3">{meeting.meetingSubject}</td>
 			<td className="col-4">
 				<button className="check-icon-button">
 					<img className="video-call-icon-button" src={videoCall} alt="call" onClick={onClick}/>
 				</button>
 			</td>
-			<td className="col-3">{meeting.meetingSubject}</td>
-			<td className="col-2">{meeting.meetingDate}</td>
-			<td className="col-1">{elderlyDetails.firstName +' '+elderlyDetails.lastName}</td>
 		</React.Fragment>
 	);
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import Navbar from '../Navbar';
 import { fetchElderlyDetails, fetchOrganizationsNames, fetchVolunteers } from '../../services/server';
+import Sidebar from '../sidebar/Sidebar';
 
 function AdminPage(props) {
 	const [adminState, setAdminState] = useState({
@@ -58,18 +58,20 @@ function AdminPage(props) {
 	useEffect(() => {
 		if (adminState.organizations?.length !== 0) {
 			console.log(adminState.organizations);
-			props.history.push('/admin/register-responsible', adminState.organizations);
+			props.history.push('/admin/register-responsible', {
+				organizations: adminState.organizations
+			});
 		}
 		if (adminState.isSearchClicked) {
 			props.history.push('/admin/search', {
-				volunteersUsers: adminState.volunteersUsers, elderlyUsers:adminState.elderlyUsers}
-				);
+				volunteersUsers: adminState.volunteersUsers,
+				elderlyUsers: adminState.elderlyUsers
+			});
 		}
 	});
 
-	return (
-		<div className="page">
-			<Navbar history={props.history} organizationName={'Admin'}/>
+	const content = (
+		<>
 			<div className="buttons-section">
 				<button
 					className="sb-btn"
@@ -91,6 +93,13 @@ function AdminPage(props) {
 					חפש משתמשים
 				</button>
 			</div>
+		</>
+	)
+
+	return (
+		<div className="page">
+			<Sidebar history={props.history} content={content}/>
+
 		</div>
 	);
 }

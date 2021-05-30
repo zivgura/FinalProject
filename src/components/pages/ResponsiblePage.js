@@ -1,4 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import * as Cookies from 'js-cookie';
+import { Dropdown } from 'react-bootstrap';
 import {
 	fetchElderlyDetails,
 	fetchElderlyOrganizationMeetings,
@@ -6,9 +8,9 @@ import {
 	fetchVolunteerOrganizationMeetings,
 	fetchVolunteers
 } from '../../services/server';
-import Navbar from '../Navbar';
+import Navbar from '../navbar/Navbar';
 import Modal from '../modal/Modal';
-import * as Cookies from 'js-cookie';
+import Sidebar from '../sidebar/Sidebar';
 
 function ResponsiblePage(props) {
 	if (props?.history?.location.state) {
@@ -208,12 +210,18 @@ function ResponsiblePage(props) {
 		else if (responsibleState.isSearchVolunteersClicked) {
 			console.log('responsibleState.volunteersUsers');
 			console.log(responsibleState.volunteersUsers);
-			props.history.push('/responsible/search-volunteers', {users: responsibleState.volunteersUsers, usersType: 'מתנדבים'});
+			props.history.push('/responsible/search-volunteers', {
+				users: responsibleState.volunteersUsers,
+				usersType: 'מתנדבים'
+			});
 		}
 		else if (responsibleState.isSearchElderlyClicked) {
 			console.log('responsibleState.elderlyUsers');
 			console.log(responsibleState.elderlyUsers);
-			props.history.push('/responsible/search-elderly', {users: responsibleState.elderlyUsers, usersType: 'קשישים'});
+			props.history.push('/responsible/search-elderly', {
+				users: responsibleState.elderlyUsers,
+				usersType: 'קשישים'
+			});
 		}
 	});
 
@@ -225,9 +233,8 @@ function ResponsiblePage(props) {
 			});
 		}, [responsibleState.modalisOpen]);
 
-	return (
-		<div className="page">
-			<Navbar history={props.history} organizationName={organizationName}/>
+	const content = (
+		<>
 			{responsibleState.isVolunteerResponsible ?
 				<div className="buttons-section">
 					<button
@@ -238,22 +245,34 @@ function ResponsiblePage(props) {
 					>
 						צור מתנדב חדש
 					</button>
-					<button
-						className="sb-btn"
-						name="isManageVolunteersClicked"
-						type="button"
-						onClick={(e) => onClickManageVolunteers(e)}
-					>
-						קבע פגישות למתנדבים
-					</button>
-					<button
-						className="sb-btn"
-						name="isManageVolunteersMeetingsClicked"
-						type="button"
-						onClick={(e) => onClickManageVolunteersMeetings(e)}
-					>
-						נהל פגישות מתנדבים
-					</button>
+					<Dropdown drop="left">
+						<Dropdown.Toggle className="sb-btn" variant="success" id="dropdown-basic">
+							פגישות מתנדבים
+						</Dropdown.Toggle>
+
+						<Dropdown.Menu className="dropdown-menu">
+							<div className="buttons-section">
+								<Dropdown.Item>
+									<button
+										className="sb-btn"
+										name="isManageVolunteersClicked"
+										type="button"
+										onClick={(e) => onClickManageVolunteers(e)}
+									>
+										קבע פגישות למתנדבים
+									</button>
+									<button
+										className="sb-btn"
+										name="isManageVolunteersMeetingsClicked"
+										type="button"
+										onClick={(e) => onClickManageVolunteersMeetings(e)}
+									>
+										נהל פגישות מתנדבים
+									</button>
+								</Dropdown.Item>
+							</div>
+						</Dropdown.Menu>
+					</Dropdown>
 					<button
 						className="sb-btn"
 						name="isSearchVolunteersClicked"
@@ -262,6 +281,12 @@ function ResponsiblePage(props) {
 					>
 						חפש מתנדבים
 					</button>
+				</div>
+				: null
+			}
+			{responsibleState.isVolunteerResponsible && responsibleState.isElderlyResponsible ?
+				<div className="hr">
+					<hr/>
 				</div>
 				: null
 			}
@@ -294,6 +319,16 @@ function ResponsiblePage(props) {
 				</div>
 				: null
 			}
+
+		</>
+	);
+
+	return (
+		<div className="page">
+			<Sidebar history={props.history} content={content}/>
+			<div className="page-content">
+
+			</div>
 			{responsibleState.modalisOpen ?
 				<Modal
 					{...responsibleState}

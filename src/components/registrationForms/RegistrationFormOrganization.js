@@ -5,6 +5,7 @@ import { organizationTypes } from '../../resources/lists';
 import { registerOrganization } from '../../services/server';
 import { regexes } from '../../ClientUtils';
 import './RegistrationForm.css';
+import Navbar from '../navbar/Navbar';
 
 class RegistrationFormOrganization extends Component {
 	constructor(props) {
@@ -146,6 +147,7 @@ class RegistrationFormOrganization extends Component {
 
 		return (
 			<div>
+				<Navbar history={this.props.history}/>
 				<h2 className="header">
 					טופס רישום ארגון
 				</h2>

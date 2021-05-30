@@ -12,15 +12,15 @@ function OrganizationMeetingView({meeting, toggleModal, setChannelState}) {
 
 	return (
 		<React.Fragment>
+			<td className="col-1">{meeting.volunteerFirstName +' '+meeting.volunteerLastName}</td>
+			<td className="col-2">{meeting.elderlyFirstName +' '+meeting.elderlyLastName}</td>
+			<td className="col-3">{meeting.meeting}</td>
+			<td className="col-4">{meeting.meetingSubject}</td>
 			<td className="col-5">
 				<button className="check-icon-button">
 					<img className="delete-icon-button" src={deleteIcon} alt="x" onClick={onClick}/>
 				</button>
 			</td>
-			<td className="col-4">{meeting.meetingSubject}</td>
-			<td className="col-3">{meeting.meeting}</td>
-			<td className="col-2">{meeting.elderlyFirstName +' '+meeting.elderlyLastName}</td>
-			<td className="col-1">{meeting.volunteerFirstName +' '+meeting.volunteerLastName}</td>
 		</React.Fragment>
 	);
 }

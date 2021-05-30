@@ -11,10 +11,10 @@ function MeetingTable({props}) {
 				(<table className="users-table">
 					<thead className="table-header">
 					<tr>
-						<th className="col-4">פעולות</th>
-						<th className="col-3">נושא הפגישה</th>
-						<th className="col-2">פגישה</th>
 						<th className="col-1">קשיש</th>
+						<th className="col-2">פגישה</th>
+						<th className="col-3">נושא הפגישה</th>
+						<th className="col-4">פעולות</th>
 					</tr>
 					</thead>
 					<tbody>

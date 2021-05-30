@@ -5,6 +5,7 @@ import { registerResponsible } from '../../services/server';
 import { genderList, responsibleTypes } from '../../resources/lists';
 import { generatePassword, regexes } from '../../ClientUtils';
 import './RegistrationForm.css';
+import Navbar from '../navbar/Navbar';
 
 class RegistrationFormResponsible extends Component {
 	constructor(props) {
@@ -163,6 +164,7 @@ class RegistrationFormResponsible extends Component {
 
 		return (
 			<div>
+				<Navbar history={this.props.history}/>
 				<h2 className="header">
 					טופס רישום אחראי
 				</h2>
@@ -178,7 +180,7 @@ class RegistrationFormResponsible extends Component {
 											placeholder="בחר/י..."
 											name="organizationName"
 											value={this.state.organizationName}
-											options={this.props.history.location.state}
+											options={this.props.history.location.state.organizations}
 											onChange={(value) => this.setState({organizationName: value})}
 										/>
 									</label>

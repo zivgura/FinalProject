@@ -1,11 +1,11 @@
 import React from 'react';
-import './full-details.css';
 import { prettifyStringArray } from '../../../ClientUtils';
+import './full-details.css';
 
 const ElderlyFullDetails = ({details}) => (
-	<div className="full-page-wrapper">
+	<div>
+		{'פרטי הקשיש:'}
 		<div className="details-list">
-			{'פרטי הקשיש:'}
 			<div className="container">
 				<div className="field">
 					<div className="field-label">

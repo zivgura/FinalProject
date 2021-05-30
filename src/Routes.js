@@ -16,7 +16,6 @@ import { ChangePasswordPage } from './components/pages/ChangePasswordPage';
 import ManageMeetingsPage from './components/pages/ManageMeetingsPage';
 import SearchPage from './components/pages/SearchPage';
 import AdminSearchPage from './components/pages/AdminSearchPage';
-import './components/registrationForms/RegistrationForm.css';
 import AfterVideoCallPage from './components/pages/AfterVideoCallPage';
 import FullDetailsPage from './components/pages/FullDetailsPage';
 

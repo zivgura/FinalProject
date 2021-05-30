@@ -31,7 +31,6 @@ class LoginForm extends React.Component {
 			}
 			else if (user.user.userRole === 'elderly') {
 				ws = createWebSocket(user.user.userName);
-				console.log(ws);
 				this.props.history.push('/' + user.user.userRole, user.user.userName);
 			}
 			else {

@@ -20,10 +20,49 @@ body {
     height: 100%
 }
 
+.page {
+    height: 100vh;
+    display: flex;
+    flex-direction: column; /* row */
+    justify-content: flex-start;
+}
+
+.no-sidebar-page {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.page-content{
+    width: 100%;
+}
+
+.horizontal{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
 .container {
     text-align: center;
     width: 100%;
     height: 400px;
+    overflow-y: auto;
+}
+
+.centered-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    text-align: center;
+    height: 500px;
+    margin: 3% 25% 0 25%;
+}
+
+.centered-container .half {
+    height: 50%;
+    overflow-y: auto;
 }
 
 .shadow-box {
@@ -45,12 +84,8 @@ body {
     margin-left: auto;
     margin-right: auto;
     padding: 2em 2em;
-    /*border-radius: 5px;*/
-    /*box-shadow: 0px 2px 7px rgba(0,0,0,0.2);*/
     overflow-x: hidden;
     overflow-y: paged-y-controls;
-    /*color:#ffffff;*/
-    /*background: #337ab7;*/
     color: black;
 }
 
@@ -62,7 +97,6 @@ body {
     margin-right: auto;
     padding: 2em 2em;
     overflow-x: hidden;
-    overflow-y: paged-y-controls;
     color: black;
 }
 
@@ -75,22 +109,11 @@ body {
     overflow-x: hidden;
     overflow-y: paged-y-controls;
     color: black;
-    direction: rtl;
 }
 
 .modal-wrapper {
     width: 100%;
     height: 70%;
-}
-
-/* Nav buttons */
-.nav-buttons {
-    width: 60px;
-    height: 20px;
-    padding-top: 5px;
-    opacity: 1;
-    font-size: 15px;
-    color: rgb(109, 177, 8);
 }
 
 button {
@@ -104,15 +127,24 @@ button:focus {
     outline: 0px;
 }
 
-/* footer: forgot section */
-.forgot-panel {
-    position: relative;
-    height: 100px;
-    margin-left: auto;
-    margin-right: auto;
+.sb-btn {
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 1em;
     text-align: center;
-    padding-top: 24px;
-    border-top: solid 1px rgba(255, 255, 255, .3);
+    color: #f1faee;
+    padding: 8px 0px;
+    width: 200px;
+    height: 35px;
+    border: none;
+    border-radius: 20px;
+    margin-top: 10%;
+    cursor: pointer;
+    background-color: #457b9d;
+}
+
+.sb-btn:hover {
+    background-color: #9dcccd
 }
 
 /* form styling */
@@ -123,11 +155,11 @@ button:focus {
     border-radius: 5px;
     margin: 0 0 20px 0;
     border: none;
-    background: rgb(170, 198, 164);
+    background: #9dcccd;
 }
 
 input:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0px 1000px rgb(170, 198, 164) inset;
+    -webkit-box-shadow: 0 0 0px 1000px #9dcccd inset;
 }
 
 .form-group .align-right{
@@ -147,67 +179,10 @@ input:-webkit-autofill {
     font-weight: bold;
 }
 
-input.submit {
-    font-weight: 700;
-    text-transform: uppercase;
-    font-size: 1em;
-    text-align: center;
-    color: black;
-    padding: 8px 0px;
-    width: 100%;
-    height: 35px;
-    border: none;
-    border-radius: 20px;
-    margin-top: 23px;
-    cursor: pointer;
-    background-color: #eaffeb;
-}
-
-/*Form positioning and animation */
-form#registerform {
-    left: 500px;
-    top: -230px;
-    position: relative;
-}
-
-.forgot-panel {
-    margin-top: -300px;
-    color: gray;
-}
-
-form, .forgot-panel {
-    position: relative;
-    transition: all .5s ease;
-}
-
-#loginBtn, #registerBtn {
-    transition: all .5s ease;
-}
-
 .buttons-section {
     display: flex;
+    flex-direction: row;
     justify-content: center;
-    margin-right: 20%;
-    margin-left: 20%;
-    margin-top: 5%;
-}
-
-.navbar {
-    top: 0;
-    width: 100%;
-    height: 40px;
-}
-
-.nav-buttons {
-    flex: 0 1 auto;
-    left: 0;
-    position: absolute;
-}
-
-.logo {
-    flex: 0 1 auto;
-    left: 43%;
-    position: absolute;
 }
 
 a {
@@ -217,4 +192,8 @@ a {
 .hidden-btn {
     font-size: 1em;
     margin: 0;
+}
+
+.login-wrapper .sb-btn {
+    margin-top: 5%;
 }

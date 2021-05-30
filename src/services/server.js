@@ -156,8 +156,22 @@ const fetchElderlyOrganizationMeetings = async (organizationName) => {
 	return response;
 };
 
-const getMeetings = async (state) => {
-	const response = await fetch(serverURL + `/volunteer/meetings/` + new URLSearchParams(state),
+const getMeetings = async (volunteerUserName) => {
+	const response = await fetch(serverURL + `/volunteer/meetings/` + new URLSearchParams(volunteerUserName),
+		{
+			method: 'get'
+		});
+
+	handleError(response);
+	return response;
+};
+
+const fetchMeetingsFullDetails = async (userName, usersType) => {
+	const requestURL = usersType === 'קשישים'
+		? '/elderly/meetings-full-details/'
+		: '/volunteer/meetings-full-details/';
+
+	const response = await fetch(serverURL + requestURL + new URLSearchParams(userName),
 		{
 			method: 'get'
 		});
@@ -225,6 +239,7 @@ export {
 	fetchVolunteers,
 	addMeetingDB,
 	getMeetings,
+	fetchMeetingsFullDetails,
 	fetchChannels,
 	fetchElderlyDetails,
 	fetchVolunteerOrganizationMeetings,

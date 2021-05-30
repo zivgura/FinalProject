@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import OrganizationMeetingTable from '../meetings/OrganizationMeetingTable';
-import Navbar from '../Navbar';
-import Modal from '../modal/Modal';
 import { deleteMeetingFromDB } from '../../services/server';
 import DeleteModal from '../modal/DeleteModal';
+import Navbar from '../navbar/Navbar';
 
 const ManageMeetingsPage = (props) => {
 	const organizationMeetings = props.history.location.state;
@@ -48,7 +47,7 @@ const ManageMeetingsPage = (props) => {
 
 	return (
 		<div className="page">
-			<Navbar history={props.history}/>
+			<Navbar history={props.history} />
 			<h2 className="header">
 				פגישות בארגון
 			</h2>

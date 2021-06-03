@@ -1,6 +1,6 @@
 const WebSocketServer = require('websocket').server;
 
-const clients = new Set();
+let clients = new Set();
 let wws;
 
 const initWebSocketServer = (server) => {
@@ -13,10 +13,12 @@ const initWebSocketServer = (server) => {
 		let clientId = (request.resourceURL.query.param);
 		clients[clientId] = connection;
 		console.log(new Date() +'- Received new connection from origin: ' + request.origin);
+		console.log(clients);
 
 		connection.on('close', ()=> {
 			console.log('connection closed to '+ clientId);
-			clients.delete(clientId);
+			clients[clientId] = null ;
+			console.log(clients);
 		});
 
 		connection.on('message', (message) => {
@@ -36,6 +38,7 @@ const notifyElderly = (elderlyId, volunteerName, channel, meetingSubject) => {
 		}));
 	}
 	catch (e) {
+		console.log(e);
 		throw {status: 400, message: 'המשתמש לא מחובר למערכת'};
 	}
 }

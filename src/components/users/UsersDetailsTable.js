@@ -12,7 +12,7 @@ function UsersDetailsTable({history, users, usersType}) {
 	};
 
 	return (
-		<div>
+		<div className="table-wrapper">
 			<table className="users-table">
 				<thead className="table-header">
 				<tr>

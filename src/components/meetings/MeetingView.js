@@ -5,23 +5,37 @@ import { notifyElderly } from '../../services/server';
 import videoCall from '../../resources/video-call-icon.png';
 import '../manage/manage.css';
 
-function MeetingView({meeting, history}) {
+function MeetingView({meeting, history,setModal}) {
 	const userName = Cookies.get('userName');
 	const elderlyDetails = meeting.elderlyDetails;
 	const channel = userName+meeting.elderlyUserName+meeting.meetingDate;
+	const videoOptions = {
+		'appId': AGORA_APP_ID,
+		'channel': channel,
+		'baseMode': 'avc',
+		'transcode': 'interop',
+		'attendeeMode': 'video',
+		'videoProfile': '480p_4'
+	};
 
 	const onClick = async () => {
-		const videoOptions = {
-			'appId': AGORA_APP_ID,
-			'channel': channel,
-			'baseMode': 'avc',
-			'transcode': 'interop',
-			'attendeeMode': 'video',
-			'videoProfile': '480p_4'
-		};
-
-		await notifyElderly(meeting.elderlyUserName, userName, channel, meeting.meetingSubject);
-		history.push('/volunteer/meetings/videoCall', {videoOptions:videoOptions, isElderly:false});
+		try {
+			const response = await notifyElderly(meeting.elderlyUserName, userName, channel, meeting.meetingSubject);
+			console.log('response');
+			console.log(response);
+			response.status
+				? history.push('/volunteer/meetings/videoCall', {videoOptions:videoOptions, isElderly:false})
+				: setModal({
+					modalIsOpen: true,
+					message: 'המשתמש לא מחובר למערכת.\n לא ניתן להתקשר אליו כעת'
+				})
+		}
+		catch (e){
+			setModal({
+				modalIsOpen: true,
+				message: 'ארעה שגיאה.\n לא ניתן לבצע פעולה זו כעת'
+			})
+		}
 	};
 
 	return (

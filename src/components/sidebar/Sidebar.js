@@ -1,14 +1,12 @@
 import React from 'react';
 import * as Cookies from 'js-cookie';
-import { ws } from '../LoginForm';
-import logo from '../../resources/logo.png';
+import { closeWebSocket } from '../../services/notifacationService';
+import spaceFiller from '../../resources/space-filler.png';
 import './sidebar.css';
 
 function Sidebar({history, content}) {
 	const onClick = () => {
-		if (ws) {
-			ws.close();
-		}
+		closeWebSocket();
 		Cookies.remove('userName');
 		Cookies.remove('organizationName');
 		Cookies.remove('organizationType');
@@ -23,6 +21,9 @@ function Sidebar({history, content}) {
 				<div className="left">
 					<button className="nav-buttons" onClick={onClick}>התנתק</button>
 				</div>
+			</div>
+			<div className="hr">
+				<img className="space-filler" src={spaceFiller}/>
 			</div>
 			{content}
 		</div>

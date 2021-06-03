@@ -17,13 +17,14 @@ body {
 }
 
 #root {
-    height: 100%
+    height: 100vh;
+    overflow-y: hidden;
 }
 
 .page {
     height: 100vh;
     display: flex;
-    flex-direction: column; /* row */
+    flex-direction: row; /* row */
     justify-content: flex-start;
 }
 
@@ -34,11 +35,11 @@ body {
     justify-content: flex-start;
 }
 
-.page-content{
+.page-content {
     width: 100%;
 }
 
-.horizontal{
+.horizontal {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -47,7 +48,7 @@ body {
 .container {
     text-align: center;
     width: 100%;
-    height: 400px;
+    height: 100%;
     overflow-y: auto;
 }
 
@@ -62,10 +63,10 @@ body {
 
 .centered-container .half {
     height: 50%;
-    overflow-y: auto;
 }
 
 .shadow-box {
+    height: 100%;
     border-radius: 10px;
     padding: 10px;
     box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.25);
@@ -91,7 +92,7 @@ body {
 
 .register-wrapper {
     text-align: center;
-    height: 50%;
+    height: 90%;
     width: 550px;
     margin-left: auto;
     margin-right: auto;
@@ -162,13 +163,13 @@ input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0px 1000px #9dcccd inset;
 }
 
-.form-group .align-right{
+.form-group .align-right {
     text-align: right;
     font-size: 0.7em;
     width: 95%;
 }
 
-.forgot-password{
+.forgot-password {
     color: #167bff;
     text-decoration: underline;
 }
@@ -196,4 +197,33 @@ a {
 
 .login-wrapper .sb-btn {
     margin-top: 5%;
+}
+
+.center-page {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#plusIcon {
+    height: 150px;
+    width: 150px;
+    position: fixed;
+    top: 30%;
+    right: 55%;
+}
+
+#chooseOptionTitle {
+    color: #457b9d;
+    font-size: 2em;
+    font-family: Tahoma;
+    font-weight: bold;
+}
+
+.table-wrapper {
+    height: 200px;
+    overflow-y: auto;
 }

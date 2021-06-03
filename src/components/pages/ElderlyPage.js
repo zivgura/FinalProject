@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import * as Cookies from 'js-cookie';
 import Navbar from '../navbar/Navbar';
-import { setOnMessage } from '../../services/notifacationService';
+import { getCurrentWebSocket, setOnMessage } from '../../services/notifacationService';
 import { fetchChannels } from '../../services/server';
 import { AGORA_APP_ID } from '../../agora.config';
 import InComingCallModal from '../modal/InComingCallModal';
@@ -9,6 +10,11 @@ function ElderlyPage(props) {
 	const [state, setState] = useState({
 		modalisOpen: false,
 	});
+
+	useEffect(()=>{
+		getCurrentWebSocket();
+	}, [])
+
 	const [answerCallState, setAnswerCall] = useState({
 		answerCall: () => {
 			console.log('answer call');
@@ -80,7 +86,7 @@ function ElderlyPage(props) {
 	}
 
 	return (
-		<div className="page">
+		<div className="no-sidebar-page">
 			<Navbar history={props.history}/>
 			<div className="buttons-section">
 				<button

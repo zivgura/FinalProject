@@ -1,7 +1,7 @@
 import React from 'react';
 import MeetingView from './MeetingView';
 
-function MeetingTable({props}) {
+function MeetingTable({props,setModal}) {
 	const meetings = props.history.location.state;
 
 	return (
@@ -20,7 +20,12 @@ function MeetingTable({props}) {
 					<tbody>
 					{meetings?.map((meeting, index) => (
 						<tr key={index} className="table-row">
-							<MeetingView key={index} meeting={meeting} history={props.history}/>
+							<MeetingView
+								key={index}
+								meeting={meeting}
+								history={props.history}
+								setModal={setModal}
+							/>
 						</tr>
 					))}
 					</tbody>

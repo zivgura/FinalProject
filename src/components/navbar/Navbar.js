@@ -1,13 +1,11 @@
 import React from 'react';
-import { ws } from '../LoginForm';
 import * as Cookies from 'js-cookie';
+import { closeWebSocket } from '../../services/notifacationService';
 import './navbar.css';
 
 function Navbar({history}) {
 	const onClick = () => {
-		if (ws) {
-			ws.close();
-		}
+		closeWebSocket();
 		Cookies.remove('userName');
 		Cookies.remove('organizationName');
 		Cookies.remove('organizationType');

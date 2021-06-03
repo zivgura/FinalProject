@@ -60,7 +60,7 @@ function ChangePasswordPage() {
 		}, [newPassword, confirmNewPassword, username]);
 
 	return (
-		<div className="page">
+		<div className="no-sidebar-page">
 			<div className="register-wrapper">
 				<div className="register-form">
 					<div className="form">

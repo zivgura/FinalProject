@@ -3,7 +3,7 @@ import { feedbackURL } from '../../ClientUtils';
 import Navbar from '../navbar/Navbar';
 
 const AfterVideoCallPage = (props) =>
-	<div className="page">
+	<div className="no-sidebar-page">
 		<Navbar history={props.history} />
 		<div className="manage-wrapper">
 			<h2 className="header">משוב</h2>

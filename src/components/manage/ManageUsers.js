@@ -19,7 +19,7 @@ function ManageUsers({history}) {
 	};
 
 	return (
-		<div className="page">
+		<div className="no-sidebar-page">
 			<Navbar history={history}/>
 			<div>
 				<h2 className="header">
@@ -27,8 +27,10 @@ function ManageUsers({history}) {
 				</h2>
 			</div>
 			<div className="manage-wrapper">
-				<div className="scrollable">
-					<AssignableUsers users={state.users} toggleModal={toggleDateModal} setUser={setUser}/>
+				<div className="shadow-box">
+					<div className="scrollable-100">
+						<AssignableUsers users={state.users} toggleModal={toggleDateModal} setUser={setUser}/>
+					</div>
 				</div>
 			</div>
 			<div>

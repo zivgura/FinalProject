@@ -8,9 +8,11 @@ import {
 	fetchVolunteerOrganizationMeetings,
 	fetchVolunteers
 } from '../../services/server';
-import Navbar from '../navbar/Navbar';
 import Modal from '../modal/Modal';
 import Sidebar from '../sidebar/Sidebar';
+import separatorIcon from '../../resources/separator-icon.png';
+import plusIcon from '../../resources/plus-icon.png';
+import OpeningScreen from '../openingScreen';
 
 function ResponsiblePage(props) {
 	if (props?.history?.location.state) {
@@ -286,7 +288,7 @@ function ResponsiblePage(props) {
 			}
 			{responsibleState.isVolunteerResponsible && responsibleState.isElderlyResponsible ?
 				<div className="hr">
-					<hr/>
+					<img className="separator" src={separatorIcon}/>
 				</div>
 				: null
 			}
@@ -306,7 +308,7 @@ function ResponsiblePage(props) {
 						type="button"
 						onClick={(e) => onClickManageElderlyMeetings(e)}
 					>
-						נהל פגישות קשישים
+						פגישות קשישים
 					</button>
 					<button
 						className="sb-btn"
@@ -319,16 +321,13 @@ function ResponsiblePage(props) {
 				</div>
 				: null
 			}
-
 		</>
 	);
 
 	return (
 		<div className="page">
 			<Sidebar history={props.history} content={content}/>
-			<div className="page-content">
-
-			</div>
+			<OpeningScreen />
 			{responsibleState.modalisOpen ?
 				<Modal
 					{...responsibleState}

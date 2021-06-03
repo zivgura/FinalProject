@@ -46,7 +46,7 @@ const ManageMeetingsPage = (props) => {
 	}, [meetingsState])
 
 	return (
-		<div className="page">
+		<div className="no-sidebar-page">
 			<Navbar history={props.history} />
 			<h2 className="header">
 				פגישות בארגון

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { LoginForm } from './components/LoginForm';
+import LoginForm from './components/LoginForm';
 import RegistrationFormOrganization from './components/registrationForms/RegistrationFormOrganization';
 import RegistrationFormElderly from './components/registrationForms/RegistrationFormElderly';
 import RegistrationFormVolunteer from './components/registrationForms/RegistrationFormVolunteer';

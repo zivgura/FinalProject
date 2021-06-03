@@ -22,7 +22,7 @@ const FullDetailsPage = (props) => {
 	},[])
 
 	return (
-		<div className="page">
+		<div className="no-sidebar-page">
 			<Navbar history={props.history}/>
 			<div className="full-page-container">
 				<h2>פרטים מלאים</h2>

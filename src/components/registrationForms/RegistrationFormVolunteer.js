@@ -187,13 +187,13 @@ class RegistrationFormVolunteer extends Component {
 		};
 
 		return (
-			<div>
+			<div className="no-sidebar-page">
 				<Navbar history={this.props.history}/>
-					<h2 className="header">
-						טופס רישום מתנדב
-					</h2>
-					<div className="register-wrapper">
-				{/*<div className="shadow-box">*/}
+				<h2 className="header">
+					טופס רישום מתנדב
+				</h2>
+				<div className="register-wrapper">
+					<div className="shadow-box">
 						<div className="container">
 							<div className="register-form">
 								<div className="form">
@@ -445,7 +445,7 @@ class RegistrationFormVolunteer extends Component {
 								: null
 							}
 						</div>
-					{/*</div>*/}
+					</div>
 				</div>
 			</div>
 		);

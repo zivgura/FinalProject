@@ -6,7 +6,7 @@ const VideoCallPage = (props) => {
 	const isElderly = props.history.location.state.isElderly;
 
 	return (
-		<div className="page">
+		<div className="no-sidebar-page">
 			<VideoComponent videoOptions={videoOptions} isElderly={isElderly} history={props.history}/>
 		</div>
 	);

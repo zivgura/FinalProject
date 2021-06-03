@@ -7,7 +7,7 @@ const SearchPage = (props) => {
 	const usersType = props.history.location.state.usersType;
 
 	return (
-		<div className="page">
+		<div className="no-sidebar-page">
 			<Navbar history={props.history}/>
 			<div className="meeting-wrapper">
 				<SearchInTable history={props.history} users={users} usersType={usersType}/>

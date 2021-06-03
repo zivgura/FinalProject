@@ -1,10 +1,8 @@
 import React from 'react';
+import * as Cookies from 'js-cookie';
 import Modal from './modal/Modal';
 import { loginCheck } from '../services/server';
-import * as Cookies from 'js-cookie';
-import { createWebSocket } from '../services/notifacationService';
-
-let ws;
+import { getCurrentWebSocket } from '../services/notifacationService';
 
 class LoginForm extends React.Component {
 	constructor(props) {
@@ -26,11 +24,13 @@ class LoginForm extends React.Component {
 		try {
 			const result = await loginCheck(this.usernameRef.current.value, this.passwordRef.current.value);
 			const user = await result.json();
+
 			if (user.user.userRole === 'volunteer') {
 				this.props.history.push('/' + user.user.userRole, user.user.userName);
 			}
 			else if (user.user.userRole === 'elderly') {
-				ws = createWebSocket(user.user.userName);
+				Cookies.set('userName', user.user.userName);
+				getCurrentWebSocket();
 				this.props.history.push('/' + user.user.userRole, user.user.userName);
 			}
 			else {
@@ -81,4 +81,4 @@ class LoginForm extends React.Component {
 	}
 }
 
-export { LoginForm, ws };
+export default LoginForm;

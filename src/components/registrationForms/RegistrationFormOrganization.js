@@ -88,7 +88,7 @@ class RegistrationFormOrganization extends Component {
 	}
 
 	checkOnSubmit() {
-		const {organizationName, organizationEnglishName,  organizationType, phoneNumber} = this.state;
+		const {organizationName, organizationEnglishName, organizationType, phoneNumber} = this.state;
 		const formFilled = !(organizationName === '' || organizationType === '' || phoneNumber === '' || organizationEnglishName === '');
 		const formInvalid = Object.keys(this.state.valid).some(x => !this.state.valid[x]);
 		const formHasErrors = !formFilled || formInvalid;
@@ -96,7 +96,7 @@ class RegistrationFormOrganization extends Component {
 		if (!formHasErrors) {
 			this.handleSubmit();
 		}
-		else{
+		else {
 			this.setState({message: `אחד או יותר מהשדות לא תקינים`, hasErrors: true});
 			this.toggleModal();
 		}
@@ -117,7 +117,7 @@ class RegistrationFormOrganization extends Component {
 			this.setState({message: 'הרישום הצליח', hasErrors: false});
 		}
 		catch (error) {
-			this.setState({message: `הרישום נכשל. \n ${error.message}`, hasErrors:true});
+			this.setState({message: `הרישום נכשל. \n ${error.message}`, hasErrors: true});
 		}
 
 		this.toggleModal();
@@ -132,7 +132,7 @@ class RegistrationFormOrganization extends Component {
 	closeModal() {
 		this.toggleModal();
 
-		if(!this.state.hasErrors) {
+		if (!this.state.hasErrors) {
 			this.props.history.push('/admin');
 		}
 	}
@@ -152,76 +152,78 @@ class RegistrationFormOrganization extends Component {
 					טופס רישום ארגון
 				</h2>
 				<div className="register-wrapper">
-					<div className="container">
-						<div className="register-form">
-							<div className="form">
-								<div className="field">
-									<label>
-										שם ארגון
-										<input
-											type="text"
-											value={this.state.organizationName}
-											name="organizationName"
-											className={shouldMarkError('organizationName') ? 'error' : ''}
-											onChange={(e) => this.handleChange(e, 'organizationName')}/>
-									</label>
-									<span className="required-field"
-										  style={this.requiredStyle('organizationName')}>{this.errorMessages('organizationName')}</span>
-								</div>
-								<div className="field">
-									<label>
-										שם ארגון באנגלית
-										<input
-											type="text"
-											value={this.state.organizationEnglishName}
-											name="organizationEnglishName"
-											className={shouldMarkError('organizationEnglishName') ? 'error' : ''}
-											onChange={(e) => this.handleChange(e, 'organizationEnglishName')}/>
-									</label>
-									<span className="required-field"
-										  style={this.requiredStyle('organizationEnglishName')}>{this.errorMessages('organizationEnglishName')}</span>
-								</div>
-								<div className="field">
-									<label>
-										סוג ארגון
-										<Select
-											isRtl
-											placeholder="בחר/י..."
-											name="organizationType"
-											className={shouldMarkError('organizationType') ? 'error' : ''}
-											value={this.state.organizationType}
-											options={organizationTypes}
-											onChange={(value) => this.setState({organizationType: value})}
-										/>
-									</label>
-									<span className="required-field"
-										  style={this.requiredStyle('organizationType')}>{this.errorMessages('organizationType')}</span>
-								</div>
+					<div className="shadow-box">
+						<div className="container">
+							<div className="register-form">
+								<div className="form">
+									<div className="field">
+										<label>
+											שם ארגון
+											<input
+												type="text"
+												value={this.state.organizationName}
+												name="organizationName"
+												className={shouldMarkError('organizationName') ? 'error' : ''}
+												onChange={(e) => this.handleChange(e, 'organizationName')}/>
+										</label>
+										<span className="required-field"
+											  style={this.requiredStyle('organizationName')}>{this.errorMessages('organizationName')}</span>
+									</div>
+									<div className="field">
+										<label>
+											שם ארגון באנגלית
+											<input
+												type="text"
+												value={this.state.organizationEnglishName}
+												name="organizationEnglishName"
+												className={shouldMarkError('organizationEnglishName') ? 'error' : ''}
+												onChange={(e) => this.handleChange(e, 'organizationEnglishName')}/>
+										</label>
+										<span className="required-field"
+											  style={this.requiredStyle('organizationEnglishName')}>{this.errorMessages('organizationEnglishName')}</span>
+									</div>
+									<div className="field">
+										<label>
+											סוג ארגון
+											<Select
+												isRtl
+												placeholder="בחר/י..."
+												name="organizationType"
+												className={shouldMarkError('organizationType') ? 'error' : ''}
+												value={this.state.organizationType}
+												options={organizationTypes}
+												onChange={(value) => this.setState({organizationType: value})}
+											/>
+										</label>
+										<span className="required-field"
+											  style={this.requiredStyle('organizationType')}>{this.errorMessages('organizationType')}</span>
+									</div>
 
-								<div className="field">
-									<label>
-										מספר טלפון
-										<input
-											type="text"
-											value={this.state.phoneNumber}
-											name="phoneNumber" id="phoneNumber"
-											className={shouldMarkError('phoneNumber') ? 'error' : ''}
-											onChange={(e) => this.handleChange(e, 'phoneNumber')}/>
-									</label>
-									<span className="required-field"
-										  style={this.requiredStyle('phoneNumber')}>{this.errorMessages('phoneNumber')}</span>
+									<div className="field">
+										<label>
+											מספר טלפון
+											<input
+												type="text"
+												value={this.state.phoneNumber}
+												name="phoneNumber" id="phoneNumber"
+												className={shouldMarkError('phoneNumber') ? 'error' : ''}
+												onChange={(e) => this.handleChange(e, 'phoneNumber')}/>
+										</label>
+										<span className="required-field"
+											  style={this.requiredStyle('phoneNumber')}>{this.errorMessages('phoneNumber')}</span>
+									</div>
+									<button className="sb-btn" type="button" onClick={this.checkOnSubmit}>סיום</button>
 								</div>
-								<button className="sb-btn" type="button" onClick={this.checkOnSubmit}>סיום</button>
 							</div>
+							{this.state.modalisOpen ?
+								<Modal
+									text='שים/י לב'
+									{...this.state}
+									closeModal={this.closeModal}
+								/>
+								: null
+							}
 						</div>
-						{this.state.modalisOpen ?
-							<Modal
-								text='שים/י לב'
-								{...this.state}
-								closeModal={this.closeModal}
-							/>
-							: null
-						}
 					</div>
 				</div>
 			</div>

@@ -1,9 +1,12 @@
 .sidebar {
     background: #1d3557;
-    width: 250px;
-    height: 100vh;
+    width: 280px;
+    height: 95vh;
     display: flex;
     flex-direction: column;
+    margin: 1% 2% 1% 0;
+    border-radius: 15px;
+    box-shadow: 6px 6px 6px 0px rgba(0, 0, 0, 0.25);
 }
 
 .top-sidebar {
@@ -16,7 +19,7 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
-    margin-right: 4%;
+    margin-right: 8%;
 }
 
 .dropdown-menu {
@@ -49,4 +52,14 @@
     margin-top: 20px;
     padding-left: 10px;
     padding-right: 10px;
+}
+
+.separator {
+    width: 250px;
+    height: 40px;
+}
+
+.space-filler{
+    width: 250px;
+    height: 0px;
 }

@@ -14,12 +14,14 @@ const SearchInTable = ({history, users, usersType}) => {
 	};
 
 	return (
-		<div >
-			<h2>{'חיפוש ' + usersType?.toString()}</h2>
-			<input
-				placeholder="חפש שם או תעודת זהות..."
-				onChange={e => search(e)}
-			/>
+		<div className="search-section">
+			<div className="freeze-section">
+				<h2>{'חיפוש ' + usersType?.toString()}</h2>
+				<input
+					placeholder="חפש שם או תעודת זהות..."
+					onChange={e => search(e)}
+				/>
+			</div>
 			<div className="scrollable">
 				<UsersDetailsTable history={history} users={state.filteredUsers} usersType={usersType}/>
 			</div>

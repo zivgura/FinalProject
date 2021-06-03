@@ -3,7 +3,7 @@ import DateTimePicker from 'react-datetime-picker';
 import { addMeetingDB } from '../../services/server';
 import Select from 'react-select';
 import dateFormat from 'dateformat';
-// import './DateTimePicker.css';
+import './DateTimePicker.css';
 
 const DateTimePickerWrapper = ({user, closeModal, setModalState}) => {
 	const [state, setState] = useState({date: new Date(), wantedService: ''});

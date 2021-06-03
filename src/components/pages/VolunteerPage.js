@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import * as Cookies from 'js-cookie';
 import { fetchElderlyDetails, getMeetings } from '../../services/server';
 import Sidebar from '../sidebar/Sidebar';
+import OpeningScreen from '../openingScreen';
 
 function VolunteerPage(props) {
 	const [volunteerState, setVolunteerState] = useState({meetings: [], isMeetingsClicked: false});
@@ -73,7 +74,7 @@ function VolunteerPage(props) {
 	return (
 		<div className="page">
 			<Sidebar history={props.history} content={content}/>
-
+			<OpeningScreen />
 		</div>
 	);
 }

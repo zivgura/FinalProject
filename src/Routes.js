@@ -18,6 +18,8 @@ import SearchPage from './components/pages/SearchPage';
 import AdminSearchPage from './components/pages/AdminSearchPage';
 import AfterVideoCallPage from './components/pages/AfterVideoCallPage';
 import FullDetailsPage from './components/pages/FullDetailsPage';
+import ForgotPasswordPage from './components/pages/ForgotPasswordPage';
+import ChangePassword from './components/CangePassword';
 
 function Routes() {
 	return (
@@ -28,6 +30,8 @@ function Routes() {
 				</Route>
 				<Route exact path="/login" component={LoginForm}/>
 				<Route exact path="/user/activate/:username/:password" component={ChangePasswordPage}/>
+				<Route exact path="/user/forgot-password" component={ForgotPasswordPage}/>
+				<Route exact path="/user/forgot-password/change-password/:username" component={ChangePassword}/>
 				<Route exact path="/admin" component={AdminPage}/>
 				<Route exact path="/admin/search" component={AdminSearchPage}/>
 				<Route exact path="/admin/register-responsible" component={RegistrationFormResponsible}/>

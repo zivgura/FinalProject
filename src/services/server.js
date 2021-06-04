@@ -28,6 +28,15 @@ const registerNotifications = async (username) => {
 	return response;
 };
 
+const forgotPassword = async (userName, email) => {
+	const response = await fetch(serverURL + `/user/forgot-password/` + new URLSearchParams({userName, email}), {
+		method: 'post'
+	});
+
+	handleError(response);
+	return response;
+}
+
 const tryLogin = async (username, password) => {
 	const response = await fetch(serverURL + `/user/activate/` + new URLSearchParams({username, password}), {
 		method: 'post'
@@ -228,6 +237,7 @@ const notifyElderly = async (elderlyId, volunteerId, channel, meetingSubject) =>
 export {
 	registerNotifications,
 	loginCheck,
+	forgotPassword,
 	tryLogin,
 	updatePassword,
 	fetchOrganizationsNames,

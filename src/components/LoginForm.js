@@ -18,6 +18,7 @@ class LoginForm extends React.Component {
 		this.passwordRef = React.createRef();
 		this.checkOnSubmit = this.checkOnSubmit.bind(this);
 		this.toggleModal = this.toggleModal.bind(this);
+		this.forgotPassword = this.forgotPassword.bind(this);
 	}
 
 	async checkOnSubmit() {
@@ -52,6 +53,10 @@ class LoginForm extends React.Component {
 		}));
 	}
 
+	forgotPassword(){
+		this.props.history.push('/user/forgot-password');
+	}
+
 	render() {
 		return (
 			<div className="login-wrapper">
@@ -64,7 +69,7 @@ class LoginForm extends React.Component {
 						<label>סיסמה</label>
 						<input ref={this.passwordRef} type="password" id="password"/>
 						<div className="align-right">
-							<a className="forgot-password" href="">שכחתי סיסמה</a>
+							<a className="forgot-password" href="" onClick={this.forgotPassword}>שכחתי סיסמה</a>
 						</div>
 						<button className="sb-btn" type="button" onClick={this.checkOnSubmit}>כניסה</button>
 						{this.state.modalisOpen ?

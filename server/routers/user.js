@@ -4,6 +4,7 @@ const DButils = require('../DButils.js');
 const {bcrypt_saltRounds} = require('../DButils');
 const {initWebSocketServer} = require('../notifications');
 const server = require('../server');
+const {sendForgotPasswordEmail} = require('../emailSender');
 
 const router = express.Router();
 
@@ -66,6 +67,27 @@ router.post('/activate/:username&:password', async (req, res, next) => {
 		}
 
 		res.status(200).send({user: user, message: 'login succeeded', success: true});
+	}
+	catch (error) {
+		// next(error);
+		console.log(error);
+		res.status(401).send({message: error.message, success: false});
+	}
+});
+
+router.post('/forgot-password/:username&:email', async (req, res, next) => {
+	try {
+		let {username, email} = req.params;
+		username = username.substring(9, username.length);
+		email = email.substring(9, email.length);
+
+		// check that username exists
+		let users = await DButils.execQuery('SELECT userName FROM users');
+		if (!users.find((x) => x.userName === username))
+			throw {status: 401, message: 'UserName incorrect'};
+
+		await sendForgotPasswordEmail(username, email);
+		res.status(200).send({message: 'user exists', success: true});
 	}
 	catch (error) {
 		// next(error);

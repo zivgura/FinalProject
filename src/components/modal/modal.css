@@ -35,7 +35,7 @@
     justify-content: space-between;
 }
 
-.modal button {
+.modal .modal-btn {
     /*color: #ffffff;*/
     width: 90px;
     height: 30px;

@@ -23,7 +23,7 @@ const DateModal = ({user, closeModal, setModalState}) => {
 			<div className="modal-content" ref={modalRef}>
 				<div className="modal-title">
 					<span>
-					בחר תאריך ושעה
+					קביעת פגישה
 					</span>
 				</div>
 				<DateTimePickerWrapper user={user} closeModal={closeModal} setModalState={setModalState}/>

@@ -14,8 +14,8 @@ function Navbar({history}) {
 
 	return (
 		<div className="navbar">
-			<button className="nav-buttons" onClick={onClick}>התנתק</button>
 			<button className="nav-buttons" onClick={history.goBack}>חזור</button>
+			<button className="nav-buttons" onClick={onClick}>התנתק</button>
 		</div>
 	);
 }

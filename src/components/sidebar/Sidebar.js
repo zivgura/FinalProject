@@ -17,9 +17,9 @@ function Sidebar({history, content}) {
 		<div className="sidebar">
 			<div className="top-sidebar">
 				<div className="right">
+					<button className="nav-buttons" onClick={onClick}>התנתק</button>
 				</div>
 				<div className="left">
-					<button className="nav-buttons" onClick={onClick}>התנתק</button>
 				</div>
 			</div>
 			<div className="hr">

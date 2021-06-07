@@ -19,14 +19,19 @@ function VolunteerPage(props) {
 
 	const filterMeetings = (meetings) => {
 		let today = new Date();
+		let yesterday = new Date(today);
+		yesterday.setDate(yesterday.getDate() - 1);
 
 		return meetings.filter(meeting => {
 			const day = parseInt(meeting.meetingDate.substring(0, 2));
 			const month = parseInt(meeting.meetingDate.substring(3, 5));
 			const year = parseInt(meeting.meetingDate.substring(6, 10));
 			let date = new Date(year, month - 1, day);
-
-			if (date >= today) {
+			console.log('yesterday');
+			console.log(yesterday);
+			console.log('date');
+			console.log(date);
+			if (date >= yesterday) {
 				console.log(date + '>=' + today);
 				return meeting;
 			}

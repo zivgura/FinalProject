@@ -1,8 +1,9 @@
 import React from 'react';
 import * as Cookies from 'js-cookie';
 import Modal from './modal/Modal';
-import { loginCheck } from '../services/server';
+import { fetchMeetingsFullDetails, loginCheck } from '../services/server';
 import { getCurrentWebSocket } from '../services/notifacationService';
+import { filterMeetings } from '../ClientUtils';
 
 class LoginForm extends React.Component {
 	constructor(props) {
@@ -21,6 +22,18 @@ class LoginForm extends React.Component {
 		this.forgotPassword = this.forgotPassword.bind(this);
 	}
 
+	async getElderlyNearestMeeting(userName) {
+		const response = await fetchMeetingsFullDetails(userName, 'קשישים');
+		let meetings = await response.json();
+		meetings = meetings.map((dic) => ({
+				meetingDate: dic.meeting,
+				...dic
+			})
+		);
+		meetings = filterMeetings(meetings);
+		return meetings.reduce((prev, curr) => (prev.date < curr.date ? prev : curr));
+	}
+
 	async checkOnSubmit() {
 		try {
 			const result = await loginCheck(this.usernameRef.current.value, this.passwordRef.current.value);
@@ -32,7 +45,8 @@ class LoginForm extends React.Component {
 			else if (user.user.userRole === 'elderly') {
 				Cookies.set('userName', user.user.userName);
 				getCurrentWebSocket();
-				this.props.history.push('/' + user.user.userRole, user.user.userName);
+				const nearestMeeting = await this.getElderlyNearestMeeting(user.user.userName);
+				this.props.history.push('/' + user.user.userRole, nearestMeeting);
 			}
 			else {
 				this.props.history.push('/' + user.user.userRole, user.user.organizationType);

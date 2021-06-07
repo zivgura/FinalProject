@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import * as Cookies from 'js-cookie';
-import Navbar from '../navbar/Navbar';
-import { getCurrentWebSocket, setOnMessage } from '../../services/notifacationService';
-import { fetchChannels } from '../../services/server';
-import { AGORA_APP_ID } from '../../agora.config';
+import Sidebar from '../sidebar/Sidebar';
 import InComingCallModal from '../modal/InComingCallModal';
+import { AGORA_APP_ID } from '../../agora.config';
+import { getCurrentWebSocket, setOnMessage } from '../../services/notifacationService';
 
 function ElderlyPage(props) {
+	const nearestMeeting = props.history.location.state;
 	const [state, setState] = useState({
-		modalisOpen: false,
+		modalisOpen: false
 	});
 
-	useEffect(()=>{
+	useEffect(() => {
 		getCurrentWebSocket();
-	}, [])
+	},[])
 
 	const [answerCallState, setAnswerCall] = useState({
 		answerCall: () => {
@@ -23,83 +22,72 @@ function ElderlyPage(props) {
 
 	const setIncomingModal = (data) => {
 		openModal(data);
-		setAnswerCall( {answerCall: () => {
-			console.log('channel'+data.channel);
-			console.log('data'+data);
-			const videoOptions = {
-				'appId': AGORA_APP_ID,
-				'channel': data.channel,
-				'baseMode': 'avc',
-				'transcode': 'interop',
-				'attendeeMode': 'video',
-				'videoProfile': '480p_4'
-			};
+		setAnswerCall({
+			answerCall: () => {
+				console.log('channel' + data.channel);
+				console.log('data' + data);
+				const videoOptions = {
+					'appId': AGORA_APP_ID,
+					'channel': data.channel,
+					'baseMode': 'avc',
+					'transcode': 'interop',
+					'attendeeMode': 'video',
+					'videoProfile': '480p_4'
+				};
 
-			props.history.push('/elderly/meetings/videoCall', {videoOptions:videoOptions, isElderly:true});
-		}})
-	}
+				props.history.push('/elderly/meetings/videoCall', {videoOptions: videoOptions, isElderly: true});
+			}
+		});
+	};
 
 	const openModal = (data) => {
 		setState({modalisOpen: true, ...data});
-	}
+	};
 
-	useEffect(()=>{
+	useEffect(() => {
 		setOnMessage(setIncomingModal);
-	})
-
-	async function getChannelsNames() {
-		const response = await fetchChannels(props.history.location.state);
-		return await response.json();
-	}
-
-	const filterChannelsByDate = (channels) => {
-		let today = new Date();
-		today = today.toLocaleDateString();
-
-		return channels.filter(channel => {
-			const day = parseInt(channel.meeting.substring(0, 2));
-			const month = parseInt(channel.meeting.substring(3, 5));
-			const year = parseInt(channel.meeting.substring(6, 10));
-			let date = new Date(year, month-1, day);
-			date = date.toLocaleDateString();
-
-			if (date >= today) {
-				return channel;
-			}
-		});
-	}
+	});
 
 	async function onClick() {
-		let channels = await getChannelsNames();
-		channels = filterChannelsByDate(channels);
-		const videoOptions = {
-			'appId': AGORA_APP_ID,
-			//todo: not [0]
-			'channel': channels[0].channelName,
-			'baseMode': 'avc',
-			'transcode': 'interop',
-			'attendeeMode': 'video',
-			'videoProfile': '480p_4'
-		};
 
-		props.history.push('/elderly/meetings/videoCall', {videoOptions:videoOptions, isElderly:true});
 	}
 
+	const content = (
+		<div className="buttons-section">
+			<button
+				className="sb-btn"
+				type="button"
+				onClick={onClick}>
+				לחץ לבקש שיחה
+			</button>
+		</div>
+	);
+
 	return (
-		<div className="no-sidebar-page">
-			<Navbar history={props.history}/>
-			<div className="buttons-section">
-				<button
-					className="sb-btn"
-					type="button"
-					onClick={onClick}>
-					כנס לפגישה
-				</button>
+		<div className="page">
+			<Sidebar history={props.history} content={content}/>
+			<div className="center-page">
+				{nearestMeeting
+					? (
+						<span id="chooseOptionTitle" className="multiline-span">
+							השיחה הקרובה שלך תהיה בנושא {nearestMeeting.meetingSubject}
+							{'\n'}
+							עם {nearestMeeting.firstName + ' ' + nearestMeeting.lastName}
+							{'\n'}
+							בעוד
+						</span>
+					)
+					: (
+						<div id="chooseOptionTitle">
+							אין לך שיחות בזמן הקרוב, ניתן ללחוץ על בקשת שיחה
+						</div>
+					)
+				}
 			</div>
 			{state.modalisOpen ?
 				<InComingCallModal
 					{...state}
-					answerCall = {answerCallState.answerCall}
+					answerCall={answerCallState.answerCall}
 				/>
 				: null
 			}

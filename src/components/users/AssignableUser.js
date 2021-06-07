@@ -36,7 +36,7 @@ function AssignableUser({user, setUser, toggleModal}) {
 				<div className="content">
 					<div>
 						<label className="volunteer-name">
-							{user.firstName}
+							{'שם מתנדב: ' + user.firstName +' '+ user.lastName}
 						</label>
 					</div>
 				</div>

@@ -6,28 +6,77 @@ html, body, body * {
     padding: 0;
     color: inherit;
     background-color: inherit;
-    /* border:2px solid orange; */
 }
 
 body {
-    background-image: url('resources/background.png');
+    /*background-image: url('resources/background.png');*/
     background-repeat: no-repeat;
     background-attachment: fixed;
-    /*height: 100vh;*/
     background-size: cover;
     background-position: center center;
 }
 
 #root {
-    height: 100%
+    height: 100vh;
+    overflow-y: hidden;
+}
+
+.page {
+    height: 100vh;
+    display: flex;
+    flex-direction: row; /* row */
+    justify-content: flex-start;
+}
+
+.no-sidebar-page {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.page-content {
+    width: 100%;
+}
+
+.horizontal {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }
 
 .container {
+    text-align: center;
     width: 100%;
-    height: 400px;
-    /*padding-bottom: 100px;*/
+    height: 100%;
+    overflow-y: auto;
 }
 
+.centered-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    text-align: center;
+    height: 500px;
+    margin: 3% 25% 0 25%;
+}
+
+.centered-container .half {
+    height: 50%;
+}
+
+.shadow-box {
+    height: 100%;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.25);
+}
+
+.full-page-container {
+    text-align: center;
+    width: 100%;
+    height: 100vh;
+}
 
 .login-wrapper {
     text-align: center;
@@ -36,43 +85,37 @@ body {
     margin-left: auto;
     margin-right: auto;
     padding: 2em 2em;
-    /*border-radius: 5px;*/
-    /*box-shadow: 0px 2px 7px rgba(0,0,0,0.2);*/
     overflow-x: hidden;
     overflow-y: paged-y-controls;
-    /*color:#ffffff;*/
-    /*background: #337ab7;*/
     color: black;
-    /*background: #eaffeb;*/
-    /*background: linear-gradient(180deg, rgba(19,38,79,1) 0%, rgb(22, 147, 198) 52%, rgba(255,255,255,0) 82%);*/
 }
 
 .register-wrapper {
     text-align: center;
-    height: 50%;
+    height: 90%;
     width: 550px;
     margin-left: auto;
     margin-right: auto;
     padding: 2em 2em;
     overflow-x: hidden;
+    color: black;
+}
+
+.full-page-wrapper {
+    text-align: center;
+    width: 100%;
+    height: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    overflow-x: hidden;
     overflow-y: paged-y-controls;
     color: black;
-    /*background: linear-gradient(180deg, rgba(19,38,79,1) 0%, rgb(22, 147, 198) 52%, rgba(255,255,255,0) 82%);*/
 }
 
-.modal-wrapper{
+.modal-wrapper {
     width: 100%;
-    height: 70%;
-}
-
-/* Nav buttons */
-.nav-buttons {
-    width: 60px;
-    height: 20px;
-    padding-top: 5px;
-    opacity: 1;
-    font-size: 15px;
-    color: rgb(109, 177, 8);
+    height: auto;
+    border-radius: 20px;
 }
 
 button {
@@ -86,91 +129,102 @@ button:focus {
     outline: 0px;
 }
 
-/* footer: forgot section */
-.forgot-panel {
-    position: relative;
-    height: 100px;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    padding-top: 24px;
-    border-top: solid 1px rgba(255, 255, 255, .3);
-}
-
-/* form styling */
-.form-group input {
-    width: 100%;
-    height: 35px;
-    padding-left: 15px;
-    border: none;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    /*background: rgba(255,255,255,.5);*/
-    background: rgb(170, 198, 164);
-
-}
-
-.form-group label {
-    text-transform: uppercase;
-}
-
-input.submit {
+.sb-btn {
     font-weight: 700;
     text-transform: uppercase;
     font-size: 1em;
     text-align: center;
-    color: black;
+    color: #f1faee;
     padding: 8px 0px;
-    width: 100%;
+    width: 200px;
     height: 35px;
     border: none;
     border-radius: 20px;
-    margin-top: 23px;
+    margin-top: 10%;
     cursor: pointer;
-    background-color: #eaffeb;
+    background-color: #457b9d;
 }
 
-/*Form positioning and animation */
-form#registerform {
-    left: 500px;
-    top: -230px;
-    position: relative;
+.sb-btn:hover {
+    background-color: #9dcccd
 }
 
-.forgot-panel {
-    margin-top: -300px;
-    color: gray;
+/* form styling */
+.form-group input {
+    width: 90%;
+    height: 35px;
+    padding-right: 15px;
+    border-radius: 5px;
+    margin: 0 0 20px 0;
+    border: none;
+    background: #9dcccd;
 }
 
-form, .forgot-panel {
-    position: relative;
-    transition: all .5s ease;
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px #9dcccd inset;
 }
 
-#loginBtn, #registerBtn {
-    transition: all .5s ease;
+.form-group .align-right {
+    text-align: right;
+    font-size: 0.7em;
+    width: 95%;
+}
+
+.forgot-password {
+    color: #167bff;
+    text-decoration: underline;
+}
+
+.form-group label {
+    width: 95%;
+    text-align: right;
+    font-weight: bold;
 }
 
 .buttons-section {
     display: flex;
+    flex-direction: row;
     justify-content: center;
-    margin-top: 9%;
 }
 
-.navbar {
-    top: 0;
+a {
+    text-decoration: none;
+}
+
+.hidden-btn {
+    font-size: 1em;
+    margin: 0;
+}
+
+.login-wrapper .sb-btn {
+    margin-top: 5%;
+}
+
+.center-page {
+    height: 100%;
     width: 100%;
-    height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-.nav-buttons{
-    flex: 0 1 auto;
-    left:0;
-    position: absolute;
+#plusIcon {
+    height: 150px;
+    width: 150px;
+    position: fixed;
+    top: 30%;
+    right: 55%;
 }
 
-.logo {
-    flex: 0 1 auto;
-    left: 43%;
-    position: absolute;
+#chooseOptionTitle {
+    color: #457b9d;
+    font-size: 2em;
+    font-family: Tahoma;
+    font-weight: bold;
+}
+
+.table-wrapper {
+    height: 200px;
+    overflow-y: auto;
 }

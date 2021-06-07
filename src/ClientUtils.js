@@ -3,6 +3,8 @@ import generator from 'generate-password';
 // exports.serverURL = 'http://132.72.23.153:8114';
 
 const serverURL = 'http://localhost:3001';
+const wssURL = 'ws://localhost:3001';
+const feedbackURL = 'https://forms.gle/mCABoh5EteuNEceH8';
 
 const regexes = {
 	hebrewEnglishRegex: /^[a-z\u0590-\u05fe -]+$/i,
@@ -10,22 +12,19 @@ const regexes = {
 	emailRegex: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
 	passwordRegex: /^.{8,}$/,
 	usernameRegex: /^[0-9]{9}$/,
-	phoneNumberRegex: /^[(]?[0-9]{3}[)]?[-\s]?[0-9]{3}[-\s]?[0-9]{4,6}$/i,
+	phoneNumberRegex: /^[(]?[0-9]{2,3}[)]?[-\s]?[0-9]{3}[-\s]?[0-9]{4}$/i,
 	yearRegex: /^(19|20)\d{2}$/
 };
 
-const generatePassword = function () {
-	const password = generator.generate({
+const generatePassword = () =>
+	generator.generate({
 		length: 10,
 		numbers: true,
 		symbols: true,
-		exclude:'/'
+		exclude: '/'
 	});
 
-	return password;
-}
-
-const convertElderlyDetailsFromDB = function(records) {
+const convertElderlyDetailsFromDB = function (records) {
 	records = records.map((dic) => {
 		return {
 			userName: dic.userName,
@@ -73,10 +72,17 @@ const convertVolunteerDetailsFromDB = function (records) {
 	return records;
 };
 
+const prettifyStringArray = (array) => {
+	return array.toString().replaceAll(',', '\n');
+};
+
 export {
 	serverURL,
+	wssURL,
+	feedbackURL,
 	regexes,
 	generatePassword,
 	convertElderlyDetailsFromDB,
-	convertVolunteerDetailsFromDB
+	convertVolunteerDetailsFromDB,
+	prettifyStringArray
 };

@@ -62,6 +62,7 @@ class VideoComponent extends React.Component {
 
 	componentWillMount() {
 		let $ = this.props.videoOptions;
+		console.log("$");
 		console.log($);
 		// init AgoraRTC local client
 		this.client = AgoraRTC.createClient({mode: $.transcode});
@@ -69,7 +70,8 @@ class VideoComponent extends React.Component {
 			console.log('AgoraRTC client initialized');
 			this.subscribeStreamEvents();
 			this.client.join($.appId, $.channel, $.uid, (uid) => {
-				this.setState(uid);
+				this.state.uid = uid;
+				// this.setState(prevState => prevState.uid !== uid ? {uid} : {});
 				console.log('User ' + uid + ' join channel successfully');
 				console.log('At ' + new Date().toLocaleTimeString());
 				// create local stream
@@ -125,7 +127,7 @@ class VideoComponent extends React.Component {
 				this.setState({displayMode: 'tile'});
 				return;
 			}
-			this.setState(prevState => prevState.streamList.map((item, index) => {
+			this.state.streamList.map((item, index) => {
 				let id = item.getId();
 				let dom = document.querySelector('#ag-item-' + id);
 				if (!dom) {
@@ -146,8 +148,8 @@ class VideoComponent extends React.Component {
 					);
 				}
 
-				item.player.resize && item.player.resize();
-			}));
+				item.player?.resize && item.player?.resize();
+			});
 		}
 		// tile mode
 		else if (this.state.displayMode === 'tile') {
@@ -343,6 +345,10 @@ class VideoComponent extends React.Component {
 		});
 	};
 
+	closeCallToAll = () => {
+
+	}
+
 	handleExit = (e) => {
 		if (e.currentTarget.classList.contains('disabled')) {
 			return;
@@ -367,8 +373,10 @@ class VideoComponent extends React.Component {
 			this.setState({readyState: false});
 			this.client = null;
 			this.localStream = null;
-			// redirect to index
-			window.location.hash = '';
+
+			this.props.isElderly
+				? this.props.history.goBack()
+				: this.props.history.push('/volunteer/meetings/feedback');
 		}
 	};
 
@@ -521,20 +529,26 @@ class VideoComponent extends React.Component {
 		return (
 			<div id="ag-canvas" style={style}>
 				<div className="ag-btn-group">
-					{exitBtn}
-					{videoControlBtn}
-					{audioControlBtn}
 					{
-						<span
-							onClick={this.sharingScreen}
-							className="ag-btn shareScreenBtn"
-							title="Share/unShare Screen"
-						>
-              <i className="ag-icon ag-icon-screen-share"></i>
-            </span>
+						this.props.isElderly
+							? null
+							: <>
+								{exitBtn}
+								{videoControlBtn}
+								{audioControlBtn}
+								{
+									<span
+										onClick={this.sharingScreen}
+										className="ag-btn shareScreenBtn"
+										title="Share/unShare Screen"
+									>
+									<i className="ag-icon ag-icon-screen-share"></i>
+									</span>
+								}
+								{switchDisplayBtn}
+								{hideRemoteBtn}
+							</>
 					}
-					{switchDisplayBtn}
-					{hideRemoteBtn}
 				</div>
 			</div>
 		);

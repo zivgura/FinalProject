@@ -1,14 +1,8 @@
-.page{
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-}
 
 .meeting-wrapper{
     text-align: center;
     height: 100%;
-    width: 560px;
+    width: 600px;
     margin-left: auto;
     margin-right: auto;
     padding: 1.5em 2em;
@@ -17,6 +11,7 @@
 }
 
 .meetings-table{
+    padding-top: 2%;
     height: 100%;
 }
 

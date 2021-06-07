@@ -1,10 +1,10 @@
 // HTTPS=true;SSL_CRT_FILE=cert.pem;SSL_KEY_FILE=key.pem
-
 const express = require('express');
 const bodyParser = require('body-parser');
 // const fs = require('fs');
-// const https = require('https');
-const cors = require('cors')
+const http = require('http');
+const cors = require('cors');
+const notifications = require('./notifications');
 const app = express();
 
 const PORT = 3001;
@@ -33,9 +33,12 @@ app.use("/volunteer", volunteer);
 const elderly = require("./routers/elderly.js");
 app.use("/elderly", elderly);
 
-app.listen(PORT, () => {
+
+const server = app.listen(PORT, () => {
     console.log(`listening at http://localhost:${PORT}`)
 });
+
+notifications.initWebSocketServer(server);
 
 // const options = {
 //     key: fs.readFileSync('privateKey.key'),

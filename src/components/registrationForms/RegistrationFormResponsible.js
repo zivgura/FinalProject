@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
-import Modal from '../Modal.js';
+import Modal from '../modal/Modal.js';
 import { registerResponsible } from '../../services/server';
 import { genderList, responsibleTypes } from '../../resources/lists';
 import { generatePassword, regexes } from '../../ClientUtils';
 import './RegistrationForm.css';
+import Navbar from '../navbar/Navbar';
 
 class RegistrationFormResponsible extends Component {
 	constructor(props) {
@@ -147,7 +148,7 @@ class RegistrationFormResponsible extends Component {
 			modalisOpen: false
 		});
 
-		if(!this.state.hasErrors) {
+		if (!this.state.hasErrors) {
 			this.props.history.push('/admin');
 		}
 	}
@@ -163,128 +164,130 @@ class RegistrationFormResponsible extends Component {
 
 		return (
 			<div>
+				<Navbar history={this.props.history}/>
 				<h2 className="header">
 					טופס רישום אחראי
 				</h2>
 				<div className="register-wrapper">
-					<div className="container">
-						<div className="register-form">
-							<div className="form">
-								<div className="field">
-									<label>
-										שם ארגון
-										<Select
-											isRtl
-											placeholder="בחר/י..."
-											name="organizationName"
-											className={shouldMarkError('organizationName') ? 'error' : ''}
-											value={this.state.organizationName}
-											options={this.props.history.location.state}
-											onChange={(value) => this.setState({organizationName: value})}
-										/>
-									</label>
-									<span className="required-field"
-										  style={this.requiredStyle('organizationName')}>{this.errorMessages('organizationName')}</span>
-								</div>
-								<div className="field">
-									<label>
-										שם פרטי
-										<input
-											type="text"
-											value={this.state.firstName}
-											name="firstName" id="firstName"
-											className={shouldMarkError('firstName') ? 'error' : ''}
-											onChange={(e) => this.handleChange(e, 'firstName')}/>
-									</label>
-									<span className="required-field"
-										  style={this.requiredStyle('firstName')}>{this.errorMessages('firstName')}</span>
-								</div>
+					<div className="shadow-box">
+						<div className="container">
+							<div className="register-form">
+								<div className="form">
+									<div className="field">
+										<label>
+											שם ארגון
+											<Select
+												isRtl
+												placeholder="בחר/י..."
+												name="organizationName"
+												value={this.state.organizationName}
+												options={this.props.history.location.state.organizations}
+												onChange={(value) => this.setState({organizationName: value})}
+											/>
+										</label>
+										<span className="required-field"
+											  style={this.requiredStyle('organizationName')}>{this.errorMessages('organizationName')}</span>
+									</div>
+									<div className="field">
+										<label>
+											שם פרטי
+											<input
+												type="text"
+												value={this.state.firstName}
+												name="firstName" id="firstName"
+												className={shouldMarkError('firstName') ? 'error' : ''}
+												onChange={(e) => this.handleChange(e, 'firstName')}/>
+										</label>
+										<span className="required-field"
+											  style={this.requiredStyle('firstName')}>{this.errorMessages('firstName')}</span>
+									</div>
 
-								<div className="field">
-									<label>
-										שם משפחה
-										<input
-											type="text"
-											value={this.state.lastName}
-											name="lastName" id="lastName"
-											className={shouldMarkError('lastName') ? 'error' : ''}
-											onChange={(e) => this.handleChange(e, 'lastName')}/>
-									</label>
-									<span className="required-field"
-										  style={this.requiredStyle('lastName')}>{this.errorMessages('lastName')}</span>
-								</div>
+									<div className="field">
+										<label>
+											שם משפחה
+											<input
+												type="text"
+												value={this.state.lastName}
+												name="lastName" id="lastName"
+												className={shouldMarkError('lastName') ? 'error' : ''}
+												onChange={(e) => this.handleChange(e, 'lastName')}/>
+										</label>
+										<span className="required-field"
+											  style={this.requiredStyle('lastName')}>{this.errorMessages('lastName')}</span>
+									</div>
 
-								<div className="field">
-									<label>
-										מספר תעודת זהות
-										<input
-											type="text"
-											value={this.state.username}
-											name="username"
-											className={shouldMarkError('username') ? 'error' : ''}
-											onChange={(e) => this.handleChange(e, 'username')}/>
-									</label>
-									<span className="required-field"
-										  style={this.requiredStyle('username')}>{this.errorMessages('username')}</span>
-								</div>
+									<div className="field">
+										<label>
+											מספר תעודת זהות
+											<input
+												type="text"
+												value={this.state.username}
+												name="username"
+												className={shouldMarkError('username') ? 'error' : ''}
+												onChange={(e) => this.handleChange(e, 'username')}/>
+										</label>
+										<span className="required-field"
+											  style={this.requiredStyle('username')}>{this.errorMessages('username')}</span>
+									</div>
 
-								<div className="field">
-									<label>
-										כתובת דואר אלקטרוני
-										<input
-											type="text"
-											name="email"
-											value={this.state.email}
-											className={shouldMarkError('email') ? 'error' : ''}
-											onChange={(e) => this.handleChange(e, 'email')}/>
-									</label>
-									<span className="required-field"
-										  style={this.requiredStyle('email')}>{this.errorMessages('email')}</span>
-								</div>
+									<div className="field">
+										<label>
+											כתובת דואר אלקטרוני
+											<input
+												type="text"
+												name="email"
+												value={this.state.email}
+												className={shouldMarkError('email') ? 'error' : ''}
+												onChange={(e) => this.handleChange(e, 'email')}/>
+										</label>
+										<span className="required-field"
+											  style={this.requiredStyle('email')}>{this.errorMessages('email')}</span>
+									</div>
 
-								<div className="field">
-									<label>
-										מגדר
-										<Select
-											isRtl
-											placeholder="בחר/י..."
-											name="gender"
-											className={shouldMarkError('gender') ? 'error' : ''}
-											value={this.state.gender}
-											options={genderList}
-											onChange={(value) => this.setState({gender: value})}
-										/>
-									</label>
-									<span className="required-field"
-										  style={this.requiredStyle('gender')}>{this.errorMessages('gender')}</span>
-								</div>
+									<div className="field">
+										<label>
+											מגדר
+											<Select
+												isRtl
+												placeholder="בחר/י..."
+												name="gender"
+												className={shouldMarkError('gender') ? 'error' : ''}
+												value={this.state.gender}
+												options={genderList}
+												onChange={(value) => this.setState({gender: value})}
+											/>
+										</label>
+										<span className="required-field"
+											  style={this.requiredStyle('gender')}>{this.errorMessages('gender')}</span>
+									</div>
 
-								<div className="field">
-									<label>
-										סוג אחראי
-										<Select
-											isRtl
-											placeholder="בחר/י..."
-											name="responsibleType"
-											className={shouldMarkError('responsibleType') ? 'error' : ''}
-											value={this.state.responsibleType}
-											options={responsibleTypes}
-											onChange={(value) => this.setState({responsibleType: value})}
-										/>
-									</label>
-									<span className="required-field"
-										  style={this.requiredStyle('gender')}>{this.errorMessages('responsibleType')}</span>
+									<div className="field">
+										<label>
+											סוג אחראי
+											<Select
+												isRtl
+												placeholder="בחר/י..."
+												name="responsibleType"
+												className={shouldMarkError('responsibleType') ? 'error' : ''}
+												value={this.state.responsibleType}
+												options={responsibleTypes}
+												onChange={(value) => this.setState({responsibleType: value})}
+											/>
+										</label>
+										<span className="required-field"
+											  style={this.requiredStyle('gender')}>{this.errorMessages('responsibleType')}</span>
+									</div>
+									<button className="sb-btn" type="button" onClick={this.checkOnSubmit}>סיום</button>
 								</div>
-								<button className="sb-btn" type="button" onClick={this.checkOnSubmit}>סיום</button>
 							</div>
+							{this.state.modalisOpen ?
+								<Modal
+									{...this.state}
+									closeModal={this.closeModal}
+								/>
+								: null
+							}
 						</div>
-						{this.state.modalisOpen ?
-							<Modal
-								{...this.state}
-								closeModal={this.closeModal}
-							/>
-							: null
-						}
 					</div>
 				</div>
 			</div>

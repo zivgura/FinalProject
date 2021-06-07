@@ -23,29 +23,8 @@
     justify-content: left;
     align-items: center;
     height: 33px;
-    /*background-color: #337ab7;*/
     color: #ffffff;
     padding-left: 22px;
-}
-
-.sb-btn {
-    font-weight: 700;
-    text-transform: uppercase;
-    font-size: 1em;
-    text-align: center;
-    color: rgba(255, 255, 255, 1);
-    padding: 8px 0px;
-    width: 200px;
-    height: 35px;
-    border: none;
-    border-radius: 20px;
-    margin-top: 23px;
-    cursor: pointer;
-    background-color: rgb(109, 177, 8);
-}
-
-.sb-btn:hover {
-    background-color: #3e8e41
 }
 
 input {
@@ -99,68 +78,3 @@ label {
     display: block;
 }
 
-.modal {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: 0 auto;
-    background-color: rgba(0, 0, 0, 0.1);
-}
-
-.modal-content {
-    position: absolute;
-    width: 414px;
-    height: 490px;
-    margin: 0 auto;
-    left: 25%;
-    right: 25%;
-    top: 11%;
-    bottom: 25%;
-    background: white;
-}
-
-.modal button {
-    background-color: #337ab7;
-    /*color: #ffffff;*/
-    width: 90px;
-    height: 30px;
-    outline: none;
-    margin-left: 10%;
-    font-size: .8em;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 30px;
-}
-
-.modal-title {
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    height: 33px;
-    background-color: #337ab7;
-    /*color: #ffffff;*/
-    padding-left: 22px;
-    margin-bottom: 40px;
-}
-
-.modal-label {
-    margin-bottom: 20px;
-    margin-left: 10%;
-}
-
-.modal-label div {
-    display: inline-block;
-    padding-bottom: 3px;
-    margin-right: 10px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    max-width: 80%;
-}
-
-.modal-input-value {
-    border-bottom: 1px solid rgb(202, 202, 202);
-}

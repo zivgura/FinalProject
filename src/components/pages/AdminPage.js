@@ -1,13 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import Navbar from '../Navbar';
-import { fetchOrganizationsNames } from '../../services/server';
+import { fetchElderlyDetails, fetchOrganizationsNames, fetchVolunteers } from '../../services/server';
+import Sidebar from '../sidebar/Sidebar';
 
 function AdminPage(props) {
-	const [adminState, setAdminState] = useState({organizations: []});
+	const [adminState, setAdminState] = useState({
+		organizations: [],
+		isSearchClicked: false
+	});
 
 	async function getOrganizationsNames() {
 		const response = await fetchOrganizationsNames();
 		return await response.json();
+	}
+
+	async function getVolunteers() {
+		try {
+			const response = fetchVolunteers();
+			return (await response).json();
+		}
+		catch (error) {
+
+		}
+	}
+
+	async function getElderly() {
+		try {
+			const response = fetchElderlyDetails();
+			return (await response).json();
+		}
+		catch (error) {
+
+		}
 	}
 
 	async function onClick() {
@@ -20,16 +43,35 @@ function AdminPage(props) {
 		setAdminState({organizations: organizations});
 	}
 
+	async function onClickSearch(event) {
+		let elderlyUsers = await getElderly();
+		let volunteersUsers = await getVolunteers();
+		console.log(elderlyUsers);
+
+		setAdminState({
+			elderlyUsers: elderlyUsers,
+			volunteersUsers: volunteersUsers,
+			[event.target.name]: true
+		});
+	}
+
 	useEffect(() => {
-		if (adminState.organizations.length !== 0) {
+		if (adminState.organizations?.length !== 0) {
 			console.log(adminState.organizations);
-			props.history.push('/admin/register-responsible', adminState.organizations);
+			props.history.push('/admin/register-responsible', {
+				organizations: adminState.organizations
+			});
+		}
+		if (adminState.isSearchClicked) {
+			props.history.push('/admin/search', {
+				volunteersUsers: adminState.volunteersUsers,
+				elderlyUsers: adminState.elderlyUsers
+			});
 		}
 	});
 
-	return (
-		<div className="page">
-			<Navbar history={props.history} organizationName={'Admin'}/>
+	const content = (
+		<>
 			<div className="buttons-section">
 				<button
 					className="sb-btn"
@@ -43,7 +85,21 @@ function AdminPage(props) {
 					onClick={onClick}>
 					צור אחראי חדש
 				</button>
+				<button
+					className="sb-btn"
+					type="button"
+					name="isSearchClicked"
+					onClick={e => onClickSearch(e)}>
+					חפש משתמשים
+				</button>
 			</div>
+		</>
+	)
+
+	return (
+		<div className="page">
+			<Sidebar history={props.history} content={content}/>
+
 		</div>
 	);
 }

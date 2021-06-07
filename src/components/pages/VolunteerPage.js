@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import * as Cookies from 'js-cookie';
-import Navbar from '../Navbar';
 import { fetchElderlyDetails, getMeetings } from '../../services/server';
+import Sidebar from '../sidebar/Sidebar';
+import OpeningScreen from '../openingScreen';
 
 function VolunteerPage(props) {
-	const [volunteerState, setVolunteerState] = useState({meetings: []});
+	const [volunteerState, setVolunteerState] = useState({meetings: [], isMeetingsClicked: false});
 
 	async function getMeetingsNames() {
 		const response = await getMeetings(Cookies.get('userName'));
@@ -12,33 +13,58 @@ function VolunteerPage(props) {
 	}
 
 	async function getElderlyDetails() {
-		const response = await fetchElderlyDetails(Cookies.get('organizationName'));
+		const response = await fetchElderlyDetails();
 		return await response.json();
 	}
+
+	const filterMeetings = (meetings) => {
+		let today = new Date();
+		let yesterday = new Date(today);
+		yesterday.setDate(yesterday.getDate() - 1);
+
+		return meetings.filter(meeting => {
+			const day = parseInt(meeting.meetingDate.substring(0, 2));
+			const month = parseInt(meeting.meetingDate.substring(3, 5));
+			const year = parseInt(meeting.meetingDate.substring(6, 10));
+			let date = new Date(year, month - 1, day);
+			console.log('yesterday');
+			console.log(yesterday);
+			console.log('date');
+			console.log(date);
+			if (date >= yesterday) {
+				console.log(date + '>=' + today);
+				return meeting;
+			}
+		});
+	};
 
 	async function onClick() {
 		let meetings = await getMeetingsNames();
 		let elderlyDetails = await getElderlyDetails();
-		meetings = meetings.map( (dic) =>  (
-				{meetingDate: dic.meeting, elderlyUserName:	dic.elderlyuserName,
-				meetingSubject:	dic.meetingSubject, elderlyDetails: elderlyDetails.find(row => row.userName === dic.elderlyuserName)}
+		meetings = meetings.map((dic) => (
+				{
+					meetingDate: dic.meeting,
+					elderlyUserName: dic.elderlyuserName,
+					meetingSubject: dic.meetingSubject,
+					elderlyDetails: elderlyDetails.find(row => row.userName === dic.elderlyuserName)
+				}
 			)
 		);
 
-		setVolunteerState({meetings: meetings});
+		meetings = filterMeetings(meetings);
+		console.log('filtered meetings');
 		console.log(meetings);
+		setVolunteerState({meetings: meetings, isMeetingsClicked: true});
 	}
 
 	useEffect(() => {
-		if (volunteerState.meetings.length !== 0) {
-			console.log(volunteerState.meetings);
+		if (volunteerState.isMeetingsClicked) {
 			props.history.push('/volunteer/meetings', volunteerState.meetings);
 		}
 	});
 
-	return (
-		<div className="page">
-			<Navbar history={props.history}/>
+	const content = (
+		<>
 			<div className="buttons-section">
 				<button
 					className="sb-btn"
@@ -47,6 +73,13 @@ function VolunteerPage(props) {
 					פגישות
 				</button>
 			</div>
+		</>
+	);
+
+	return (
+		<div className="page">
+			<Sidebar history={props.history} content={content}/>
+			<OpeningScreen />
 		</div>
 	);
 }

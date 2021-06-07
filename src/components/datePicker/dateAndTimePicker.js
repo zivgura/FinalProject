@@ -1,53 +1,86 @@
 import React, { useState } from 'react';
-import DateTimePicker from 'react-datetime-picker';
-import { addMeetingDB } from '../../services/server';
 import Select from 'react-select';
-import { servicesList } from '../../resources/lists';
-// import './DateTimePicker.css';
+import dateFormat from 'dateformat';
+import DatePicker, { registerLocale } from 'react-datepicker';
+import he from 'date-fns/locale/he';
+import { addMeetingDB } from '../../services/server';
+import 'react-datepicker/dist/react-datepicker.css';
+import './DateTimePicker.css';
 
-const DateTimePickerWrapper = ({user, closeModal}) => {
-	const [state, setState] = useState({date: new Date(), wantedService: ''})
+registerLocale('he', he);
+
+const DateTimePickerWrapper = ({user, closeModal, setModalState}) => {
+	const [state, setState] = useState({date: new Date(), wantedService: ''});
+
+	const requiredStyle = (name) => {
+		const show = state[name] === '';
+		return {display: show ? 'block' : 'none'};
+	}
+
+	const errorMessages = (name) => {
+		const requiredStr = 'שדה חובה';
+		const invalidStr = 'ערך לא תקין';
+		return state[name] !== '' ? invalidStr : requiredStr;
+	}
 
 	const onClick = async () => {
-		user.actualDate = state.date.toLocaleDateString() + ' ' + state.date.toLocaleTimeString();
-		user.meetingSubject = state.wantedService.label;
-		console.log(user.actualDate);
-		console.log(user.meetingSubject);
+		if (state.wantedService !== '') {
+			user.actualDate = dateFormat(state.date, 'dd.mm.yyyy,HH:MM');
+			user.meetingSubject = state.wantedService.label;
+			console.log(user);
 
-		try {
-			await addMeetingDB({user});
-		}
-		catch (error) {
-			console.log(error);
-		}
-		finally {
-			closeModal();
+			try {
+				await addMeetingDB({user});
+				setModalState({
+					message: 'הפגישה נקבעה בהצלחה',
+					modalIsOpen: true
+				});
+			}
+			catch (error) {
+				setModalState({
+					message: error.message,
+					modalIsOpen: true
+				});
+			} finally {
+				closeModal();
+			}
 		}
 	};
 	return (
 		<div className="modal-wrapper">
-			<div className="modal-body">
-				<DateTimePicker
-					className="calender"
-					calendarType={'Hebrew'}
-					disableClock={true}
-					value={state.date}
-					onChange={(value) => setState({...state,date: value})}
-					required={true}
+			<div className="date-modal-body">
+				<div className="modal-preferred-days">
+					<h4>ימים ושעות מועדפים משותפים:</h4>
+					{user.commonPreferredDays.length > 0 ? user.commonPreferredDays.toString() : 'אין ימים ושעות מועדפים משותפים'}
+				</div>
+				<br/>
+				<div className="field">
+					<label>
+						<h4>סוגי שירות אפשריים:</h4>
+						<Select
+							placeholder="בחר/י..."
+							isRtl
+							name="wantedService"
+							value={state.wantedService}
+							options={user.commonServices.map((dic) => (
+								{value: dic, label: dic}
+							))}
+							onChange={(value) => setState({...state, wantedService: value})}
+						/>
+						<span className="required-field"
+							  style={requiredStyle('wantedService')}>{errorMessages('wantedService')}</span>
+					</label>
+				</div>
+				<br/>
+				<h4>תאריך ושעה:</h4>
+				<DatePicker
+					selected={state.date}
+					onChange={(date) => setState({...state ,date: date})}
+					locale={'he'}
+					showTimeSelect
+					timeFormat="p"
+					dateFormat="dd.MM.yyyy, HH:mm"
 				/>
-			<div className="field">
-				<label>
-					סוגי שירות רצויים
-					<Select
-						placeholder="בחר/י..."
-						isRtl
-						name="wantedService"
-						value={state.wantedService}
-						options={servicesList}
-						onChange={(value) => setState({...state,wantedService: value})}
-					/>
-				</label>
-			</div>
 			</div>
 
 			<div className="modal-buttons">

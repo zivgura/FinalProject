@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import Modal from '../Modal.js';
+import Modal from '../modal/Modal.js';
 import Select from 'react-select';
 import { organizationTypes } from '../../resources/lists';
 import { registerOrganization } from '../../services/server';
 import { regexes } from '../../ClientUtils';
 import './RegistrationForm.css';
+import Navbar from '../navbar/Navbar';
 
 class RegistrationFormOrganization extends Component {
 	constructor(props) {
@@ -26,7 +27,8 @@ class RegistrationFormOrganization extends Component {
 				organizationType: false,
 				phoneNumber: false
 			},
-			modalisOpen: false
+			modalisOpen: false,
+			hasErrors: false
 		};
 
 		this.rexExpMap = {
@@ -40,6 +42,7 @@ class RegistrationFormOrganization extends Component {
 		this.checkData = this.checkData.bind(this);
 		this.toggleModal = this.toggleModal.bind(this);
 		this.checkOnSubmit = this.checkOnSubmit.bind(this);
+		this.closeModal = this.closeModal.bind(this);
 	}
 
 	handleChange = (e, name) => {
@@ -79,18 +82,22 @@ class RegistrationFormOrganization extends Component {
 	}
 
 	errorMessages(name) {
-		const requiredStr = 'שדב חובה';
+		const requiredStr = 'שדה חובה';
 		const invalidStr = 'ערך לא תקין';
 		return !this.state.valid[name] && this.state[name] !== '' ? invalidStr : requiredStr;
 	}
 
 	checkOnSubmit() {
-		const {organizationName, organizationEnglishName,  organizationType, phoneNumber} = this.state;
+		const {organizationName, organizationEnglishName, organizationType, phoneNumber} = this.state;
 		const formFilled = !(organizationName === '' || organizationType === '' || phoneNumber === '' || organizationEnglishName === '');
 		const formInvalid = Object.keys(this.state.valid).some(x => !this.state.valid[x]);
 		const formHasErrors = !formFilled || formInvalid;
 
 		if (!formHasErrors) {
+			this.handleSubmit();
+		}
+		else {
+			this.setState({message: `אחד או יותר מהשדות לא תקינים`, hasErrors: true});
 			this.toggleModal();
 		}
 		this.setState({
@@ -101,21 +108,19 @@ class RegistrationFormOrganization extends Component {
 				phoneNumber: true
 			}
 		});
-
-		this.handleSubmit();
 	}
 
 	async handleSubmit() {
 		try {
 			const response = await registerOrganization(this.state);
 			await response.json();
-			this.setState({message: 'הרישום הצליח'});
+			this.setState({message: 'הרישום הצליח', hasErrors: false});
 		}
 		catch (error) {
-			this.setState({message: `הרישום נכשל. \n ${error.message}`});
+			this.setState({message: `הרישום נכשל. \n ${error.message}`, hasErrors: true});
 		}
 
-			this.toggleModal();
+		this.toggleModal();
 	}
 
 	toggleModal() {
@@ -125,11 +130,9 @@ class RegistrationFormOrganization extends Component {
 	}
 
 	closeModal() {
-		this.setState({
-			modalisOpen: false
-		});
+		this.toggleModal();
 
-		if(!this.state.hasErrors) {
+		if (!this.state.hasErrors) {
 			this.props.history.push('/admin');
 		}
 	}
@@ -144,77 +147,83 @@ class RegistrationFormOrganization extends Component {
 
 		return (
 			<div>
+				<Navbar history={this.props.history}/>
 				<h2 className="header">
 					טופס רישום ארגון
 				</h2>
 				<div className="register-wrapper">
-					<div className="container">
-						<div className="register-form">
-							<div className="form">
-								<div className="field">
-									<label>
-										שם ארגון
-										<input
-											type="text"
-											value={this.state.organizationName}
-											name="organizationName"
-											className={shouldMarkError('organizationName') ? 'error' : ''}
-											onChange={(e) => this.handleChange(e, 'organizationName')}/>
-									</label>
-									<span className="required-field"
-										  style={this.requiredStyle('organizationName')}>{this.errorMessages('organizationName')}</span>
-								</div>
-								<div className="field">
-									<label>
-										שם ארגון באנגלית
-										<input
-											type="text"
-											value={this.state.organizationEnglishName}
-											name="organizationEnglishName"
-											className={shouldMarkError('organizationEnglishName') ? 'error' : ''}
-											onChange={(e) => this.handleChange(e, 'organizationEnglishName')}/>
-									</label>
-									<span className="required-field"
-										  style={this.requiredStyle('organizationEnglishName')}>{this.errorMessages('organizationEnglishName')}</span>
-								</div>
-								<div className="field">
-									<label>
-										סוג ארגון
-										<Select
-											isRtl
-											placeholder="בחר/י..."
-											name="organizationType"
-											className={shouldMarkError('organizationType') ? 'error' : ''}
-											value={this.state.organizationType}
-											options={organizationTypes}
-											onChange={(value) => this.setState({organizationType: value})}
-										/>
-									</label>
-									<span className="required-field"
-										  style={this.requiredStyle('organizationType')}>{this.errorMessages('organizationType')}</span>
-								</div>
+					<div className="shadow-box">
+						<div className="container">
+							<div className="register-form">
+								<div className="form">
+									<div className="field">
+										<label>
+											שם ארגון
+											<input
+												type="text"
+												value={this.state.organizationName}
+												name="organizationName"
+												className={shouldMarkError('organizationName') ? 'error' : ''}
+												onChange={(e) => this.handleChange(e, 'organizationName')}/>
+										</label>
+										<span className="required-field"
+											  style={this.requiredStyle('organizationName')}>{this.errorMessages('organizationName')}</span>
+									</div>
+									<div className="field">
+										<label>
+											שם ארגון באנגלית
+											<input
+												type="text"
+												value={this.state.organizationEnglishName}
+												name="organizationEnglishName"
+												className={shouldMarkError('organizationEnglishName') ? 'error' : ''}
+												onChange={(e) => this.handleChange(e, 'organizationEnglishName')}/>
+										</label>
+										<span className="required-field"
+											  style={this.requiredStyle('organizationEnglishName')}>{this.errorMessages('organizationEnglishName')}</span>
+									</div>
+									<div className="field">
+										<label>
+											סוג ארגון
+											<Select
+												isRtl
+												placeholder="בחר/י..."
+												name="organizationType"
+												className={shouldMarkError('organizationType') ? 'error' : ''}
+												value={this.state.organizationType}
+												options={organizationTypes}
+												onChange={(value) => this.setState({organizationType: value})}
+											/>
+										</label>
+										<span className="required-field"
+											  style={this.requiredStyle('organizationType')}>{this.errorMessages('organizationType')}</span>
+									</div>
 
-								<div className="field">
-									<label>
-										מספר טלפון
-										<input
-											type="text"
-											value={this.state.phoneNumber}
-											name="phoneNumber" id="phoneNumber"
-											className={shouldMarkError('phoneNumber') ? 'error' : ''}
-											onChange={(e) => this.handleChange(e, 'phoneNumber')}/>
-									</label>
+									<div className="field">
+										<label>
+											מספר טלפון
+											<input
+												type="text"
+												value={this.state.phoneNumber}
+												name="phoneNumber" id="phoneNumber"
+												className={shouldMarkError('phoneNumber') ? 'error' : ''}
+												onChange={(e) => this.handleChange(e, 'phoneNumber')}/>
+										</label>
+										<span className="required-field"
+											  style={this.requiredStyle('phoneNumber')}>{this.errorMessages('phoneNumber')}</span>
+									</div>
+									<button className="sb-btn" type="button" onClick={this.checkOnSubmit}>סיום</button>
 								</div>
-								<button className="sb-btn" type="button" onClick={this.checkOnSubmit}>סיום</button>
 							</div>
+							{this.state.modalisOpen ?
+								<Modal
+									text='שים/י לב'
+									{...this.state}
+									closeModal={this.closeModal}
+								/>
+								: null
+							}
 						</div>
-						{this.state.modalisOpen ?
-							<Modal
-								{...this.state}
-								closeModal={this.toggleModal}
-							/>
-							: null
-						}
 					</div>
 				</div>
 			</div>
@@ -223,4 +232,3 @@ class RegistrationFormOrganization extends Component {
 }
 
 export default RegistrationFormOrganization;
-

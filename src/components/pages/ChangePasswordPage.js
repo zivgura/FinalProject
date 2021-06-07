@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import * as Cookies from 'js-cookie';
 import { tryLogin, updatePassword } from '../../services/server';
-import Modal from '../Modal';
+import Modal from '../modal/Modal';
 
 function ChangePasswordPage() {
 	const [state, setState] = useState({message: '', modalisOpen: false});
@@ -22,24 +22,20 @@ function ChangePasswordPage() {
 				Cookies.set('userName', username);
 			}
 			catch (error) {
-				setState({message: 'שגיאה ברישום. לא ניתן להחליף סיסמה'});
-				toggleModal();
+				setState({
+					modalisOpen: true,
+					message: 'שם המשתמש או הסיסמה לא קיימים במערכת. \n לא ניתן להחליף סיסמה,\n אנא פנה לאחראי המערכת'
+				});
 			}
 		}
 
 		tryToLogin();
-	}, [username, password, toggleModal]);
+	}, [username, password]);
 
 	const handleChange = useCallback(
 		(e) => {
 			setState({[e.target.name]: e.target.value});
 		}, []);
-
-	const bindThisToToggleModal = useCallback(
-		() => {
-			setState({modalisOpen: !state.modalisOpen});
-		}, [state.modalisOpen]
-	);
 
 	const checkOnSubmit = useCallback(
 		async () => {
@@ -47,19 +43,24 @@ function ChangePasswordPage() {
 			if (newPassword.current.value === confirmNewPassword.current.value) {
 				console.log('same password');
 				await updatePassword(username, newPassword.current.value);
-				setState({message: 'הסיסמה שונתה בהצלחה'});
+				setState({
+					modalisOpen: true,
+					message: 'הסיסמה שונתה בהצלחה'
+				});
 
 			}
 			else {
 				console.log('not the same');
-				setState({message: 'הסיסמאות לא זהות'});
+				setState({
+					modalisOpen: true,
+					message: 'הסיסמאות לא זהות'
+				});
 			}
 
-			toggleModal();
-		}, [newPassword, confirmNewPassword, username, toggleModal]);
+		}, [newPassword, confirmNewPassword, username]);
 
 	return (
-		<div className="page">
+		<div className="no-sidebar-page">
 			<div className="register-wrapper">
 				<div className="register-form">
 					<div className="form">
@@ -94,7 +95,7 @@ function ChangePasswordPage() {
 			{state.modalisOpen ?
 				<Modal
 					{...state}
-					closeModal={bindThisToToggleModal}
+					closeModal={toggleModal}
 				/>
 				: null
 			}

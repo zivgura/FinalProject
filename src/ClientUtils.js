@@ -82,7 +82,7 @@ const filterMeetings = (meetings) => {
 	yesterday.setDate(yesterday.getDate() - 1);
 	yesterday.setHours(23,59,59);
 
-	return meetings.filter(meeting => {
+	return meetings.reduce((filteredMeetings, meeting) => {
 		const day = parseInt(meeting.meetingDate.substring(0, 2));
 		const month = parseInt(meeting.meetingDate.substring(3, 5));
 		const year = parseInt(meeting.meetingDate.substring(6, 10));
@@ -91,9 +91,11 @@ const filterMeetings = (meetings) => {
 		let date = new Date(year, month - 1, day, hours, minutes);
 
 		if (date >= yesterday) {
-			return {...meeting, date: date};
+			filteredMeetings.push({...meeting, date: date});
 		}
-	});
+
+		return filteredMeetings;
+	}, []);
 };
 
 export {

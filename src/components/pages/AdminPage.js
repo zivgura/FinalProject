@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchElderlyDetails, fetchOrganizationsNames, fetchVolunteers } from '../../services/server';
 import Sidebar from '../sidebar/Sidebar';
+import OpeningScreen from '../openingScreen';
 
 function AdminPage(props) {
 	const [adminState, setAdminState] = useState({
@@ -99,7 +100,7 @@ function AdminPage(props) {
 	return (
 		<div className="page">
 			<Sidebar history={props.history} content={content}/>
-
+			<OpeningScreen />
 		</div>
 	);
 }

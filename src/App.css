@@ -224,7 +224,19 @@ a {
     font-weight: bold;
 }
 
+.opening-screen-title {
+    color: #457b9d;
+    font-size: 2em;
+    font-family: Tahoma;
+    font-weight: bold;
+}
+
 .table-wrapper {
     height: 200px;
     overflow-y: auto;
+}
+
+.multiline-span {
+    white-space: pre-wrap;
+    text-align: center;
 }
